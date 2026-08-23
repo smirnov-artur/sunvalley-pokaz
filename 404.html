@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Солнечная Долина</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+ html,body{height:100%;margin:0;background:#0b0908;color:#c8b68a;
+   font:15px/1.6 Georgia,'Times New Roman',serif;
+   display:flex;align-items:center;justify-content:center;text-align:center}
+ a{color:#c8b68a}
+</style>
+</head>
+<body>
+<p>Такой страницы нет.<br><a id="go" href="/">Вернуться в долину</a></p>
+<script>
+(function () {
+  var seg = location.pathname.split('/').filter(Boolean);
+  /* проект-сайт живёт в подпапке: github.io/<repo>/… — корень это первый сегмент */
+  var project = /\.github\.io$/i.test(location.hostname) ? seg.length > 0
+              : location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  var root = (project && seg.length) ? '/' + seg[0] + '/' : '/';
+  var url = root + 'prototype/master/home.html';
+  document.getElementById('go').href = url;
+  location.replace(url);
+})();
+</script>
+</body>
+</html>

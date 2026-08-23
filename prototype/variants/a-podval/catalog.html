@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вина — Солнечная Долина</title>
+<meta name="description" content="Каталог вин «Солнечной Долины»: ликерные и десертные, сухие, игристые и коллекционные вина из Судака, Крым. Чёрный Доктор, Чёрный Полковник, Портвейн Крымский, Меганом, Кокур, Токлук.">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ==== страница каталога ==== */
+.cat{padding:clamp(120px,16vh,190px) 0 0}
+.cat__head{padding:0 var(--pad);max-width:1440px;margin:0 auto clamp(40px,5vw,72px)}
+.cat__title{font-family:var(--serif);font-weight:400;line-height:1.04;font-size:clamp(3rem,6.4vw,5.6rem);margin:.1em 0 .3em}
+.cat__sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2vw,1.5rem);color:var(--gold-hi);max-width:56ch;line-height:1.4}
+
+/* фильтр-лента */
+.filters{
+  display:flex;flex-wrap:wrap;gap:4px clamp(18px,2.6vw,38px);
+  padding:14px var(--pad);max-width:1440px;margin:0 auto clamp(36px,5vw,60px);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+}
+.filters button{
+  background:none;border:0;border-bottom:1px solid transparent;cursor:pointer;
+  font-family:var(--sans);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--stone-dim);padding:8px 2px;transition:color .3s,border-color .3s;
+}
+.filters button:hover{color:var(--gold-hi)}
+.filters button.is-on{color:var(--gold-hi);border-color:var(--gold)}
+
+/* сетка вин */
+.cat__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--hair);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+}
+.wcard{
+  --line:var(--gold);
+  display:block;background:var(--ink);padding:clamp(24px,2.6vw,44px);
+  position:relative;transition:background .4s;
+}
+.wcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--line);
+  box-shadow:0 0 12px 0 var(--line);opacity:.45;
+  transform:scaleX(.22);transform-origin:left;
+  transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s;
+}
+.wcard:hover{background:var(--ink-2)}
+.wcard:hover::before{transform:scaleX(1);opacity:1}
+.wcard .case{--case-tint:var(--line);height:300px;margin-bottom:24px;padding-bottom:16px}
+.wcard .case img{width:46%;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.wcard:hover .case img{transform:translateY(-9px)}
+.wcard .case::after{ /* наклонный луч света по витрине */
+  content:'';position:absolute;inset:-30% -20%;pointer-events:none;
+  background:linear-gradient(112deg,transparent 40%,rgba(255,243,210,.5) 50%,transparent 60%);
+  opacity:0;transform:translateX(-18%) rotate(0deg);
+  transition:opacity .55s,transform .9s cubic-bezier(.16,1,.3,1);
+}
+.wcard:hover .case::after{opacity:.55;transform:translateX(12%) rotate(3deg)}
+.wcard__name{font-size:clamp(1.3rem,1.8vw,1.6rem);margin-bottom:.4em}
+.wcard__type{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.7em}
+.wcard__grapes{font-size:.85rem;color:var(--stone-dim);letter-spacing:.02em}
+.wcard.hide{display:none}
+
+/* афиша */
+.start{border-top:1px solid var(--hair);padding:clamp(90px,12vh,150px) var(--pad);text-align:center}
+.start__q{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.2vw,1.6rem);color:var(--stone-dim);margin-bottom:.6em}
+.start h2{margin-bottom:.9em}
+
+@media (max-width:1024px){
+  .cat__grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:820px){
+  .cat{padding-top:120px}
+}
+@media (max-width:520px){
+  .cat__grid{grid-template-columns:1fr}
+  .wcard .case{height:260px}
+  .wcard__name{font-size:1.25rem;text-wrap:balance}
+  .filters{gap:2px 22px;padding:10px var(--pad)}
+}
+
+/* ==== view transitions: перелёт бутылки между страницами и перекладка сетки ==== */
+@view-transition{navigation:auto}
+.vt-bottle{view-transition-name:wine-bottle}
+.vt-title{view-transition-name:wine-title}
+/* бутылка снята с multiply-витрины — вернём умножение снапшоту, чтобы не летел белый прямоугольник */
+::view-transition-group(wine-bottle){mix-blend-mode:multiply}
+::view-transition-group(*),
+::view-transition-image-pair(*),
+::view-transition-old(*),
+::view-transition-new(*){
+  animation-duration:.55s;
+  animation-timing-function:cubic-bezier(.16,1,.3,1);
+}
+@media (prefers-reduced-motion: reduce){
+  @view-transition{navigation:none}
+  ::view-transition-group(*),::view-transition-image-pair(*),
+  ::view-transition-old(*),::view-transition-new(*){animation:none !important}
+  .wcard .case img,.wcard .case::after,.wcard::before{transition:none}
+  .wcard:hover .case img{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr solid" id="hdr">
+  <a class="hdr__brand" href="index.html">
+    <span class="hdr__name">Солнечная&nbsp;Долина</span>
+    <span class="hdr__est">Крым · 1888</span>
+  </a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="catalog.html">Вина</a>
+    <a href="index.html#valley">Долина</a>
+    <a href="visit.html">Визит</a>
+    <a href="index.html#trust">Где купить</a>
+    <a href="index.html#contacts">Контакты</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="cat">
+    <div class="folio"><span>Вина — 83 наименования</span><span>АО «Солнечная Долина» · 1888</span></div>
+
+    <div class="cat__head">
+      <h1 class="cat__title">Коллекция долины</h1>
+      <p class="cat__sub">От ликерных легенд, зреющих в подвалах Архадерессе, до молодых брютов Меганома — девять вин, с которых стоит начать знакомство с долиной.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Фильтр по типам вин">
+      <button type="button" class="is-on" data-filter="all" aria-pressed="true">Все</button>
+      <button type="button" data-filter="likernye" aria-pressed="false">Ликерные и десертные</button>
+      <button type="button" data-filter="dry" aria-pressed="false">Сухие</button>
+      <button type="button" data-filter="sparkling" aria-pressed="false">Игристые</button>
+    </div>
+
+    <div class="cat__grid" id="catGrid">
+
+      <a class="wcard" data-cat="likernye" style="--line:#8a2b3e" href="wine.html">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/cherniy_doctor2017.avif"><source type="image/webp" srcset="../../assets/img/cherniy_doctor2017.webp"><img class="vt-bottle" src="../../assets/img/cherniy_doctor2017.jpg" alt="Бутылка «Чёрный Доктор Солнечной Долины»" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name vt-title">Черный Доктор Солнечной&nbsp;Долины</h3>
+        <p class="wcard__type">ликерное выдержанное красное</p>
+        <p class="wcard__grapes">эким кара, кефессия, джеват кара</p>
+      </a>
+
+      <a class="wcard" data-cat="likernye" style="--line:#8a2b3e" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/cherniy_polkovnik2019.avif"><source type="image/webp" srcset="../../assets/img/cherniy_polkovnik2019.webp"><img src="../../assets/img/cherniy_polkovnik2019.jpg" alt="Бутылка «Чёрный Полковник»" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Черный Полковник</h3>
+        <p class="wcard__type">ликерное выдержанное красное</p>
+        <p class="wcard__grapes">одесский черный, бастардо магарачский, каберне совиньон, джеват кара, кефессия</p>
+      </a>
+
+      <a class="wcard" data-cat="likernye" style="--line:#8a2b3e" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/portvein2015.avif"><source type="image/webp" srcset="../../assets/img/portvein2015.webp"><img src="../../assets/img/portvein2015.jpg" alt="Бутылка «Портвейн Крымский Солнечной Долины»" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Портвейн Крымский Солнечной&nbsp;Долины</h3>
+        <p class="wcard__type">ликерное выдержанное белое</p>
+        <p class="wcard__grapes">кокур белый, ркацители, кок пандас, капсельский белый, солнечнодолинский</p>
+      </a>
+
+      <a class="wcard" data-cat="likernye" style="--line:#8a2b3e" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/porto2026.avif"><source type="image/webp" srcset="../../assets/img/porto2026.webp"><img src="../../assets/img/porto2026.jpg" alt="Бутылка «Порто Солнечной Долины» красное" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Порто Солнечной&nbsp;Долины красное</h3>
+        <p class="wcard__type">ликерное красное</p>
+        <p class="wcard__grapes">одесский черный, мерло, каберне совиньон</p>
+      </a>
+
+      <a class="wcard" data-cat="likernye" style="--line:#b99b63" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/solnechnaya_dolina_marochnoe2004.avif"><source type="image/webp" srcset="../../assets/img/solnechnaya_dolina_marochnoe2004.webp"><img src="../../assets/img/solnechnaya_dolina_marochnoe2004.jpg" alt="Бутылка «Солнечная Долина» белое ликерное выдержанное" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Солнечная Долина</h3>
+        <p class="wcard__type">ликерное выдержанное белое</p>
+        <p class="wcard__grapes">сары пандас, кок пандас, солнечнодолинский, мускат белый, токайские, кокур белый</p>
+      </a>
+
+      <a class="wcard" data-cat="dry" style="--line:#c4674a" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/meganom_krasnoe2023.avif"><source type="image/webp" srcset="../../assets/img/meganom_krasnoe2023.webp"><img src="../../assets/img/meganom_krasnoe2023.jpg" alt="Бутылка «Меганом» красное сухое" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Меганом красное</h3>
+        <p class="wcard__type">сухое красное</p>
+        <p class="wcard__grapes">бастардо магарачский, кефесия · лозы 30–35 лет</p>
+      </a>
+
+      <a class="wcard" data-cat="dry" style="--line:#b99b63" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/kokur2023.avif"><source type="image/webp" srcset="../../assets/img/kokur2023.webp"><img src="../../assets/img/kokur2023.jpg" alt="Бутылка «Кокур Солнечной Долины» белое сухое" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Кокур Солнечной&nbsp;Долины</h3>
+        <p class="wcard__type">сухое белое</p>
+        <p class="wcard__grapes">кокур 100 % · лозы более 35 лет</p>
+      </a>
+
+      <a class="wcard" data-cat="dry" style="--line:#d97c2b" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/kefessia.avif"><source type="image/webp" srcset="../../assets/img/kefessia.webp"><img src="../../assets/img/kefessia.jpg" alt="Бутылка «Токлук Саперави Кефесия»" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Токлук Саперави Кефесия</h3>
+        <p class="wcard__type">сухое красное</p>
+        <p class="wcard__grapes">саперави, кефесия</p>
+      </a>
+
+      <a class="wcard" data-cat="sparkling" style="--line:#6e4b9e" href="#">
+        <div class="case"><picture><source type="image/avif" srcset="../../assets/img/brut_cocur.avif"><source type="image/webp" srcset="../../assets/img/brut_cocur.webp"><img src="../../assets/img/brut_cocur.jpg" alt="Бутылка «Меганом Кокур» игристое брют" loading="lazy" decoding="async"></picture></div>
+        <h3 class="wcard__name">Меганом Кокур</h3>
+        <p class="wcard__type">игристое выдержанное белое брют</p>
+        <p class="wcard__grapes">кокур белый</p>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="start">
+    <p class="start__q">Не знаете, с чего начать?</p>
+    <h2>Начните с легенды</h2>
+    <a class="btn btn--gold" href="wine.html">К «Чёрному Доктору»</a>
+  </section>
+
+  <footer class="ftr">
+    <p class="ftr__law">Чрезмерное употребление алкоголя вредит вашему здоровью</p>
+  </footer>
+
+</main>
+
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // Фильтр-лента: переключение активной кнопки + фильтрация карточек по data-cat
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.wcard'));
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // На время перекладки каждой карточке даётся своё view-transition-name,
+  // чтобы браузер анимировал их перелёт по сетке; после — имена снимаются,
+  // чтобы не мешать межстраничному перелёту бутылки.
+  function nameCards(on) {
+    cards.forEach(function (card, i) {
+      card.style.viewTransitionName = on ? 'wcard-' + (i + 1) : '';
+    });
+  }
+
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var apply = function () {
+        btns.forEach(function (b) {
+          b.classList.toggle('is-on', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        var cat = btn.getAttribute('data-filter');
+        cards.forEach(function (card) {
+          var show = cat === 'all' || card.getAttribute('data-cat') === cat;
+          card.classList.toggle('hide', !show);
+          if (show) card.classList.add('on'); // показанные карточки не должны оставаться скрытыми reveal-ом
+        });
+      };
+      if (document.startViewTransition && !(reduceMotion && reduceMotion.matches)) {
+        nameCards(true);
+        var vt = document.startViewTransition(apply);
+        vt.finished.then(function () { nameCards(false); }, function () { nameCards(false); });
+      } else {
+        apply(); // фолбэк: мгновенная перекладка без анимации
+      }
+    });
+  });
+
+  // Reveal (app.js на внутренних страницах не навешивает .rv на карточки каталога)
+  var targets = cards.concat(
+    Array.prototype.slice.call(document.querySelectorAll('.cat__head > *, .filters, .start > *'))
+  );
+  targets.forEach(function (el, i) {
+    el.classList.add('rv');
+    el.style.transitionDelay = (i % 3) * 90 + 'ms';
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  } else {
+    targets.forEach(function (el) { el.classList.add('on'); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Атлас автохтонов · Солнечная Долина, 1888</title>
+<link rel="icon" href="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2246%22%20fill%3D%22%23161210%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2266%22%20font-size%3D%2248%22%20text-anchor%3D%22middle%22%20fill%3D%22%23d1a95a%22%20font-family%3D%22Georgia%22%3E%D0%A1%D0%94%3C%2Ftext%3E%3C%2Fsvg%3E">
+<meta name="description" content="Гербарий сортов винограда, которых нет больше нигде: Эким Кара, Джеват Кара, Кефесия, Кокур белый, Кок Пандас, Сары Пандас, Солнечнодолинский, Капсельский белый, Солдайя, Шабаш, Токайские. Одиннадцать гербарных листов АО «Солнечная Долина».">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../variants/a-podval/style.css">
+<style>
+/* ============================================================
+   АТЛАС АВТОХТОНОВ · гербарий сортов
+   Надстройка над дизайн-системой «Подвал»
+   ============================================================ */
+:root{
+  --paper:#efe5d1;
+  --paper-hi:#f6efe0;
+  --paper-lo:#ddd0b4;
+  --brown:#3b3025;          /* железо-галловые чернила */
+  --brown-2:rgba(59,48,37,.62);
+  --brown-3:rgba(59,48,37,.38);
+  --sepia:#7c6242;
+  --pin:#c4a25e;
+  --acc:#7e2436;            /* по умолчанию — красные сорта */
+  --tape:rgba(226,212,178,.72);
+}
+
+body{background:var(--ink)}
+.atlas{position:relative;z-index:1}
+
+/* ---------- служебная типографика листа ---------- */
+.sheet, .idx{
+  color:var(--brown);
+  font-family:var(--sans);
+}
+.sheet h2,.sheet h3,.idx h2{font-family:var(--serif);font-weight:400}
+
+/* маркеры источника */
+.m{font-size:.62em;vertical-align:.5em;letter-spacing:0;font-family:var(--sans);
+   color:var(--sepia);opacity:.9;padding-left:.15em;cursor:help}
+.m--o{color:#a4744c}
+
+/* ============ ОБЛОЖКА ============ */
+.cvr{
+  position:relative;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding:clamp(60px,9vh,120px) var(--pad) clamp(40px,6vh,80px);
+  overflow:hidden;isolation:isolate;
+  background:radial-gradient(120% 80% at 50% 110%, #221b15 0%, var(--ink) 58%);
+}
+.cvr__vine{
+  position:absolute;right:-4vw;top:50%;transform:translateY(-50%);
+  width:min(58vw,760px);color:var(--gold);opacity:.16;pointer-events:none;z-index:-1;
+}
+.cvr__vine .ink{fill:none;stroke:currentColor;stroke-width:1.1;vector-effect:non-scaling-stroke}
+.cvr__vine .berry{fill:currentColor;opacity:.5;stroke:none}
+.cvr__inner{max-width:1200px;margin:0 auto;width:100%}
+.cvr__rule{width:100%;height:1px;background:var(--hair);margin:clamp(28px,4vw,50px) 0}
+.cvr__lat{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.7vw,1.35rem);color:var(--gold);letter-spacing:.06em}
+.cvr h1{
+  font-family:var(--serif);font-weight:300;line-height:.92;
+  font-size:clamp(3.2rem,10.5vw,9.4rem);letter-spacing:.005em;
+  margin:.12em 0 .1em;color:var(--stone);
+}
+.cvr h1 em{font-style:italic;color:var(--gold-hi)}
+.cvr__sub{
+  font-family:var(--serif);font-style:italic;color:var(--stone-dim);
+  font-size:clamp(1.15rem,2.3vw,1.85rem);max-width:26ch;line-height:1.35;
+}
+.cvr__grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.4vw,40px);
+  margin-top:clamp(34px,5vw,66px);
+}
+.cvr__grid > div{border-left:1px solid var(--hair);padding-left:clamp(14px,1.6vw,24px)}
+.cvr__grid dt{
+  font-family:var(--serif);font-size:clamp(2.1rem,4vw,3.4rem);line-height:1;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.cvr__grid dd{margin-top:.55em;font-size:.7rem;letter-spacing:.17em;text-transform:uppercase;color:var(--stone-dim);line-height:1.5}
+.cvr__legend{
+  margin-top:clamp(30px,4vw,54px);display:flex;flex-wrap:wrap;gap:10px 34px;
+  font-size:.72rem;color:rgba(251,247,240,.45);letter-spacing:.04em;
+}
+.cvr__legend b{color:var(--gold);font-weight:400;padding-right:.5em}
+.cvr__down{margin-top:clamp(34px,5vw,60px);display:inline-flex;align-items:center;gap:14px;
+  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cvr__down i{display:block;width:52px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+
+/* ============ ОБЩЕЕ: БУМАГА ============ */
+.paper{
+  position:relative;isolation:isolate;
+  background:
+    radial-gradient(120% 90% at 18% 6%, var(--paper-hi) 0%, var(--paper) 42%, var(--paper-lo) 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 26px 54px rgba(0,0,0,.55),
+    0 3px 10px rgba(0,0,0,.4);
+}
+/* волокна бумаги */
+.paper::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;mix-blend-mode:multiply;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75 0.05' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23f)' opacity='.5'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+}
+/* «лисьи пятна» и потемнение кромок */
+.paper::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;mix-blend-mode:multiply;
+  background:
+    radial-gradient(28px 20px at 12% 88%, rgba(150,110,60,.20), transparent 70%),
+    radial-gradient(16px 12px at 78% 12%, rgba(150,110,60,.17), transparent 70%),
+    radial-gradient(40px 26px at 92% 62%, rgba(150,110,60,.13), transparent 72%),
+    radial-gradient(22px 16px at 46% 96%, rgba(150,110,60,.14), transparent 72%),
+    linear-gradient(to right, rgba(120,92,52,.15), transparent 7%, transparent 93%, rgba(120,92,52,.17)),
+    linear-gradient(to bottom, rgba(120,92,52,.13), transparent 5%, transparent 95%, rgba(120,92,52,.15));
+}
+.paper > *{position:relative;z-index:1}
+
+/* ---------- булавки ---------- */
+.pin{
+  position:absolute;width:26px;height:26px;z-index:6;pointer-events:none;
+  filter:drop-shadow(2px 5px 4px rgba(40,26,10,.42));
+}
+.pin i{
+  position:absolute;left:5px;top:5px;width:16px;height:16px;border-radius:50%;
+  background:
+    radial-gradient(circle at 34% 30%, #f4e2b6 0%, var(--pin) 45%, #7d5f2c 100%);
+  box-shadow:0 0 0 1px rgba(70,50,20,.35), inset -1px -2px 3px rgba(60,40,12,.5);
+}
+.pin i::after{
+  content:'';position:absolute;left:3px;top:2.5px;width:5px;height:3.5px;border-radius:50%;
+  background:rgba(255,247,225,.85);transform:rotate(-24deg);
+}
+.pin--tl{left:-8px;top:-8px}
+.pin--tr{right:-8px;top:-8px}
+.pin--bl{left:-8px;bottom:-8px}
+.pin--br{right:-8px;bottom:-8px}
+/* бумажный уголок-крепление под булавкой */
+.corner{
+  position:absolute;width:64px;height:64px;background:var(--tape);z-index:5;
+  box-shadow:0 1px 3px rgba(60,40,12,.25);mix-blend-mode:multiply;opacity:.85;
+}
+.corner--tl{left:0;top:0;clip-path:polygon(0 0,100% 0,0 100%)}
+.corner--br{right:0;bottom:0;clip-path:polygon(100% 100%,100% 0,0 100%)}
+
+/* ============ УКАЗАТЕЛЬ ============ */
+.idx-wrap{padding:clamp(56px,9vh,120px) var(--pad)}
+.idx{
+  max-width:1180px;margin:0 auto;padding:clamp(34px,4.6vw,74px) clamp(28px,4vw,72px) clamp(40px,5vw,76px);
+  transform:rotate(-.22deg);
+}
+.idx__top{
+  display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;
+  border-bottom:1px solid var(--brown-3);padding-bottom:14px;
+  font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sepia);
+}
+.idx h2{font-size:clamp(2rem,4.4vw,3.6rem);margin:.5em 0 .1em;line-height:1.02;color:var(--brown)}
+.idx__note{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.5vw,1.2rem);color:var(--brown-2);max-width:62ch}
+.idx__lead{
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  gap:clamp(30px,4vw,72px);align-items:start;margin-bottom:clamp(34px,4.4vw,62px);
+}
+.idx__key{border-left:1px solid var(--brown-3);padding-left:clamp(20px,2.6vw,38px)}
+.idx__key-ttl{
+  font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--sepia);
+  margin-bottom:1.4em;
+}
+.idx__key ol{list-style:none;counter-reset:k;display:grid;gap:.72em}
+.idx__key li{
+  counter-increment:k;position:relative;padding-left:2.1em;
+  font-size:.79rem;line-height:1.55;color:var(--brown-2);
+}
+.idx__key li::before{
+  content:counter(k,decimal-leading-zero);position:absolute;left:0;top:.22em;
+  font-size:.6rem;letter-spacing:.14em;color:var(--sepia);opacity:.8;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+/* врезка в указателе */
+.idx__aside{
+  margin-top:clamp(26px,3vw,44px);padding:18px 20px 19px;
+  border:1px solid var(--brown-3);border-left:2px solid var(--acc);
+  background:rgba(255,252,244,.3);
+}
+.idx__aside-ttl{
+  font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--acc);margin-bottom:.95em;
+}
+.idx__aside p{font-size:.82rem;line-height:1.65;color:var(--brown-2)}
+.idx__aside b{font-weight:400;color:var(--brown);font-family:var(--serif);font-size:1.06em}
+.idx__aside i{font-family:var(--serif);font-size:.96em;color:var(--sepia)}
+.idx__key li b{font-weight:400;color:var(--brown);font-family:var(--serif);font-size:1.02em}
+.idx__cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,3.2vw,60px) clamp(30px,4vw,72px)}
+.idx__col--app{grid-column:1 / -1;margin-top:clamp(14px,1.8vw,26px)}
+.idx__col--app .idx__grp{color:var(--sepia)}
+.reg--app{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(30px,4vw,72px)}
+.reg--app .nm{font-size:clamp(1.05rem,1.6vw,1.28rem)}
+.idx__grp{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);
+  border-bottom:1px solid var(--brown-3);padding-bottom:9px;margin-bottom:6px}
+.idx__col--w{--acc:#7a6221}
+.idx__col--w .idx__grp{color:#7a6221}
+.reg{list-style:none}
+.reg li{border-bottom:1px dotted rgba(59,48,37,.28)}
+.reg a{
+  display:grid;grid-template-columns:2.3em 1fr auto;align-items:baseline;gap:.5em;
+  padding:.72em 0;transition:color .3s,background .3s;
+}
+.reg a:hover{color:var(--acc);background:rgba(180,150,95,.12)}
+.reg .no{font-family:var(--serif);font-size:.92rem;color:var(--sepia);letter-spacing:.06em}
+.reg .nm{font-family:var(--serif);font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.1}
+.reg .nm i{display:block;font-style:italic;font-size:.62em;color:var(--brown-2);letter-spacing:.02em;margin-top:.18em}
+.reg .ct{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-2);white-space:nowrap;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+.idx__foot{
+  margin-top:clamp(30px,4vw,54px);padding-top:16px;border-top:1px solid var(--brown-3);
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-size:.68rem;color:var(--brown-2);letter-spacing:.04em;
+}
+
+/* ============ ГЕРБАРНЫЙ ЛИСТ ============ */
+.sheets{padding:0 var(--pad) clamp(60px,8vh,120px)}
+.sheet{
+  max-width:1180px;margin:0 auto clamp(60px,9vh,130px);
+  padding:clamp(30px,3.6vw,62px) clamp(26px,3.4vw,58px) clamp(34px,4vw,64px);
+  scroll-margin-top:24px;
+}
+.sheet:nth-child(odd){transform:rotate(.24deg)}
+.sheet:nth-child(even){transform:rotate(-.3deg)}
+.sheet--white{--acc:#7a6221}
+
+.sheet__grid{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(26px,3.6vw,64px)}
+
+/* ---- левая колонка: аппарат листа ---- */
+.plate-col{border-right:1px solid var(--brown-3);padding-right:clamp(20px,2.4vw,42px);
+  display:flex;flex-direction:column;gap:clamp(22px,2.6vw,38px)}
+.plate-fig{margin:0}
+.plate-box{
+  position:relative;background:rgba(255,252,244,.32);
+  border:1px solid rgba(59,48,37,.16);
+  box-shadow:inset 0 0 34px rgba(140,105,55,.14);
+  padding:14px 10px 10px;
+}
+.plate{display:block;width:100%;height:auto;color:var(--brown)}
+.plate .ln{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.plate .ln--stem{stroke-width:2.1}
+.plate .ln--thin{stroke-width:.74;opacity:.82}
+.plate .ln--vein{stroke-width:.98;opacity:.72}
+.plate .ln--hair{stroke-width:.54;opacity:.56}
+.plate .ln--web{stroke-width:.36;opacity:.34}
+.plate .leaf{stroke-width:1.28;fill:rgba(122,114,68,.20)}
+.plate .leaf--wash{stroke:none;fill:rgba(96,104,62,.10)}
+.plate .berry{stroke:rgba(35,20,18,.45);stroke-width:.55;paint-order:stroke fill}
+.plate__scale{
+  position:absolute;right:12px;bottom:10px;display:flex;align-items:center;gap:7px;
+  font-size:.56rem;letter-spacing:.14em;color:var(--brown-2);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.plate__scale b{display:block;width:46px;height:5px;border:1px solid var(--brown-3);border-top:0;font-weight:400}
+.plate__fig2{
+  position:absolute;left:14px;bottom:10px;max-width:44%;
+  font-family:var(--serif);font-style:italic;font-size:.72rem;line-height:1.35;color:var(--brown-2);
+}
+.plate__fig2 b{font-style:normal;font-weight:400;letter-spacing:.02em;color:var(--sepia)}
+/* зеркальные таблицы: деталь справа — подпись и линейка меняются местами */
+.plate-box.is-mir .plate__fig2{left:auto;right:14px;text-align:right}
+.plate-box.is-mir .plate__scale{right:auto;left:12px}
+.plate-fig figcaption{
+  margin-top:12px;font-family:var(--serif);font-style:italic;
+  font-size:.9rem;line-height:1.45;color:var(--brown-2);
+}
+.plate-fig figcaption b{font-style:normal;font-weight:400;color:var(--brown);letter-spacing:.02em}
+
+/* мини-карта урочища */
+.urm{margin:0}
+.urm__ttl,.blk h3,.wines__ttl{
+  font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);
+  margin-bottom:1.1em;display:flex;align-items:center;gap:.8em;
+}
+.urm__ttl::after,.blk h3::after{content:'';flex:1;height:1px;background:var(--brown-3)}
+.urm svg{display:block;width:100%;height:auto;color:var(--brown)}
+.urm figcaption{margin-top:10px;font-size:.72rem;line-height:1.5;color:var(--brown-2)}
+.urm figcaption b{font-weight:500;color:var(--brown)}
+/* зоны карты — подсветка через переменные, задаётся классом на листе */
+.zn{fill:var(--z, rgba(0,0,0,0));stroke:currentColor;stroke-width:.7;stroke-opacity:.42;transition:fill .4s}
+#z-tok{--z:var(--z-tok, rgba(0,0,0,0))}
+#z-koz{--z:var(--z-koz, rgba(0,0,0,0))}
+#z-kap{--z:var(--z-kap, rgba(0,0,0,0))}
+.map--all{--z-tok:rgba(126,36,54,.16);--z-koz:rgba(126,36,54,.16);--z-kap:rgba(126,36,54,.16)}
+.sheet--white .map--all{--z-tok:rgba(122,98,33,.18);--z-koz:rgba(122,98,33,.18);--z-kap:rgba(122,98,33,.18)}
+.map--koz{--z-koz:rgba(126,36,54,.22);--z-tok:rgba(126,36,54,.07);--z-kap:rgba(126,36,54,.07)}
+.sheet--white .map--koz{--z-koz:rgba(122,98,33,.24);--z-tok:rgba(122,98,33,.07);--z-kap:rgba(122,98,33,.07)}
+.sheet--white .map--kap{--z-kap:rgba(122,98,33,.24);--z-koz:rgba(122,98,33,.09);--z-tok:rgba(122,98,33,.07)}
+.mp-sea{fill:rgba(80,96,104,.13);stroke:none}
+.mp-ln{fill:none;stroke:currentColor;stroke-width:.8;vector-effect:non-scaling-stroke}
+.mp-iso{fill:none;stroke:currentColor;stroke-width:.5;stroke-opacity:.3}
+.mp-t{font-family:var(--sans);font-size:6.4px;letter-spacing:.16em;text-transform:uppercase;fill:var(--brown);fill-opacity:.72}
+.mp-t--sea{font-style:italic;text-transform:none;letter-spacing:.28em;fill-opacity:.5}
+.mp-pt{fill:var(--acc)}
+
+/* витрина бутылки */
+.bot{display:flex;gap:16px;align-items:flex-end}
+.bot .case{
+  --case-tint:var(--acc);
+  width:118px;min-width:118px;height:172px;padding-bottom:12px;
+  border-color:rgba(120,92,52,.4);
+  box-shadow: inset 0 0 34px rgba(110,80,35,.24), 0 8px 20px rgba(60,40,15,.28);
+}
+.bot .case img{width:64%}
+.bot__cap{font-size:.72rem;line-height:1.5;color:var(--brown-2)}
+.bot__cap b{display:block;font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--brown);margin-bottom:.25em;font-style:italic}
+
+/* наклеенная этикетка гербария — прижата к низу левой колонки */
+.herbtag{
+  margin-top:auto;position:relative;
+  background:linear-gradient(172deg, #f7f1e2 0%, #efe6d2 62%, #e6dbc2 100%);
+  border:1px solid rgba(59,48,37,.24);
+  padding:14px 16px 13px;
+  transform:rotate(-.7deg);
+  box-shadow:0 2px 6px rgba(60,40,15,.22), 0 10px 22px rgba(40,26,10,.16);
+}
+.herbtag::before,.herbtag::after{
+  content:'';position:absolute;top:-9px;width:52px;height:17px;background:var(--tape);
+  mix-blend-mode:multiply;box-shadow:0 1px 2px rgba(60,40,12,.22);
+}
+.herbtag::before{left:12px;transform:rotate(-2.4deg)}
+.herbtag::after{right:14px;transform:rotate(1.8deg)}
+.herbtag__hd{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sepia);
+  border-bottom:1px solid var(--brown-3);padding-bottom:7px;
+}
+.herbtag__nm{
+  font-family:var(--serif);font-size:1.32rem;line-height:1.1;color:var(--brown);
+  margin:.55em 0 .1em;
+}
+.herbtag__lat{font-family:var(--serif);font-style:italic;font-size:.86rem;color:var(--brown-2);margin-bottom:.9em}
+.herbtag dl{display:grid;grid-template-columns:4.6em 1fr;gap:.34em .9em;font-size:.66rem;line-height:1.45}
+.herbtag dt{font-style:italic;font-family:var(--serif);font-size:.78rem;color:var(--sepia)}
+.herbtag dd{color:var(--brown-2)}
+.herbtag__foot{
+  margin-top:.95em;padding-top:8px;border-top:1px dotted rgba(59,48,37,.3);
+  display:flex;justify-content:space-between;gap:10px;
+  font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-2);
+}
+
+/* ---- правая колонка: текст ---- */
+.sheet__head{margin-bottom:clamp(22px,2.6vw,34px)}
+.sheet__no{
+  font-size:.64rem;letter-spacing:.34em;text-transform:uppercase;color:var(--sepia);
+  display:flex;align-items:baseline;gap:1em;
+}
+.sheet__no span{color:var(--brown-2);letter-spacing:.16em}
+.sheet__lat{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.5vw,1.2rem);
+  color:var(--acc);margin-top:1.1em;letter-spacing:.02em;
+}
+.sheet__name{
+  font-size:clamp(2.6rem,6.4vw,5.2rem);line-height:.94;letter-spacing:.005em;
+  margin:.1em 0 .18em;color:var(--brown);
+}
+.sheet__gloss{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.6vw,1.28rem);
+  color:var(--brown-2);
+}
+.blk{margin-top:clamp(24px,2.8vw,40px)}
+.blk p{font-size:.95rem;line-height:1.72;color:rgba(59,48,37,.86);max-width:60ch}
+.blk p + p{margin-top:.85em}
+.blk--why p:first-of-type::first-letter{
+  float:left;font-family:var(--serif);font-size:3.5em;line-height:.78;
+  padding:.06em .12em 0 0;color:var(--acc);
+}
+.q{
+  font-family:var(--serif);font-style:italic;font-size:1.08rem;line-height:1.5;
+  border-left:2px solid var(--acc);padding-left:1.1em;margin:1.2em 0;color:var(--brown);max-width:52ch;
+}
+.q cite{display:block;font-style:normal;font-family:var(--sans);font-size:.66rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--sepia);margin-top:.9em}
+
+/* ампелография */
+.amp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,2.4vw,40px)}
+.amp > div{padding:.72em 0;border-bottom:1px dotted rgba(59,48,37,.26);display:flex;gap:1em;align-items:baseline;justify-content:space-between}
+.amp dt{font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--brown-2);flex:0 0 auto}
+.amp dd{font-family:var(--serif);font-size:1.02rem;text-align:right;color:var(--brown);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+.amp dd.nd{font-family:var(--sans);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:#a4744c;opacity:.85}
+/* строка пробела: не «мы не знаем», а «промеры запрошены» */
+.amp__gap{grid-column:1/-1;border-bottom:1px dotted rgba(59,48,37,.26)}
+.amp__gap dt{color:#a4744c}
+.amp__gap dd{font-family:var(--sans);font-size:.76rem;line-height:1.5;letter-spacing:.02em;
+  color:var(--brown-2);text-align:right}
+.amp__gap dd i{font-style:italic;font-family:var(--serif);font-size:1.02em;color:#a4744c}
+
+/* вина */
+.wines{margin-top:clamp(24px,2.8vw,40px)}
+.wl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.8vw,28px)}
+.wl > div{border-top:1px solid var(--brown-3);padding-top:.9em}
+.wl dt{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin-bottom:.6em}
+.wl dd{font-family:var(--serif);font-size:1.02rem;line-height:1.42;color:var(--brown);padding-left:1em;position:relative}
+.wl dd + dd{margin-top:.3em}
+.wl dd::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--acc);opacity:.55}
+.wl dd em{font-style:italic;color:var(--brown-2);font-size:.9em}
+.wines__sum{
+  margin-top:1.2em;font-size:.72rem;letter-spacing:.05em;color:var(--brown-2);
+  border-top:1px solid var(--brown-3);padding-top:.9em;
+}
+.wines__sum b{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--acc);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;padding-right:.3em}
+
+/* ---------- строка действий: сорт → вино → визит / розница ---------- */
+.acts{
+  margin-top:clamp(18px,2.2vw,28px);padding-top:clamp(14px,1.6vw,20px);
+  border-top:1px solid var(--brown-3);
+  display:flex;flex-wrap:wrap;gap:.55em clamp(18px,2.2vw,32px);align-items:baseline;
+}
+.act{
+  font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--brown-2);text-decoration:none;border-bottom:1px solid transparent;
+  transition:color .3s,border-color .3s;padding-bottom:.15em;
+}
+.act::after{content:' →';letter-spacing:0;opacity:.55}
+.act:hover{color:var(--acc);border-bottom-color:rgba(126,36,54,.4)}
+.act--key{color:var(--acc);border-bottom-color:rgba(126,36,54,.28)}
+.sheet--white .act--key{border-bottom-color:rgba(122,98,33,.32)}
+.sheet--white .act:hover{border-bottom-color:rgba(122,98,33,.42)}
+/* названия вин — ссылки на карточки каталога */
+.wl a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(59,48,37,.17);
+  transition:color .3s,border-color .3s}
+.wl a:hover{color:var(--acc);border-bottom-color:currentColor}
+.wl a em{border:0}
+
+/* калька-заметка */
+.velum{
+  position:relative;margin-top:clamp(22px,2.6vw,34px);
+  padding:clamp(16px,1.8vw,26px) clamp(18px,2vw,30px);
+  background:linear-gradient(150deg, rgba(246,241,226,.82), rgba(232,224,201,.68));
+  box-shadow:0 6px 16px rgba(60,42,18,.18), inset 0 0 0 1px rgba(255,255,255,.35);
+  font-family:var(--serif);font-style:italic;font-size:1.02rem;line-height:1.55;color:var(--brown-2);
+  transform:rotate(-.5deg);
+}
+.velum b{font-style:normal;font-weight:400;color:var(--brown);letter-spacing:.02em}
+.velum::before{
+  content:'';position:absolute;left:50%;top:-9px;transform:translateX(-50%) rotate(-1.6deg);
+  width:96px;height:20px;background:var(--tape);opacity:.9;
+  box-shadow:0 1px 3px rgba(60,40,12,.22);
+}
+
+/* ============ РЕЙКА НАВИГАЦИИ ============ */
+.rail{
+  position:fixed;right:max(10px,calc(var(--pad) * .34));top:50%;transform:translateY(-50%);
+  z-index:95;display:flex;flex-direction:column;gap:9px;align-items:flex-end;
+}
+.rail a{
+  display:flex;align-items:center;gap:9px;
+  font-size:.7rem;letter-spacing:.16em;color:rgba(214,188,133,.86);
+  transition:color .3s;
+}
+.rail a i{display:block;width:16px;height:1px;background:currentColor;opacity:.75;transition:width .35s}
+.rail a:hover,.rail a.on{color:var(--gold-hi)}
+.rail a.on i{width:32px;opacity:1}
+.rail__cap{font-size:.62rem;letter-spacing:.2em;color:rgba(206,178,120,.62);
+  writing-mode:vertical-rl;transform:rotate(180deg);margin-bottom:10px;align-self:center}
+/* право: 18+ едет вместе с рейкой — видно на любой высоте прокрутки */
+.rail__law{
+  writing-mode:vertical-rl;transform:rotate(180deg);margin-top:14px;align-self:center;
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(206,178,120,.42);
+  border-top:1px solid rgba(185,155,99,.18);padding-top:12px;
+}
+
+/* ---------- переключатель «калька редактора» ----------
+   Служебный инструмент редакции: на проде живёт в колофоне (статично),
+   плавающей пилюлей всплывает только по ?debug — чтобы не мешать читателю. */
+.edsw{
+  display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(206,178,120,.72);border:1px solid rgba(185,155,99,.22);
+  background:rgba(24,19,14,.86);padding:9px 15px 9px 13px;border-radius:999px;
+  font-family:var(--sans);transition:color .3s,border-color .3s,background .3s;
+}
+.edsw:hover{color:var(--gold-hi);border-color:rgba(185,155,99,.45);background:rgba(24,19,14,.94)}
+.edsw i{display:block;width:26px;height:10px;border:1px solid currentColor;border-radius:5px;position:relative}
+.edsw i::after{content:'';position:absolute;left:1.5px;top:1.5px;width:5px;height:5px;border-radius:50%;
+  background:currentColor;transition:transform .3s}
+.edsw[aria-pressed="true"]{color:var(--gold-hi)}
+.edsw[aria-pressed="true"] i::after{transform:translateX(14px)}
+body.is-debug .edsw{
+  position:fixed;left:max(10px,calc(var(--pad) * .34));bottom:clamp(16px,3vh,32px);z-index:95;
+}
+.edsw__hint{
+  margin-top:.9em;font-size:.66rem;letter-spacing:.1em;color:rgba(251,247,240,.28);max-width:56ch;
+}
+.colo__ed{
+  margin-top:clamp(28px,3.4vw,48px);padding-top:clamp(20px,2.4vw,30px);
+  border-top:1px solid rgba(185,155,99,.14);
+}
+
+/* ============ КОЛОФОН ============ */
+.colo{padding:clamp(60px,9vh,120px) var(--pad) clamp(40px,6vh,70px);border-top:1px solid var(--hair)}
+.colo__in{max-width:1180px;margin:0 auto}
+.colo h2{font-size:clamp(1.8rem,3.4vw,2.8rem);color:var(--stone);margin-bottom:.5em}
+.colo__cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,54px);margin-top:clamp(28px,3.4vw,48px)}
+.colo__cols h3{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1em;font-family:var(--sans)}
+.colo__cols p,.colo__cols li{font-size:.88rem;color:var(--stone-dim);line-height:1.7}
+.colo__cols ul{list-style:none}
+.colo__cite{margin-top:clamp(30px,3.6vw,52px);padding-top:clamp(22px,2.6vw,34px);border-top:1px solid var(--hair)}
+.colo__cite p{font-family:var(--serif);font-size:1rem;line-height:1.7;color:var(--stone-dim);max-width:76ch}
+.colo__cite b{font-weight:400;color:var(--gold);font-style:normal}
+.colo__acts{margin-top:clamp(18px,2.2vw,26px);display:flex;flex-wrap:wrap;gap:.5em clamp(20px,2.6vw,36px)}
+.colo__acts .act{color:rgba(185,155,99,.72)}
+.colo__acts .act--key{color:var(--gold-hi);border-bottom-color:rgba(185,155,99,.4)}
+.colo__acts .act:hover{color:var(--gold-hi);border-bottom-color:rgba(185,155,99,.55)}
+.colo__cols li{padding-left:1.1em;position:relative}
+.colo__cols li::before{content:'';position:absolute;left:0;top:.75em;width:4px;height:4px;background:var(--gold);opacity:.6}
+.colo__law{
+  margin-top:clamp(36px,4.6vw,64px);padding-top:20px;border-top:1px solid rgba(185,155,99,.14);
+  font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(251,247,240,.3);
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+
+/* ============ ШАПКА САЙТА (общая для всех разделов) ============ */
+.hdr__nav .link-tel{
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;letter-spacing:.1em;
+  color:var(--gold);
+}
+.hdr__here{color:var(--gold-hi) !important;border-bottom-color:rgba(185,155,99,.45) !important}
+.cvr{padding-top:clamp(120px,15vh,180px)}
+
+/* строка права в обложке — рядом со статистикой, а не только в подвале */
+.cvr__law{
+  margin-top:clamp(20px,2.6vw,32px);display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em .9em;
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,240,.36);
+}
+.cvr__law b{
+  color:var(--gold);font-weight:400;letter-spacing:.18em;
+  border:1px solid rgba(185,155,99,.3);padding:3px 8px;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+
+/* рисунок листа в обложке — только на мобильной, где иначе два экрана текста без картинки */
+.cvr__plate{display:none}
+
+/* ---------- строка действий: дегустация — кнопка с ценой ---------- */
+.act--cta{
+  display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:.2em .7em;
+  border:1px solid var(--acc);border-bottom-color:var(--acc);
+  background:rgba(126,36,54,.06);color:var(--acc);
+  padding:.72em 1.1em;text-transform:none;letter-spacing:.06em;font-size:.8rem;
+}
+.act--cta::after{content:' →';opacity:.7}
+.act--cta:hover{background:var(--acc);color:var(--paper-hi);border-color:var(--acc)}
+.act--cta b{font-weight:400;font-family:var(--serif);font-size:1.06em;letter-spacing:.02em}
+.act--cta .act__meta{
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.78;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.sheet--white .act--cta{border-color:#7a6221;background:rgba(122,98,33,.07);color:#6d5528}
+.sheet--white .act--cta:hover{background:#7a6221;color:var(--paper-hi)}
+.acts{align-items:center}
+
+/* ---------- приложение IX—XI: свёрнуто, чтобы полотно не росло вдвое ---------- */
+.app{max-width:1180px;margin:0 auto clamp(40px,6vh,80px)}
+.app > summary{
+  list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:clamp(12px,2vw,26px);
+  flex-wrap:wrap;padding:clamp(18px,2.2vw,26px) clamp(20px,2.6vw,34px);
+  border:1px solid rgba(185,155,99,.24);background:rgba(24,19,14,.5);
+  transition:border-color .3s,background .3s;
+}
+.app > summary::-webkit-details-marker{display:none}
+.app > summary:hover{border-color:rgba(185,155,99,.5);background:rgba(30,24,17,.7)}
+.app__no{font-family:var(--serif);font-size:1.5rem;color:var(--gold);line-height:1}
+.app__ttl{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);color:var(--stone)}
+.app__sub{font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--stone-dim);flex:1 1 220px}
+.app__act{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.app__act::after{content:' ▾'}
+.app[open] .app__act::after{content:' ▴'}
+.app__in{padding-top:clamp(34px,5vh,64px)}
+.app .sheet{margin-left:0;margin-right:0}
+
+/* ---------- контакты в колофоне: байеру и журналисту нужен выход к человеку ---------- */
+.colo__contacts{
+  margin-top:clamp(22px,2.8vw,34px);display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(16px,2.4vw,34px);
+}
+.colo__contacts div{border-left:1px solid var(--hair);padding-left:clamp(14px,1.6vw,22px)}
+.colo__contacts dt{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.7em}
+.colo__contacts dd{font-family:var(--serif);font-size:1rem;line-height:1.5;color:var(--stone-dim)}
+.colo__contacts a{color:var(--stone);border-bottom:1px solid rgba(185,155,99,.3);transition:color .3s}
+.colo__contacts a:hover{color:var(--gold-hi)}
+.colo__contacts .tel{
+  font-size:1.24rem;letter-spacing:.02em;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+
+/* ---------- cookie-полоса (подключается глобально, как и возрастной гейт) ---------- */
+.ckb{
+  position:fixed;left:0;right:0;bottom:0;z-index:9998;
+  display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,26px);
+  flex-wrap:wrap;padding:14px var(--pad);
+  background:rgba(20,16,12,.96);border-top:1px solid var(--hair);
+  font-size:.74rem;line-height:1.5;color:var(--stone-dim);
+}
+.ckb.off{display:none}
+.ckb a{color:var(--gold);border-bottom:1px solid rgba(185,155,99,.35)}
+.ckb .btn{padding:8px 18px;font-size:.68rem}
+
+/* ---------- мобильный аккордеон: длинные блоки листа складываются ---------- */
+.blk--fold > summary{list-style:none;cursor:default;pointer-events:none}
+@media (max-width:820px){.blk--fold > summary{cursor:pointer;pointer-events:auto}}
+.blk--fold > summary::-webkit-details-marker{display:none}
+.blk--fold > summary h3{margin-bottom:0}
+.blk--fold > summary h3::after{content:'';flex:1;height:1px;background:var(--brown-3)}
+.blk--fold > summary .fold__hint{
+  display:none;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sepia);
+}
+.blk--fold[open] > summary h3{margin-bottom:1.1em}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width:1100px){
+  .rail{display:none}
+  .sheet__grid{grid-template-columns:1fr}
+  .plate-col{border-right:0;padding-right:0;border-bottom:1px solid var(--brown-3);padding-bottom:clamp(24px,3vw,38px);
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:start}
+  .plate-fig{grid-row:span 2}
+  .herbtag{margin-top:0;align-self:end}
+}
+@media (max-width:820px){
+  /* мобильная обложка: рисунок листа I сразу под заголовком — иначе два экрана без картинки */
+  .cvr__plate{
+    display:block;width:min(56vw,260px);margin:clamp(16px,3vh,30px) 0 0;
+    color:var(--gold);opacity:.92;
+  }
+  .cvr__plate .leaf{fill:rgba(185,155,99,.10)}
+  .cvr__plate .leaf--wash{fill:rgba(185,155,99,.06)}
+  .cvr__plate .berry{stroke:rgba(0,0,0,.35);opacity:.85}
+  .cvr__plate-cap{
+    margin-top:.7em;font-family:var(--serif);font-style:italic;font-size:.78rem;
+    color:rgba(251,247,240,.4);
+  }
+  /* аккордеон: «Ампелография» и «В какие вина входит» открываются по требованию */
+  .blk--fold:not([open]) > summary h3{margin-bottom:0}
+  .blk--fold > summary{
+    display:flex;flex-direction:column;gap:.35em;padding:.2em 0;
+    border-bottom:1px dotted rgba(59,48,37,.24);
+  }
+  .blk--fold > summary .fold__hint{display:block}
+  .blk--fold[open] > summary .fold__hint{opacity:.5}
+  .idx__cols{grid-template-columns:1fr;gap:34px}
+  .idx__lead{grid-template-columns:1fr;gap:32px}
+  .idx__key{border-left:0;border-top:1px solid var(--brown-3);padding-left:0;padding-top:26px}
+  .reg--app{grid-template-columns:1fr}
+  .amp{grid-template-columns:1fr}
+  .amp__gap{flex-direction:column;align-items:flex-start;gap:.35em}
+  .amp__gap dd{text-align:left}
+  .wl{grid-template-columns:1fr}
+  .colo__cols{grid-template-columns:1fr}
+  .cvr__grid{grid-template-columns:repeat(2,1fr);row-gap:26px}
+  .cvr__vine{opacity:.09;right:-20vw;width:110vw}
+}
+@media (max-width:620px){
+  .plate-col{grid-template-columns:1fr}
+  .plate-fig{grid-row:auto}
+  .sheet:nth-child(odd),.sheet:nth-child(even),.idx{transform:none}
+  .reg a{grid-template-columns:2em 1fr;row-gap:.2em}
+  .reg .ct{grid-column:2}
+  .bot{gap:12px}
+}
+@media (prefers-reduced-motion: reduce){
+  .rail a i{transition:none}
+}
+</style>
+
+<!-- ============ МОСТ В МАСТЕР-САЙТ: герб + телефон + запись ============ -->
+<style>
+/* Герб вырезан из общего логотипа: окно 20×34 показывает корону и щит,
+   clip-path отсекает горизонтальные линейки лоскута с надписью. */
+.hdr__logo{display:block;position:relative;flex:0 0 auto;width:20px;height:34px;overflow:hidden}
+.hdr__logo img{position:absolute;left:-49.6px;top:0;width:119px;height:auto;max-width:none;display:block;clip-path:polygon(41.67% 0,58.33% 0,58.33% 60.98%,55.83% 60.98%,55.83% 69.52%,44.17% 69.52%,44.17% 60.98%,41.67% 60.98%)}
+.hdr__brand{flex-direction:row;align-items:center;gap:11px;flex:0 0 auto}
+.hdr__wm{display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}
+
+/* шапка может переносить мост на свою строку, меню при этом не сжимается */
+.hdr{flex-wrap:wrap;row-gap:7px}
+.hdr__nav{flex:0 0 auto}
+.hdr__nav a{white-space:nowrap}
+/* свободное место делится поровну: бренд слева, меню посередине, мост справа */
+@media (min-width:821px){.hdr__nav{margin-left:auto}.hdr__brand{margin-right:clamp(20px,2vw,34px)}}
+
+.brg{display:flex;align-items:center;flex:0 0 auto;
+  gap:clamp(10px,1.2vw,16px);margin-left:auto;padding-left:clamp(14px,1.6vw,24px)}
+.hdr .brg__tel{
+  font-size:.72rem;letter-spacing:.05em;white-space:nowrap;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1,"onum" 0;
+  border-bottom:1px solid transparent;padding:6px 0;transition:color .3s,border-color .3s;
+}
+.hdr .brg__tel:hover{color:var(--stone);border-color:var(--gold)}
+.hdr .brg__cta{
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  border:1px solid var(--gold);color:var(--gold-hi);padding:7px 12px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.hdr .brg__cta:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+@media (max-width:820px){
+  .hdr{row-gap:0}
+  .hdr__brand{gap:9px;justify-content:center}
+  .hdr__logo{width:16.5px;height:28px}
+  .hdr__logo img{left:-40.85px;width:98px}
+  .brg{width:100%;margin:0;padding:0 0 8px;justify-content:center;gap:14px}
+  .hdr .brg__tel{font-size:.64rem;letter-spacing:.04em;padding:0}
+  .hdr .brg__cta{font-size:.58rem;letter-spacing:.09em;padding:5px 10px}
+}
+</style>
+</head>
+<body class="atlas">
+
+<!-- ================= общие SVG-примитивы ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="bry" cx="34%" cy="28%" r="72%">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="34%" stop-color="var(--berry,#4a1524)" stop-opacity=".92"/>
+      <stop offset="100%" stop-color="#1a0d10" stop-opacity=".95"/>
+    </radialGradient>
+    <!-- мини-карта урочищ: 320×196, юго-восточный Крым, схема -->
+    <symbol id="urmap" viewBox="0 0 320 196">
+      <path class="mp-sea" d="M0 154 C46 148 78 158 112 160 C150 162 176 150 200 152 C224 154 236 166 262 168 C286 170 302 162 320 158 L320 196 L0 196 Z"/>
+      <path class="mp-ln" d="M0 154 C46 148 78 158 112 160 C150 162 176 150 200 152 C224 154 236 166 262 168 C286 170 302 162 320 158"/>
+      <!-- мыс Меганом -->
+      <path class="mp-ln" d="M200 152 C206 166 214 176 226 180 C238 184 246 176 244 166 C242 156 232 152 226 150"/>
+      <!-- изогипсы -->
+      <path class="mp-iso" d="M8 108 C56 86 108 100 152 88 C196 76 244 92 312 74"/>
+      <path class="mp-iso" d="M6 78 C58 58 104 74 154 60 C204 46 250 62 314 46"/>
+      <path class="mp-iso" d="M10 48 C60 30 110 46 158 32 C206 18 252 34 310 20"/>
+      <path class="mp-iso" d="M12 128 C62 114 100 126 150 116 C200 106 248 118 310 104"/>
+      <!-- урочища -->
+      <path id="z-tok" class="zn" d="M18 112 C34 92 60 88 82 96 C102 103 106 124 96 140 C84 158 46 156 30 142 C20 133 14 122 18 112 Z"/>
+      <path id="z-koz" class="zn" d="M104 100 C124 82 158 82 178 94 C196 105 196 128 182 142 C164 159 124 156 110 140 C100 129 98 111 104 100 Z"/>
+      <path id="z-kap" class="zn" d="M232 96 C252 80 288 82 300 98 C310 111 304 132 288 142 C268 154 240 148 232 134 C226 123 226 105 232 96 Z"/>
+      <circle class="mp-pt" cx="63" cy="118" r="2.1"/>
+      <circle class="mp-pt" cx="143" cy="118" r="2.1"/>
+      <circle class="mp-pt" cx="266" cy="114" r="2.1"/>
+      <text class="mp-t" x="63" y="134" text-anchor="middle">Токлукская</text>
+      <text class="mp-t" x="143" y="134" text-anchor="middle">Козская</text>
+      <text class="mp-t" x="266" y="130" text-anchor="middle">Капсель</text>
+      <text class="mp-t mp-t--sea" x="86" y="182">Чёрное море</text>
+      <text class="mp-t" x="248" y="190" text-anchor="middle">м. Меганом</text>
+      <!-- роза ветров -->
+      <g transform="translate(300,22)">
+        <path class="mp-ln" d="M0 -13 L0 13 M-13 0 L13 0"/>
+        <path class="mp-ln" d="M0 -13 L3.4 -5 L-3.4 -5 Z" fill="currentColor"/>
+        <text class="mp-t" x="0" y="-16" text-anchor="middle">N</text>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= ВОЗРАСТНОЙ ГЕЙТ (общий модуль сайта, стили в дизайн-системе) ================= -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Подтверждение возраста">
+  <div class="gate__frame">
+    <p class="gate__monogram">С<span>·</span>Д</p>
+    <p class="gate__year">1888</p>
+    <p class="gate__q">Вам есть восемнадцать лет?</p>
+    <div class="gate__row">
+      <button class="btn btn--ghost" id="gateYes" type="button">Да, мне есть 18</button>
+      <a class="btn btn--mute" href="https://ya.ru" rel="nofollow">Нет</a>
+    </div>
+    <p class="gate__law">Сайт содержит информацию, не рекомендованную лицам младше 18 лет</p>
+  </div>
+</div>
+
+<!-- ================= ШАПКА САЙТА ================= -->
+<header class="hdr solid" id="hdr">
+  <a class="hdr__brand" href="../master/index.html">
+    <span class="hdr__logo"><img src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина" decoding="async"></span>
+    <span class="hdr__wm">
+      <span class="hdr__name">Солнечная&nbsp;Долина</span>
+      <span class="hdr__est">Крым · 1888</span>
+    </span>
+  </a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="../master/wines.html">Вина</a>
+    <a class="hdr__here" href="#registr" aria-current="page">Атлас</a>
+    <a href="../master/visit.html">Визит</a>
+    <a class="link-buy" href="../master/index.html#buy">Где купить</a>
+  </nav>
+  <div class="brg">
+    <a class="brg__tel" href="tel:+79789563322">+7&nbsp;978&nbsp;956-33-22</a>
+    <a class="brg__cta" href="../master/index.html#visit">Забронировать дегустацию</a>
+  </div>
+</header>
+
+<!-- ================= ОБЛОЖКА ================= -->
+<header class="cvr">
+  <svg class="cvr__vine" viewBox="0 0 520 640" aria-hidden="true">
+    <path class="ink" d="M262 632 C258 540 268 462 252 392 C236 322 190 276 176 214 C164 160 186 106 236 74"/>
+    <path class="ink" d="M252 392 C300 366 350 372 392 344 C430 318 442 268 436 222"/>
+    <path class="ink" d="M228 296 C182 286 146 300 108 288 C72 276 56 240 60 206"/>
+    <path class="ink ln--thin" d="M276 470 C310 456 322 428 316 400 C312 380 292 372 282 386 C272 400 288 414 300 404"/>
+    <path class="ink ln--thin" d="M214 234 C182 224 172 198 180 176 C186 158 208 156 214 172 C220 188 202 196 194 186"/>
+    <g>
+      <circle class="berry" cx="392" cy="352" r="13"/><circle class="berry" cx="418" cy="336" r="12"/>
+      <circle class="berry" cx="404" cy="378" r="12"/><circle class="berry" cx="430" cy="362" r="11"/>
+      <circle class="berry" cx="418" cy="392" r="10"/><circle class="berry" cx="440" cy="384" r="9"/>
+      <circle class="berry" cx="428" cy="410" r="9"/><circle class="berry" cx="410" cy="404" r="8"/>
+      <circle class="berry" cx="104" cy="292" r="12"/><circle class="berry" cx="80" cy="304" r="11"/>
+      <circle class="berry" cx="98" cy="318" r="11"/><circle class="berry" cx="76" cy="330" r="10"/>
+      <circle class="berry" cx="94" cy="344" r="9"/><circle class="berry" cx="112" cy="330" r="9"/>
+    </g>
+  </svg>
+  <div class="cvr__inner">
+    <p class="cvr__lat">Herbarium vitium Vallis Solaris · собрание сортов Солнечной Долины</p>
+    <h1>Атлас<br><em>автохтонов</em></h1>
+    <div class="cvr__rule"></div>
+    <p class="cvr__sub">Одиннадцать листов о лозах, которые растут здесь — и не растут больше нигде.</p>
+    <dl class="cvr__grid">
+      <div><dt>XI</dt><dd>гербарных листов</dd></div>
+      <div><dt>3</dt><dd>красных автохтона<br>Судакской зоны</dd></div>
+      <div><dt>50+</dt><dd>местных и завезённых сортов<br>росло в долинах в XIX веке</dd></div>
+      <div><dt>83</dt><dd>записи каталога,<br>разобраны по сортам</dd></div>
+    </dl>
+    <p class="cvr__legend">
+      <span><b>●</b> факт подтверждён источниками проекта (sunvalley1888.ru, wines.json)</span>
+      <span><b>○</b> толкование или пробел: требует полевой проверки</span>
+    </p>
+    <p class="cvr__law"><b>18+</b><span>Чрезмерное употребление алкоголя вредит вашему здоровью</span></p>
+    <svg class="plate cvr__plate" viewBox="0 0 400 540" data-seed="1888" data-lobes="5" data-depth=".40" data-cluster="conic" data-wing="1" data-h="182" data-wtop="86" data-wbot="46" data-br="12.5" aria-label="Гербарный рисунок: лист и гроздь сорта Эким Кара — лист I атласа"></svg>
+    <p class="cvr__plate-cap">Лист I. Эким Кара — рисунок-реконструкция<span class="m m--o">○</span></p>
+    <a class="cvr__down" href="#registr">К указателю <i></i></a>
+  </div>
+</header>
+
+<!-- ================= УКАЗАТЕЛЬ ================= -->
+<div class="idx-wrap" id="registr">
+  <section class="idx paper">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--br"></span>
+    <div class="idx__top">
+      <span>Ботанический указатель</span>
+      <span>АО «Солнечная Долина» · Судак, с. Солнечная Долина</span>
+    </div>
+    <h2>Указатель листов</h2>
+    <div class="idx__lead">
+      <p class="idx__note">Порядок — не алфавитный, а винодельческий: сначала три красных автохтона Судакской зоны, из которых собран «Чёрный Доктор», затем белые и старые местные сорта долин. Цифра справа — число записей каталога (83 карточки, файл <b>wines.json</b>), в составе которых сорт назван.</p>
+      <div class="idx__key">
+        <p class="idx__key-ttl">Что на каждом листе</p>
+        <ol>
+          <li><b>Таблица</b> — рисунок листа и грозди в масштабе 5 см, с подписью о том, что это реконструкция<span class="m m--o">○</span></li>
+          <li><b>Где растёт</b> — схема трёх урочищ хозяйства с подсветкой ареала</li>
+          <li><b>Ампелография</b> — то, что известно по документам хозяйства: возраст лоз, доля в купаже, сбор. Полевые промеры лозы запрошены у агронома и войдут в следующую редакцию</li>
+          <li><b>В какие вина входит</b> — весь список из каталога, по разделам</li>
+          <li><b>Почему больше нигде</b> — история, экономика и география сорта</li>
+        </ol>
+      </div>
+    </div>
+    <div class="idx__cols">
+      <div class="idx__col">
+        <p class="idx__grp">I—III · Красные автохтоны</p>
+        <ul class="reg">
+          <li><a href="#l1"><span class="no">I</span><span class="nm">Эким Кара<i>Vitis vinifera cv. ‘Ekim Kara’</i></span><span class="ct">5 записей</span></a></li>
+          <li><a href="#l2"><span class="no">II</span><span class="nm">Джеват Кара<i>Vitis vinifera cv. ‘Dzhevat Kara’</i></span><span class="ct">9 записей</span></a></li>
+          <li><a href="#l3"><span class="no">III</span><span class="nm">Кефесия<i>Vitis vinifera cv. ‘Kefesiya’</i></span><span class="ct">19 записей</span></a></li>
+        </ul>
+        <aside class="idx__aside">
+          <p class="idx__aside-ttl">Три листа — один рецепт</p>
+          <p>Листы I—III читаются вместе: это состав «Чёрного Доктора» — <b>Эким Кара 75 %, Джеват Кара 10 %, Кефесия 15 %</b>, лозы старше 35 лет. Доли названы ровно в одном месте всего каталога<span class="m">●</span> — на витринной карточке вина их нет.<span class="wl__ed" hidden> Источник: техническая страница <i>/carte/solnechnaya-dolina-test</i>.</span></p>
+        </aside>
+      </div>
+      <div class="idx__col idx__col--w">
+        <p class="idx__grp">IV—VIII · Белые и старые местные</p>
+        <ul class="reg">
+          <li><a href="#l4"><span class="no">IV</span><span class="nm">Кокур белый<i>Vitis vinifera cv. ‘Kokur belyi’</i></span><span class="ct">26 записей</span></a></li>
+          <li><a href="#l5"><span class="no">V</span><span class="nm">Кок Пандас<i>Vitis vinifera cv. ‘Kok Pandas’</i></span><span class="ct">12 записей</span></a></li>
+          <li><a href="#l6"><span class="no">VI</span><span class="nm">Сары Пандас<i>Vitis vinifera cv. ‘Sary Pandas’</i></span><span class="ct">7 записей</span></a></li>
+          <li><a href="#l7"><span class="no">VII</span><span class="nm">Солнечнодолинский<i>Vitis vinifera cv. ‘Solnechnodolinskiy’</i></span><span class="ct">11 записей</span></a></li>
+          <li><a href="#l8"><span class="no">VIII</span><span class="nm">Капсельский белый<i>Vitis vinifera cv. ‘Kapselskiy belyi’</i></span><span class="ct">6 записей</span></a></li>
+        </ul>
+      </div>
+      <div class="idx__col idx__col--app">
+        <p class="idx__grp">IX—XI · Приложение: сорта, названные в каталоге считаные разы</p>
+        <ul class="reg reg--app">
+          <li><a href="#l9"><span class="no">IX</span><span class="nm">Солдайя<i>Vitis vinifera cv. ‘Soldaia’</i></span><span class="ct">1 запись</span></a></li>
+          <li><a href="#l10"><span class="no">X</span><span class="nm">Шабаш<i>Vitis vinifera cv. ‘Shabash’</i></span><span class="ct">1 запись</span></a></li>
+          <li><a href="#l11"><span class="no">XI</span><span class="nm">Токайские<i>группа сортов, не один сорт</i></span><span class="ct">5 записей</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="idx__foot">
+      <span>Рисунки — реконструкция по типу вида: ампелографических промеров в источниках проекта нет <b class="m m--o">○</b></span>
+      <span>Сверено с каталогом на 17.08.2026</span>
+    </div>
+  </section>
+</div>
+
+<!-- ================= ЛИСТЫ ================= -->
+<main class="sheets">
+
+  <!-- ЛИСТ I · ЭКИМ КАРА -->
+  <article class="sheet paper" id="l1" style="--berry:#3f1220">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--br"><i></i></span>
+    <span class="corner corner--tl"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1888" data-lobes="5" data-depth=".40" data-cluster="conic" data-wing="1" data-h="182" data-wtop="86" data-wbot="46" data-br="12.5" aria-label="Гербарный рисунок: лист и гроздь сорта Эким Кара"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. I.</b> Лист пятилопастный, гроздь коническая с крылом, ягода тёмная. Рисунок-реконструкция по типу вида<span class="m m--o" title="Ампелографического описания сорта в источниках проекта нет">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал по источникам:</b> земли АО «Солнечная Долина» — урочище Капсель, Козская (ныне Солнечная) и Токлукская (ныне Богатовка) долины<span class="m" title="/istoriya/molodost-vina">●</span>. Привязка отдельных участков к сорту — <b>нет данных</b><span class="m m--o">○</span>. Возраст лоз — свыше 35 лет<span class="m" title="/carte/solnechnaya-dolina-test">●</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/cherniy_doctor2017-500.avif" type="image/avif">
+            <source srcset="../assets/img/cherniy_doctor2017-500.webp" type="image/webp">
+            <img src="../assets/img/cherniy_doctor2017.jpg" alt="Чёрный Доктор Солнечной Долины" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Чёрный Доктор</b>Единственное вино России, где этот сорт — основа купажа. 75 % Эким Кара<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист I <span>красные автохтоны</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Ekim Kara’</p>
+          <h2 class="sheet__name">Эким<br>Кара</h2>
+          <p class="sheet__gloss">«чёрный лекарь» — тюрк. <i>эким</i> — лекарь, <i>кара</i> — чёрный<span class="m m--o" title="Толкование названия; на сайте перевод не приводится">○</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Аборигенный сорт юго-восточного Крыма. Сайт хозяйства называет виноград «Чёрного Доктора» прямо: «со старых лоз <b>автохтонных</b> сортов»<span class="m" title="/carte/chernyj-doktor-solnechnoj-doliny">●</span>. Более ранний след — в описании голицынской закладки виноградников: князь работал с «древним <b>генуэзским фондом аборигенных сортов</b> юго-восточного Крыма»<span class="m" title="/istoriya/knjaz-golicyn">●</span>. То есть лоза была здесь до промышленного виноделия, а не приехала с ним.</p>
+          <p>Даты интродукции, авторства и клоновой истории в источниках проекта нет<span class="m m--o">○</span>.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Возраст лоз</dt><dd>&gt; 35 лет<span class="m">●</span></dd></div>
+            <div><dt>Доля в купаже</dt><dd>75 %<span class="m">●</span></dd></div>
+            <div><dt>Сбор</dt><dd>ручной<span class="m">●</span></dd></div>
+            <div><dt>Цвет вина</dt><dd>гранатовый<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Чёрный Доктор Солнечной Долины</dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Чёрный Доктор <em>· урожай 2000</em></dd>
+              <dd>Чёрный Доктор <em>· урожай 2001</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Чёрный Доктор <em>· «Хеопс» 2013</em></dd>
+            </div>
+            <div class="wl__ed" hidden>
+              <dt>Служебные страницы</dt>
+              <dd><em>тестовая карточка /carte/solnechnaya-dolina-test — единственное место, где раскрыт процент купажа</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>5</b> записей каталога из 83 — и все пять об одном вине. Ни в одном другом вине хозяйства сорта нет.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">Вертикаль «Чёрного Доктора»</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Экономика сорта объясняет его редкость лучше ботаники. Эким Кара живёт только в одном вине, выпускается «ограниченным тиражом», собирается вручную и выдерживается в дубе не менее трёх лет<span class="m">●</span>. Лоза, которая ничего не даёт двадцать лет и потом отдаёт немного, не выживает нигде, кроме хозяйства, готового держать её как наследство.</p>
+          <p>Вторая причина — география. Судакская и Козская долины — узкая полоса между горами и морем; здесь малое количество осадков, каменистая солонцеватая почва с «оружейным камнем», высота 150—200 м и близость моря<span class="m" title="/istoriya/knjaz-golicyn">●</span>. Голицын выбирал это место по французской логике, но посадил в него местные лозы. Пересадите Эким Кара — получите другой виноград.</p>
+          <blockquote class="q">«Там, где рос шиповник, виноградник будет давать хорошие урожаи, а вино будет высокого качества».<cite>Л. С. Голицын, ок. 1890-х · /istoriya/knjaz-golicyn</cite></blockquote>
+        </section>
+
+        <div class="velum velum--ed" hidden><b>Пробел, который стоит закрыть.</b> Единственная страница сайта с составом купажа «Чёрного Доктора» — техническая тестовая карточка. Ампелографии сорта нет ни в одном источнике проекта. Полевое описание листа, ягоды и сроков — материал для собственного научного раздела и для защиты имени сорта.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ II · ДЖЕВАТ КАРА -->
+  <article class="sheet paper" id="l2" style="--berry:#45161f">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--br"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="2041" data-lobes="5" data-depth=".30" data-cluster="cyl" data-wing="0" data-h="196" data-wtop="72" data-wbot="56" data-br="11.4" aria-label="Гербарный рисунок: лист и гроздь сорта Джеват Кара"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. II.</b> Гроздь цилиндро-коническая, плотная; лопасти листа мелкие. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> те же три урочища хозяйства<span class="m">●</span>. Отдельного участка за сортом в источниках не закреплено<span class="m m--o">○</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/cherniy_polkovnik2019-500.avif" type="image/avif">
+            <source srcset="../assets/img/cherniy_polkovnik2019-500.webp" type="image/webp">
+            <img src="../assets/img/cherniy_polkovnik2019.jpg" alt="Чёрный Полковник" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Чёрный Полковник</b>Второе вино, где сорт работает — уже не солистом, а в ансамбле из пяти сортов<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист II <span>красные автохтоны</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Dzhevat Kara’</p>
+          <h2 class="sheet__name">Джеват<br>Кара</h2>
+          <p class="sheet__gloss">«чёрный Джеват» — <i>кара</i> — чёрный; первое слово — имя собственное<span class="m m--o">○</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Тот же аборигенный фонд юго-восточного Крыма, что и Эким Кара: оба сорта всегда упоминаются в источниках вместе и всегда — в купажах старых лоз<span class="m">●</span>. Хозяйство относит их к автохтонам без оговорок; отдельной справки о сорте на сайте нет<span class="m m--o">○</span>.</p>
+          <p>Косвенное свидетельство древности — практика переименования местных лоз, зафиксированная для Судакской зоны: «Например, Кафецила — Кефесия, Пандас — Кок Пандас и др.»<span class="m" title="/istoriya/carskij-vek">●</span> Имена этих лоз пришли из тюркской и генуэзской топонимики, а не из селекционных реестров.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Доля в «Чёрном Докторе»</dt><dd>10 %<span class="m">●</span></dd></div>
+            <div><dt>Роль в купажах</dt><dd>дополняющая</dd></div>
+            <div><dt>Возраст лоз</dt><dd>&gt; 35 лет<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>9<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Чёрный Доктор Солнечной Долины</dd>
+              <dd>Чёрный Полковник</dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Чёрный Доктор <em>· 2000, 2001</em></dd>
+              <dd>Чёрный Полковник <em>· 1996</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Чёрный Доктор <em>· «Хеопс» 2013</em></dd>
+              <dd>Чёрный Полковник <em>· 2019, «Хеопс» 2013</em></dd>
+            </div>
+            <div>
+              <dt>Чего нет</dt>
+              <dd><em>ни одного сухого вина: сорт остаётся только в ликерной, выдержанной части погреба</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>9</b> записей каталога — все в двух чёрных винах и их переизданиях.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">Вертикаль «Чёрного Доктора»</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Джеват Кара — сорт-подпись. Он не делает вино в одиночку и потому никогда не был интересен ни массовому виноградарству, ни питомникам: невозможно продать лозу, ценность которой проявляется в 10 % купажа после трёх лет в дубе. Хозяйство сохранило его ровно потому, что сохраняло рецепт, а не сорт.</p>
+          <p>Отсюда практический вывод для сайта: сорт нельзя показывать карточкой «сортового вина» — его нужно показывать долей, купажом и годами. Именно так устроен этот лист.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ III · КЕФЕСИЯ -->
+  <article class="sheet paper" id="l3" style="--berry:#4d1a23">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--bl"><i></i></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1493" data-lobes="5" data-depth=".46" data-cluster="branchy" data-wing="1" data-h="204" data-wtop="94" data-wbot="42" data-br="11.8" aria-label="Гербарный рисунок: лист и гроздь сорта Кефесия"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. III.</b> Гроздь ветвистая, рыхлая; лист глубоко рассечённый. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> все три урочища; единственный автохтон, встречающийся и в старых, и в новых посадках (лозы 30—35 лет в «Меганоме»)<span class="m">●</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/kefessia.avif" type="image/avif">
+            <source srcset="../assets/img/kefessia.webp" type="image/webp">
+            <img src="../assets/img/kefessia.jpg" alt="«Токлук» Саперави Кефесия" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Токлук · Саперави Кефесия</b>Единственный случай, когда автохтон вынесен на этикетку сухого вина<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист III <span>красные автохтоны</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Kefesiya’</p>
+          <h2 class="sheet__name">Кефесия</h2>
+          <p class="sheet__gloss">историческое имя — <i>Кафецила</i>; от Кафы, генуэзского имени Феодосии<span class="m m--o">○</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Единственный сорт этого атласа, чьё переименование зафиксировано письменно. Страница «Царский век» перечисляет старые имена судакских лоз: «Например, <b>Кафецила — Кефесия</b>, Пандас — Кок Пандас и др.»<span class="m" title="/istoriya/carskij-vek">●</span> Рядом — цифра, объясняющая масштаб утраты: в Судакской и Козской долинах росло <b>более 50 местных и завезённых сортов</b><span class="m">●</span>. До нас дошли единицы.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Историческое имя</dt><dd>Кафецила<span class="m">●</span></dd></div>
+            <div><dt>Доля в «Чёрном Докторе»</dt><dd>15 %<span class="m">●</span></dd></div>
+            <div><dt>Возраст лоз («Меганом»)</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Типы вин</dt><dd>сухие и ликерные</dd></div>
+            <div><dt>Записей каталога</dt><dd>19<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Меганом красное</dd>
+              <dd>Пти Вердо</dd>
+              <dd>Саперави</dd>
+              <dd>Токлук <em>· Саперави Кефесия</em></dd>
+            </div>
+            <div>
+              <dt>Сухие выдержанные</dt>
+              <dd>Меганом Reserve</dd>
+              <dd>Меганом Select</dd>
+              <dd>Пти Вердо Reserve</dd>
+            </div>
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Чёрный Доктор</dd>
+              <dd>Чёрный Полковник</dd>
+            </div>
+            <div>
+              <dt>Коллекция и сувенирные</dt>
+              <dd>Чёрный Доктор <em>· 2000, 2001, «Хеопс» 2013</em></dd>
+              <dd>Чёрный Полковник <em>· 1996, 2019, «Хеопс» 2013</em></dd>
+              <dd>Меганом красное <em>· магнум</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>19</b> записей — самый работающий автохтон хозяйства и единственный, который перешёл из ликерной традиции в современные сухие вина.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">Сравнительный сет «автохтон vs международный сорт»</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Кефесия — доказательство, что автохтон не обязан быть музейным. Она держит и трёхлетний дуб «Чёрного Доктора», и баррик французского дуба в «Меганоме Select», и сортовую пару с Саперави в «Токлуке». Такой сорт не сохраняют — им работают; поэтому он и уцелел, когда остальные из полусотни судакских лоз исчезли вместе с имениями.</p>
+          <p>За пределами хозяйства промышленных посадок Кефесии в источниках проекта не зафиксировано<span class="m m--o">○</span>: сорт остался внутри одного терруара — и внутри одной винодельческой школы.</p>
+          <div class="velum velum--ed" hidden><b>Редакционная проблема.</b> На сайте сорт пишется двояко — «Кефесия» и «Кефессия», иногда в карточках одной линейки. Для сорта, который претендует на имя терруара, единое написание — вопрос не орфографии, а бренда.</div>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ IV · КОКУР БЕЛЫЙ -->
+  <article class="sheet paper sheet--white" id="l4" style="--berry:#c8b063">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--br"><i></i></span>
+    <span class="corner corner--tl"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1804" data-lobes="5" data-depth=".26" data-cluster="conic" data-wing="1" data-h="210" data-wtop="92" data-wbot="44" data-br="12.2" aria-label="Гербарный рисунок: лист и гроздь сорта Кокур белый"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. IV.</b> Гроздь крупная коническая с крылом, ягода светлая. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--koz" viewBox="0 0 320 196" aria-label="Схема урочищ, выделена Козская долина"><use href="#urmap"/></svg>
+          <figcaption><b>Ядро — Козская (Солнечная) долина:</b> сайт называет Кокур «визитной карточкой Солнечной Долины»<span class="m" title="/carte/kokur">●</span>. Старые лозы — возраст более 35 лет<span class="m">●</span>. Точные кварталы — <b>нет данных</b><span class="m m--o">○</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/kokur2023-500.avif" type="image/avif">
+            <source srcset="../assets/img/kokur2023-500.webp" type="image/webp">
+            <img src="../assets/img/kokur2023.jpg" alt="Кокур Солнечной Долины" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Кокур Солнечной Долины</b>100 % сорта, лозы старше 35 лет<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист IV <span>белые и старые местные</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Kokur belyi’</p>
+          <h2 class="sheet__name">Кокур<br>белый</h2>
+          <p class="sheet__gloss">местный сорт, о котором хозяйство говорит прямо: «настоящее выражение терруара»<span class="m">●</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Единственный автохтон, которому сайт даёт собственную характеристику: «Кокур — местный сорт, который является визитной карточкой Солнечной Долины… Старые лозы… удивительно приспособлены к местным жарким и засушливым условиям»<span class="m" title="/carte/kokur">●</span>.</p>
+          <p>Приспособленность здесь — не метафора: климат долины полупустынный, воды мало, почва каменистая и солонцеватая. Европейские лозы, которые Голицын и училище завозили тысячами чубуков, такого режима не любили; Кокур в нём родился.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Засухоустойчивость</dt><dd>высокая<span class="m">●</span></dd></div>
+            <div><dt>Возраст лоз</dt><dd>&gt; 35 лет<span class="m">●</span></dd></div>
+            <div><dt>Сортовое вино</dt><dd>100 %<span class="m">●</span></dd></div>
+            <div><dt>Спирт / сахар</dt><dd>13 % · 4 г/дм³<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>26<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сортовое и сухие</dt>
+              <dd>Кокур Солнечной Долины <em>· 100 %</em></dd>
+              <dd>Солдайя</dd>
+              <dd>Меганом белое</dd>
+              <dd>Сухое белое Солнечной Долины</dd>
+            </div>
+            <div>
+              <dt>Игристые</dt>
+              <dd>Меганом Кокур <em>· брют</em></dd>
+              <dd>Меганом Blanc de Blancs</dd>
+            </div>
+            <div>
+              <dt>Ликерные</dt>
+              <dd>Портвейн Крымский Солнечной Долины</dd>
+              <dd>Порто Солнечной Долины белое</dd>
+              <dd>Солнечная Долина <em>· белое ликерное</em></dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Мадера Крымская <em>· 1993</em></dd>
+              <dd>Золотая Фортуна Архадерессе <em>· 1996</em></dd>
+              <dd>Портвейн Белый Крымский <em>· 1990, 1997</em></dd>
+              <dd>Солнечная Долина <em>· 1991</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>26</b> записей из 83 — почти треть каталога. Кокур присутствует в игристом, сухом, полусладком, ликерном и коллекционном вине одновременно: ни один международный сорт хозяйства так не работает.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">Кокур-фест, октябрь</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Кокур растёт и за пределами хозяйства — но «Кокур Солнечной Долины» не существует нигде, кроме этой долины, и разница здесь та же, что между сортом и апелласьоном. Сорт даёт имя, терруар даёт вино: старые лозы, жара, дефицит воды и морской ветер делают из обычного белого винограда основу и для брюта, и для тридцатилетнего портвейна.</p>
+          <p>Кокур — единственный сорт хозяйства, который можно попробовать в четырёх состояниях подряд: игристым брютом, сухим со старых лоз, белым портвейном многолетней выдержки и ликёрным вином, носящим имя долины. Одна лоза, четыре разных вина — вертикаль не по годам, а по замыслу винодела.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ V · КОК ПАНДАС -->
+  <article class="sheet paper sheet--white" id="l5" style="--berry:#a9b47e">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--br"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1783" data-lobes="3" data-depth=".22" data-cluster="cyl" data-wing="0" data-h="184" data-wtop="74" data-wbot="60" data-br="11" aria-label="Гербарный рисунок: лист и гроздь сорта Кок Пандас"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. V.</b> Лист трёхлопастный, гроздь плотная; ягода с сизым налётом. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> земли хозяйства; сорт встречается только в белых ликерных купажах<span class="m">●</span>. Участковой привязки нет<span class="m m--o">○</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/portvein2015-500.avif" type="image/avif">
+            <source srcset="../assets/img/portvein2015-500.webp" type="image/webp">
+            <img src="../assets/img/portvein2015.jpg" alt="Портвейн Крымский Солнечной Долины" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Портвейн Крымский</b>Белый, янтарно-золотистый; выдержка в больших бутах<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист V <span>белые и старые местные</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Kok Pandas’</p>
+          <h2 class="sheet__name">Кок<br>Пандас</h2>
+          <p class="sheet__gloss">тюрк. <i>кок</i> — синий, сизый; <i>пандас</i> — старое местное имя лозы<span class="m m--o">○</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Второй сорт, чьё переименование зафиксировано на сайте: «<b>Пандас — Кок Пандас</b>»<span class="m" title="/istoriya/carskij-vek">●</span>. То есть исходно лоза называлась просто «Пандас», а цветовое уточнение появилось позже — когда рядом оказался Сары Пандас (лист VI). Это классический признак местной, а не питомниковой номенклатуры: сорта различали глазом, а не реестром.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Историческое имя</dt><dd>Пандас<span class="m">●</span></dd></div>
+            <div><dt>Возраст лоз</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Роль</dt><dd>ассамбляжный</dd></div>
+            <div><dt>Сортовое вино</dt><dd class="nd">не выпускается</dd></div>
+            <div><dt>Записей каталога</dt><dd>12<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Солдайя</dd>
+            </div>
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Портвейн Крымский Солнечной Долины</dd>
+              <dd>Солнечная Долина <em>· белое ликерное</em></dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Портвейн Белый Крымский <em>· 1990, 1997</em></dd>
+              <dd>Золотая Фортуна Архадерессе <em>· 1996</em></dd>
+              <dd>Солнечная Долина <em>· 1991</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Портвейн Крымский <em>· 1991, «Хеопс» 1991</em></dd>
+              <dd>Солнечная Долина <em>· 2002, «Хеопс» 2002, бочонок</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>12</b> записей — и ни одного сортового вина. Кок Пандас существует только внутри купажей, но без него нет ни «Портвейна Крымского», ни белой «Солнечной Долины».</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Сорта, живущие только в ассамбляжах, исчезают первыми: их нельзя продать саженцем, они не дают узнаваемого сортового вина и не попадают в каталоги питомников. Кок Пандас уцелел как часть рецепта — вместе с Сары Пандасом, Солнечнодолинским и Капсельским он образует ту белую группу, на которой держится вино, носящее имя всего хозяйства.</p>
+          <p>Это же делает его уязвимым: пока не описана ампелография и не закреплены участки, сорт защищён только традицией цеха.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ VI · САРЫ ПАНДАС -->
+  <article class="sheet paper sheet--white" id="l6" style="--berry:#d3b869">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--bl"><i></i></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1825" data-lobes="3" data-depth=".24" data-cluster="conic" data-wing="0" data-h="176" data-wtop="80" data-wbot="46" data-br="12.8" aria-label="Гербарный рисунок: лист и гроздь сорта Сары Пандас"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. VI.</b> Ягода крупная, золотистая на солнечной стороне. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--koz" viewBox="0 0 320 196" aria-label="Схема урочищ, выделена Козская долина"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> земли хозяйства, ядро — Козская долина по составу вина, носящего её имя<span class="m">●</span>. Прямой привязки к участку нет<span class="m m--o">○</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/solnechnaya_dolina_marochnoe2004-500.avif" type="image/avif">
+            <source srcset="../assets/img/solnechnaya_dolina_marochnoe2004-500.webp" type="image/webp">
+            <img src="../assets/img/solnechnaya_dolina_marochnoe2004.jpg" alt="Солнечная Долина, белое ликерное выдержанное" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Солнечная Долина</b>Единственное вино с именем хозяйства. Награды: платина, 11 Гран-при (перечень — в паспорте вина)<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист VI <span>белые и старые местные</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Sary Pandas’</p>
+          <h2 class="sheet__name">Сары<br>Пандас</h2>
+          <p class="sheet__gloss">тюрк. <i>сары</i> — жёлтый: солнечный близнец сизого Кок Пандаса<span class="m m--o">○</span></p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Пара «Кок / Сары» — след того самого местного способа именовать лозы по цвету ягоды, который зафиксирован на странице «Царский век»<span class="m">●</span>. Оба Пандаса — из полусотни сортов Судакской и Козской долин, из которых до нашего каталога дошли единицы.</p>
+          <p>Первым в списке сортов вина «Солнечная Долина» стоит именно Сары Пандас<span class="m" title="/carte/solnechnaja-dolina-beloe-desertnoe">●</span> — по традиции карточек хозяйства это место главного сорта купажа.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Цвет ягоды</dt><dd>жёлтый<span class="m m--o">○</span></dd></div>
+            <div><dt>Возраст лоз</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Позиция в купаже</dt><dd>первая<span class="m">●</span></dd></div>
+            <div><dt>Цвет вина</dt><dd>янтарный<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>7<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Солдайя</dd>
+            </div>
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Солнечная Долина <em>· белое ликерное</em></dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Солнечная Долина <em>· 1991</em></dd>
+              <dd>Золотая Фортуна Архадерессе <em>· 1996</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Солнечная Долина <em>· 2002, «Хеопс» 2002, бочонок 1,4 л</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>7</b> записей — узкий, но самый титулованный след: все награды хозяйства, названные на сайте, принадлежат вину с этим сортом во главе купажа.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Сары Пандас держит вино, которое носит имя долины, и на этом его карьера заканчивается: сортового вина у него нет, в сухие линейки он почти не выходит, за пределами хозяйства промышленных посадок в источниках проекта не зафиксировано<span class="m m--o">○</span>. Сорт равен одному вину — а вино равно месту.</p>
+          <div class="velum velum--ed" hidden><b>Для витрины.</b> Строка о наградах — единственное место на всём сайте, где вообще названы награды. Награды принадлежат не бренду, а конкретному купажу старых белых лоз. Это стоит говорить именно так.</div>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ VII · СОЛНЕЧНОДОЛИНСКИЙ -->
+  <article class="sheet paper sheet--white" id="l7" style="--berry:#bfc188">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--tl"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1955" data-lobes="5" data-depth=".33" data-cluster="cyl" data-wing="1" data-h="192" data-wtop="78" data-wbot="58" data-br="10.6" aria-label="Гербарный рисунок: лист и гроздь сорта Солнечнодолинский"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. VII.</b> Гроздь средней плотности; ягода зеленовато-жёлтая. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--koz" viewBox="0 0 320 196" aria-label="Схема урочищ, выделена Козская долина"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> имя сорта — это адрес. Козская (ныне Солнечная) долина; за пределами хозяйства сорт в источниках не встречается<span class="m m--o">○</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/porto2026-500.avif" type="image/avif">
+            <source srcset="../assets/img/porto2026-500.webp" type="image/webp">
+            <img src="../assets/img/porto2026.jpg" alt="Порто Солнечной Долины" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Белая ликерная группа</b>Сорт работает в тех же винах, что Кок Пандас и Капсельский<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист VII <span>белые и старые местные</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Solnechnodolinskiy’</p>
+          <h2 class="sheet__name">Солнечно&shy;долинский</h2>
+          <p class="sheet__gloss">сорт, названный по долине, — и единственный, чьё имя нельзя перенести на другую землю</p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Имя привязано к советскому названию Козской долины — «Солнечная Долина». Значит, современное имя сорт получил не раньше XX века, хотя лоза может быть старше: сведений о том, местная это форма или результат селекции, в источниках проекта <b>нет</b><span class="m m--o">○</span>.</p>
+          <p>Косвенный довод в пользу местного происхождения — компания, в которой сорт всегда идёт: Кок Пандас, Сары Пандас, Капсельский белый, Кокур. Это группа старых белых лоз долины, а не набор завезённых сортов.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Происхождение</dt><dd class="nd">уточняем у агронома</dd></div>
+            <div><dt>Возраст лоз</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Роль</dt><dd>ассамбляжный</dd></div>
+            <div><dt>Типы вин</dt><dd>сухие и ликерные</dd></div>
+            <div><dt>Записей каталога</dt><dd>11<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Солдайя</dd>
+            </div>
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Портвейн Крымский Солнечной Долины</dd>
+              <dd>Солнечная Долина <em>· белое ликерное</em></dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Портвейн Белый Крымский <em>· 1990, 1997</em></dd>
+              <dd>Солнечная Долина <em>· 1991</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Портвейн Крымский <em>· 1991, «Хеопс» 1991</em></dd>
+              <dd>Солнечная Долина <em>· 2002, «Хеопс» 2002, бочонок</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>11</b> записей. Сорт с адресом вместо родословной.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Формально ответ тривиален: сорт называется по долине и растёт в долине. По существу — это редкий случай, когда сортовое имя работает как географическое указание задолго до того, как появилось само ЗГУ «Крым». Хозяйство одним из первых получило лицензию на вина с защищённым географическим указанием<span class="m">●</span>; сорт с таким именем — готовый аргумент этой лицензии.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ VIII · КАПСЕЛЬСКИЙ БЕЛЫЙ -->
+  <article class="sheet paper sheet--white" id="l8" style="--berry:#cdc48a">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--br"><i></i></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1878" data-lobes="5" data-depth=".36" data-cluster="branchy" data-wing="0" data-h="188" data-wtop="86" data-wbot="48" data-br="10.2" aria-label="Гербарный рисунок: лист и гроздь сорта Капсельский белый"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. VIII.</b> Гроздь рыхлая, ветвистая — форма, характерная для сухих каменистых склонов. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--kap map--all" viewBox="0 0 320 196" aria-label="Схема урочищ, выделено урочище Капсель"><use href="#urmap"/></svg>
+          <figcaption><b>Урочище Капсель</b> — та самая «безводная, безлюдная местность с необычным названием», на которую в 1878 году обратил внимание Голицын<span class="m" title="/istoriya/knjaz-golicyn">●</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/portvein2015-500.avif" type="image/avif">
+            <source srcset="../assets/img/portvein2015-500.webp" type="image/webp">
+            <img src="../assets/img/portvein2015.jpg" alt="Портвейн Крымский Солнечной Долины" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Портвейн Крымский</b>Сорт входит во все версии, включая выдержку более 30 лет<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист VIII <span>белые и старые местные</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Kapselskiy belyi’</p>
+          <h2 class="sheet__name">Капсельский<br>белый</h2>
+          <p class="sheet__gloss">по урочищу Капсель — месту, с которого началась вся эта винодельня</p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Единственный сорт атласа, имя которого совпадает с точкой на карте, названной в источниках дважды: как одно из трёх урочищ хозяйства<span class="m">●</span> и как место, где Голицын «эмпирическим путём определил, что именно здесь виноградарство и виноделие имеют достойную перспективу»<span class="m">●</span>.</p>
+          <p>Он же назвал факторы выбора: «обилие солнца, малое количество осадков, наличие в почве так называемого „оружейного камня“, экспозиция местности, близость моря, сумма активных температур»<span class="m">●</span>. Капсельский белый — лоза, выросшая ровно в этих условиях.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Урочище</dt><dd>Капсель<span class="m">●</span></dd></div>
+            <div><dt>Высота участков</dt><dd>150—200 м<span class="m">●</span></dd></div>
+            <div><dt>Роль</dt><dd>ассамбляжный</dd></div>
+            <div><dt>Записей каталога</dt><dd>6<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Солдайя</dd>
+            </div>
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Портвейн Крымский Солнечной Долины</dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Портвейн Белый Крымский <em>· 1990</em></dd>
+              <dd>Портвейн Белый Крымский <em>· 1997</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Портвейн Крымский <em>· 1991</em></dd>
+              <dd>Портвейн Крымский <em>· «Хеопс» 1991</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>6</b> записей — и все, кроме «Солдайи», об одном вине: белом крымском портвейне.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Урочище Капсель — почти пустыня: без воды, с каменистой солонцеватой почвой, открытая морю и солнцу. Такие земли столетиями не сажали ничем, кроме того, что уже там росло. Голицын первым заложил здесь промышленные виноградники — «с использованием имеющегося древнего генуэзского фонда аборигенных сортов»<span class="m">●</span>. Капсельский белый и есть часть этого фонда, оставшаяся на месте.</p>
+          <p>Перевезти сорт можно; перевезти «оружейный камень», сумму активных температур и морской бриз — нет.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <details class="app" id="app">
+    <summary>
+      <span class="app__no">IX—XI</span>
+      <span class="app__ttl">Приложение</span>
+      <span class="app__sub">Солдайя · Шабаш · Токайские — сорта, названные в каталоге считаные разы</span>
+      <span class="app__act">Раскрыть три листа</span>
+    </summary>
+    <div class="app__in">
+
+  <!-- ЛИСТ IX · СОЛДАЙЯ -->
+  <article class="sheet paper sheet--white" id="l9" style="--berry:#c6c48f">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--br"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1365" data-lobes="3" data-depth=".28" data-cluster="conic" data-wing="0" data-h="170" data-wtop="76" data-wbot="44" data-br="11.6" aria-label="Гербарный рисунок: лист и гроздь сорта Солдайя"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. IX.</b> Реконструкция по типу вида; сорт описан в источниках только именем<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> земли хозяйства. Имя — от <b>Солдайи</b>, генуэзского названия Судака, центра винной торговли на Великом Шёлковом пути<span class="m" title="/istoriya/molodost-vina">●</span>.</figcaption>
+        </figure>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист IX <span>приложение</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Soldaia’</p>
+          <h2 class="sheet__name">Солдайя</h2>
+          <p class="sheet__gloss">сорт и вино носят одно имя — генуэзское имя Судака</p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>В каталоге сорт встречается ровно один раз — в составе белого сухого вина «Солдайя», рядом с Сары Пандасом, Кок Пандасом, Солнечнодолинским, Капсельским белым и Кокуром<span class="m" title="/carte/soldaja">●</span>. Иначе говоря, это лист собрания старых белых лоз долины, где к пяти известным добавлен шестой — одноимённый.</p>
+          <p>Историческая рамка у имени сильная: «Судак (Сугдея) стал центром винной торговли. Уже в это время самым востребованным было вино из Судакской и Козской долин. По Великому Шёлковому пути эти вина шли в различные страны»<span class="m">●</span>.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Происхождение</dt><dd class="nd">уточняем у агронома</dd></div>
+            <div><dt>Возраст лоз</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>1<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Сухие</dt>
+              <dd>Солдайя <em>· ЗГУ «Крым», белое сухое</em></dd>
+            </div>
+            <div>
+              <dt>Больше нигде</dt>
+              <dd><em>единственное упоминание во всём каталоге из 83 карточек</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>1</b> запись. Самый редкий сорт этого атласа.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">«День лозы», апрель</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Один сорт, одно вино, одно имя, один город. Дальше начинается работа, которой пока нет: ни ампелографии, ни истории интродукции, ни данных о площади посадок. Для сорта, названного именем средневековой Солдайи, это не пробел, а прямая задача — и, вероятно, самая красивая история, которую хозяйство ещё не рассказало.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ X · ШАБАШ -->
+  <article class="sheet paper sheet--white" id="l10" style="--berry:#c9bd80">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span><span class="pin pin--bl"><i></i></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1993" data-lobes="5" data-depth=".2" data-cluster="cyl" data-wing="1" data-h="200" data-wtop="82" data-wbot="62" data-br="13.4" aria-label="Гербарный рисунок: лист и гроздь сорта Шабаш"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. X.</b> Крупная плотная гроздь. Реконструкция<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--all" viewBox="0 0 320 196" aria-label="Схема урочищ хозяйства"><use href="#urmap"/></svg>
+          <figcaption><b>Ареал:</b> земли хозяйства; в каталоге сорт связан только с вином урожая <b>1993</b> года<span class="m">●</span>. Есть ли действующие посадки — <b>нет данных</b><span class="m m--o">○</span>.</figcaption>
+        </figure>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист X <span>приложение</span></p>
+          <p class="sheet__lat">Vitis vinifera L. cv. ‘Shabash’</p>
+          <h2 class="sheet__name">Шабаш</h2>
+          <p class="sheet__gloss">старый крымский сорт, доживший до нас внутри одной бутылки</p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Во всём каталоге сорт назван единожды — в составе «Мадеры Крымской» урожая 1993 года: шабаш, кокур белый, ркацители<span class="m" title="/carte/likernoe-vino-beloe-madera-kryimskaya-1993">●</span>. Вина этого имени в текущем ассортименте нет; позиция существует только в разделе «Коллекция».</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Действующие посадки</dt><dd class="nd">уточняем у агронома</dd></div>
+            <div><dt>Год урожая</dt><dd>1993<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>1<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Мадера Крымская <em>· урожай 1993</em></dd>
+            </div>
+            <div>
+              <dt>Технология</dt>
+              <dd>метод <em>кантейро</em>: выдержка на солнце не менее 4 лет<span class="m">●</span></dd>
+              <dd>18,5 % · 40 г/дм³<span class="m">●</span></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>1</b> запись — и единственная мадера хозяйства. Сорт и технология исчезли из ассортимента вместе.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Этот лист — про потерю. Мадеру по методу кантейро в Крыму делали немногие; вино 1993 года держит и сорт, и технологию как единственное свидетельство. Пока бутылки есть в коллекции, у хозяйства есть право говорить об этой линии — и есть повод решить, возвращать её или оставить в архиве.</p>
+          <div class="velum velum--ed" hidden><b>Честно.</b> Мы не знаем, растёт ли Шабаш на участках сегодня. Ответ на этот вопрос — материал одной поездки агронома и одной строки в паспорте сорта.</div>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <!-- ЛИСТ XI · ТОКАЙСКИЕ -->
+  <article class="sheet paper sheet--white" id="l11" style="--berry:#d0b96f">
+    <span class="pin pin--tl"><i></i></span><span class="pin pin--tr"><i></i></span>
+    <span class="corner corner--tl"></span>
+    <div class="sheet__grid">
+      <div class="plate-col">
+        <figure class="plate-fig">
+          <div class="plate-box">
+            <svg class="plate" viewBox="0 0 400 540" data-seed="1830" data-lobes="5" data-depth=".31" data-cluster="branchy" data-wing="1" data-h="198" data-wtop="90" data-wbot="50" data-br="9.8" aria-label="Гербарный рисунок: лист и гроздь токайской группы сортов"></svg>
+            <div class="plate__scale"><span>5 см</span><b></b></div>
+          </div>
+          <figcaption><b>Табл. XI.</b> Собирательный рисунок группы, а не одного сорта<span class="m m--o">○</span></figcaption>
+        </figure>
+        <figure class="urm">
+          <p class="urm__ttl">Где растёт</p>
+          <svg class="map--koz" viewBox="0 0 320 196" aria-label="Схема урочищ, выделена Козская долина"><use href="#urmap"/></svg>
+          <figcaption><b>Козская долина:</b> «Знаменитые Токайские лозы были завезены по высочайшему повелению царя и <b>впервые посажены именно в Козской долине</b>»<span class="m" title="/istoriya/carskij-vek">●</span>.</figcaption>
+        </figure>
+        <div class="bot">
+          <div class="case"><picture>
+            <source srcset="../assets/img/solnechnaya_dolina_marochnoe2004-500.avif" type="image/avif">
+            <source srcset="../assets/img/solnechnaya_dolina_marochnoe2004-500.webp" type="image/webp">
+            <img src="../assets/img/solnechnaya_dolina_marochnoe2004.jpg" alt="Солнечная Долина, белое ликерное" loading="lazy" width="500" height="750">
+          </picture></div>
+          <p class="bot__cap"><b>Солнечная Долина</b>Токайские идут в купаже пятым из шести сортов<span class="m">●</span></p>
+        </div>
+      </div>
+
+      <div class="sheet__body">
+        <header class="sheet__head">
+          <p class="sheet__no">Лист XI <span>приложение</span></p>
+          <p class="sheet__lat">«Токайские» — группа сортов, не один сорт</p>
+          <h2 class="sheet__name">Токайские</h2>
+          <p class="sheet__gloss">не автохтон, а натурализовавшийся пришелец: двести лет на одном месте</p>
+        </header>
+
+        <section class="blk">
+          <h3>Происхождение</h3>
+          <p>Единственный лист атласа, где происхождение известно точно и не является местным. Лозы завезены в Крым по высочайшему повелению и впервые посажены в Козской долине<span class="m">●</span> — вероятно, в эпоху Судакского училища виноградарства (открыто в <b>1804</b> году, до <b>250 тысяч чубуков</b> заграничных лоз в год)<span class="m">●</span>.</p>
+          <p>Какие именно сорта скрыты за словом «токайские» — на сайте <b>нет данных</b><span class="m m--o">○</span>. В карточках хозяйства это единственная строка купажа, обозначенная группой, а не сортом.</p>
+        </section>
+
+        <details class="blk blk--fold" open>
+          <summary><h3>Ампелография</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="amp">
+            <div><dt>Состав группы</dt><dd class="nd">уточняем у агронома</dd></div>
+            <div class="amp__gap"><dt>Промеры лозы</dt><dd>лист, ягода, срок созревания, урожайность — <i>запрошены у агронома хозяйства</i></dd></div>
+            <div><dt>Год интродукции</dt><dd class="nd">уточняем у агронома</dd></div>
+            <div><dt>Место первой посадки</dt><dd>Козская долина<span class="m">●</span></dd></div>
+            <div><dt>Возраст лоз</dt><dd>30—35 лет<span class="m">●</span></dd></div>
+            <div><dt>Позиция в купаже</dt><dd>пятая из шести<span class="m">●</span></dd></div>
+            <div><dt>Записей каталога</dt><dd>5<span class="m">●</span></dd></div>
+          </dl>
+        </details>
+
+        <details class="blk blk--fold wines" open>
+          <summary><h3>В какие вина входит</h3><span class="fold__hint">развернуть</span></summary>
+          <dl class="wl">
+            <div>
+              <dt>Ликерные выдержанные</dt>
+              <dd>Солнечная Долина <em>· белое ликерное</em></dd>
+            </div>
+            <div>
+              <dt>Коллекция</dt>
+              <dd>Солнечная Долина <em>· урожай 1991</em></dd>
+            </div>
+            <div>
+              <dt>Сувенирные</dt>
+              <dd>Солнечная Долина <em>· 2002</em></dd>
+              <dd>Солнечная Долина <em>· «Хеопс» 2002</em></dd>
+              <dd>Солнечная Долина <em>· бочонок 1,4 л</em></dd>
+            </div>
+          </dl>
+          <p class="wines__sum"><b>5</b> записей — все в вине, носящем имя хозяйства.</p>
+          <p class="acts">
+            <a class="act act--cta" href="../master/visit.html"><b>Попробовать в дегустации «Архадерессе&nbsp;+&nbsp;автохтоны»</b><span class="act__meta">2 500 ₽ · 2 ч · ежедневно</span></a>
+            <a class="act" href="../master/visit.html">«Классика Архадерессе»</a>
+            <a class="act" href="../master/index.html#buy">Где купить</a>
+          </p>
+        </details>
+
+        <section class="blk blk--why">
+          <h3>Почему больше нигде</h3>
+          <p>Строго говоря, токайские лозы растут не только здесь. Но «токайские из Козской долины» — сорта, которые двести лет живут в полупустыне на каменистой почве в двух шагах от моря, — это уже не венгерский виноград. Атлас заканчивается ими намеренно: граница между автохтоном и пришельцем измеряется не паспортом лозы, а числом поколений, проведённых на одном склоне.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+    </div>
+  </details>
+
+</main>
+
+<!-- ================= КОЛОФОН ================= -->
+<footer class="colo">
+  <div class="colo__in">
+    <p class="kicker">Колофон</p>
+    <h2>Что здесь факт, а что — рисунок</h2>
+    <div class="colo__cols">
+      <div>
+        <h3>Источники</h3>
+        <ul>
+          <li>Каталог вин: 83 карточки, машиночитаемая выгрузка <b>wines.json</b>; списки вин на листах собраны по полю «сорта».</li>
+          <li>История и топонимика: разделы «Молодость вина», «Царский век», «Князь Голицын» сайта sunvalley1888.ru.</li>
+          <li>Проценты купажа «Чёрного Доктора» — техническая страница каталога, единственный источник.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Чего мы не придумывали</h3>
+        <ul>
+          <li>Полевых ампелографических промеров (лист, ягода, срок созревания, урожайность) в источниках проекта нет ни для одного сорта. Мы их не сочинили: на листах стоит строка «промеры запрошены у агронома хозяйства».</li>
+          <li>Рисунки — реконструкция по типу вида, а не ботанический документ. Это указано на каждом листе.</li>
+          <li>Переводы тюркских имён и привязка сортов к конкретным участкам помечены знаком ○ как требующие проверки.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Что нужно от хозяйства</h3>
+        <ul>
+          <li>Площади под каждым сортом (га) и возраст лоз по кварталам — сегодня в источниках только «30—35» и «свыше 35 лет».</li>
+          <li>Привязка сортов к урочищам: Токлукская, Козская, Капсель — какой сорт на каком склоне.</li>
+          <li>Ампелографические промеры: лист, ягода, срок созревания, урожайность. Одна поездка агронома закрывает одиннадцать строк этого атласа.</li>
+          <li>Ответ по Шабашу: сохранились ли посадки — или сорт остался только в вине 1993 года.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="colo__cite">
+      <p><b>Как цитировать.</b> АО «Солнечная Долина». Атлас автохтонов Судакской долины. Судак, 2026. Материал открыт для цитирования со ссылкой на хозяйство — это первоисточник по сортам, о которых больше писать некому.</p>
+      <p class="colo__acts">
+        <a class="act act--key" href="../master/visit.html">Спланировать визит</a>
+        <a class="act" href="../master/index.html#buy">Где купить</a>
+        <a class="act" href="../master/wines.html">Каталог вин</a>
+      </p>
+      <dl class="colo__contacts">
+        <div>
+          <dt>Приехать</dt>
+          <dd>Судак, с. Солнечная Долина<br>дегустационный зал — ежедневно 10:00—17:00</dd>
+        </div>
+        <div>
+          <dt>Позвонить</dt>
+          <dd><a class="tel" href="tel:+79789563322">+7 978 956-33-22</a><br>отдел продаж и приёма гостей</dd>
+        </div>
+        <div>
+          <dt>Прессе и байерам</dt>
+          <dd><a href="sommelier-kit.html">Кабинет сомелье</a> — техкарты, паспорта вин, фотографии в печать</dd>
+        </div>
+        <div>
+          <dt>Розница</dt>
+          <dd><a href="../master/index.html#buy">Где купить</a> — фирменные магазины и партнёры</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="colo__ed">
+      <button class="edsw" type="button" aria-pressed="false" aria-label="Показать кальку редактора — служебные заметки о пробелах в источниках">
+        <i aria-hidden="true"></i><span>Калька редактора</span>
+      </button>
+      <p class="edsw__hint">Служебный слой редакции: показывает заметки о пробелах в источниках. На страницу читателя не выносится.</p>
+    </div>
+    <div class="colo__law">
+      <span>АО «Солнечная Долина» · с 1888 года · Судак, с. Солнечная Долина</span>
+      <span>Информация 18+. Чрезмерное употребление алкоголя вредит вашему здоровью</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= РЕЙКА ================= -->
+<nav class="rail" aria-label="Листы атласа">
+  <span class="rail__cap">Листы</span>
+  <a href="#l1"><span>I</span><i></i></a>
+  <a href="#l2"><span>II</span><i></i></a>
+  <a href="#l3"><span>III</span><i></i></a>
+  <a href="#l4"><span>IV</span><i></i></a>
+  <a href="#l5"><span>V</span><i></i></a>
+  <a href="#l6"><span>VI</span><i></i></a>
+  <a href="#l7"><span>VII</span><i></i></a>
+  <a href="#l8"><span>VIII</span><i></i></a>
+  <a href="#l9"><span>IX</span><i></i></a>
+  <a href="#l10"><span>X</span><i></i></a>
+  <a href="#l11"><span>XI</span><i></i></a>
+  <span class="rail__law">18+ · алкоголь вредит здоровью</span>
+</nav>
+
+<!-- ================= COOKIE-ПОЛОСА (общий модуль сайта) ================= -->
+<div class="ckb off" id="ckb" role="region" aria-label="Использование cookie">
+  <p>Сайт использует cookie, чтобы запомнить подтверждение возраста и настройки просмотра. <a href="../master/index.html#partners">Политика обработки данных</a></p>
+  <button class="btn btn--ghost" id="ckbOk" type="button">Хорошо</button>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* --- детерминированный псевдослучай (mulberry32) --- */
+  function rng(seed){
+    var t = seed >>> 0;
+    return function(){
+      t += 0x6D2B79F5;
+      var r = Math.imul(t ^ (t >>> 15), 1 | t);
+      r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function P(n){ return Math.round(n*100)/100; }
+
+  /* --- цвет ягоды: из --berry листа строим блик, тело и тень --- */
+  function hex2rgb(h){
+    h = String(h||'').trim().replace(/^#/,'');
+    if(h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    var n = parseInt(h,16);
+    if(!isFinite(n)) return [74,21,36];
+    return [(n>>16)&255,(n>>8)&255,n&255];
+  }
+  function mixc(a,b,t){ return [Math.round(a[0]+(b[0]-a[0])*t),Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)]; }
+  function rgbs(c){ return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+  function lum(c){ return (c[0]*.299 + c[1]*.587 + c[2]*.114); }
+  function berryRamp(hex){
+    var c = hex2rgb(hex), L = lum(c), light = L > 140;
+    /* светлые (белые) сорта уходят в тёплую оливково-медовую тень, тёмные — в винно-чёрную */
+    var shade = light ? [104,84,32] : [26,12,15];
+    return {
+      hi:  rgbs(mixc(c, [255,252,240], light ? .58 : .68)),
+      mid: rgbs(c),
+      lo:  rgbs(mixc(c, shade, light ? .52 : .60)),
+      edge:rgbs(mixc(c, shade, light ? .74 : .82)),
+      light: light
+    };
+  }
+
+  /* --- контур листа Vitis ---------------------------------------------------
+     Лист винограда строится не «волной по кругу», а по ампелографической схеме:
+     пять (или три) лопастей с вершинами на заданных углах, между ними — узкие
+     глубокие вырезки (синусы), внизу — черешковая выемка. Профиль задан
+     контрольными точками [угол от вершины, доля радиуса] на половине [0,π]
+     и зеркально отражается: пластинка почти симметрична.
+     ------------------------------------------------------------------------ */
+  var KX = 1.08, KY = 0.97;
+
+  /* оси листа: углы вершин лопастей и углы вырезок между ними */
+  function leafAxes(lobes){
+    return (lobes >= 5)
+      ? { tips:[-2.08,-1.03,0,1.03,2.08], bounds:[-Math.PI,-1.56,-0.53,0.53,1.56,Math.PI] }
+      : { tips:[-1.44,0,1.44],            bounds:[-Math.PI,-0.76,0.76,Math.PI] };
+  }
+  /* профиль пластинки; depth — глубина вырезок (0.2 слабо рассечённый … 0.46 сильно) */
+  function leafCtl(lobes, depth){
+    var s1 = 1 - (0.15 + 0.88*depth),          /* верхняя вырезка */
+        s2 = 1 - (0.19 + 0.96*depth);          /* нижняя вырезка, всегда глубже */
+    if(s1 < 0.30) s1 = 0.30;
+    if(s2 < 0.26) s2 = 0.26;
+    return (lobes >= 5)
+      ? [[0,1.00],[0.53,s1],[1.03,0.965],[1.56,s2],[2.08,0.865],[2.60,0.585],[Math.PI,0.205]]
+      : [[0,1.00],[0.76,1-(0.13+0.82*depth)],[1.44,0.935],[2.34,0.645],[Math.PI,0.225]];
+  }
+  function leafR(t, R, lobes, depth, teeth){
+    var ctl = leafCtl(lobes, depth);
+    /* угол складываем в [0,π]: правая и левая половины пластинки одинаковы */
+    var a = t % (2*Math.PI); if(a < 0) a += 2*Math.PI;
+    if(a > Math.PI) a = 2*Math.PI - a;
+    var i = 0; while(i < ctl.length-2 && a > ctl[i+1][0]) i++;
+    var a0=ctl[i][0], r0=ctl[i][1], a1=ctl[i+1][0], r1=ctl[i+1][1];
+    var u = (a1 > a0) ? (a-a0)/(a1-a0) : 0;
+    if(u<0) u=0; if(u>1) u=1;
+    /* к вырезке пластинка держится широко и обрывается поздно, из вырезки —
+       поднимается сразу: так получается острый узкий синус и широкая лопасть */
+    var w = (r1 < r0) ? Math.pow(u, 2.05) : 1 - Math.pow(1-u, 2.05);
+    var r = R * (r0 + (r1-r0)*w);
+    if(teeth){
+      /* пильчатый край: треугольные зубцы, крупный/мелкий через один,
+         поверх — мелкая вторичная зубчатость; у черешковой выемки сходят на нет.
+         Амплитуда считается от R, а не от r, — зубец одного размера по всему краю */
+      var n  = (lobes >= 5) ? 27 : 31;
+      var q  = t/(2*Math.PI)*n,   fr  = q - Math.floor(q);
+      var q2 = q*3,               fr2 = q2 - Math.floor(q2);
+      var tri  = 1 - Math.abs(2*fr  - 1);
+      var tri2 = 1 - Math.abs(2*fr2 - 1);
+      /* каждый зубец чуть своего роста — иначе край читается как пила по линейке */
+      var ti = Math.floor(q), jt = Math.sin(ti*12.9898)*43758.5453;
+      jt -= Math.floor(jt);
+      var alt  = ((ti % 2) ? 1 : 0.58) * (0.76 + 0.46*jt);
+      var fade = Math.min(1, Math.abs(a - Math.PI)/0.60);
+      r += R * fade * (0.064*alt*Math.pow(tri,0.86) + 0.018*Math.pow(tri2,0.75));
+    }
+    return r;
+  }
+  function leafXY(cx, cy, t, r){
+    var a = t - Math.PI/2;
+    return [cx + Math.cos(a)*r*KX, cy + Math.sin(a)*r*KY];
+  }
+  function leafPath(cx, cy, R, lobes, depth, rand){
+    var pts = [], N = 780;
+    for(var i=0;i<N;i++){
+      var t = i/N*Math.PI*2;
+      var r = leafR(t, R, lobes, depth, true) * (1 + (rand()-0.5)*0.008);
+      var p = leafXY(cx, cy, t, r);
+      pts.push([P(p[0]),P(p[1])]);
+    }
+    var d = 'M' + pts[0][0] + ' ' + pts[0][1];
+    for(var k=1;k<pts.length;k++) d += 'L' + pts[k][0] + ' ' + pts[k][1];
+    return d + 'Z';
+  }
+  /* вершина лопасти — по той же функции, что и контур: жилка доходит до края */
+  function leafTip(cx, cy, R, lobes, depth, t){
+    return leafXY(cx, cy, t, leafR(t, R, lobes, depth, false)*0.93);
+  }
+  /* точка прикрепления черешка — дно черешковой выемки */
+  function leafBase(cx, cy, R, lobes, depth){
+    return leafXY(cx, cy, Math.PI, leafR(Math.PI, R, lobes, depth, false));
+  }
+  /* точка на квадратичной кривой — по ней сажаем вторичные жилки */
+  function qpt(p0, c, p1, f){
+    var m = 1-f;
+    return [m*m*p0[0] + 2*m*f*c[0] + f*f*p1[0], m*m*p0[1] + 2*m*f*c[1] + f*f*p1[1]];
+  }
+
+  /* --- силуэт грозди --- */
+  function clusterWidth(kind, u, wTop, wBot){
+    /* u: 0 сверху … 1 снизу. Общая огибающая: плечи чуть ниже верха,
+       низ сходит на конус — гроздь нигде не обрывается «кирпичом» */
+    var w;
+    if(kind === 'cyl')          w = (u < .60) ? wTop : wTop - (wTop-wBot)*Math.pow((u-.60)/.40, 1.3);
+    else if(kind === 'branchy') w = (wTop + (wBot-wTop)*u) * (0.80 + 0.28*Math.abs(Math.sin(u*Math.PI*2.4)));
+    else                        w = wTop + (wBot-wTop)*u;   /* conic */
+    if(u < 0.12) w *= 0.70 + 2.5*u;                          /* округлое плечо */
+    if(u > 0.78) w *= Math.pow(1 - (u-0.78)/0.24, 0.50);     /* конус к кончику */
+    return Math.max(w, 0);
+  }
+
+  function drawPlate(svg, idx){
+    var d = svg.dataset,
+        seed  = parseInt(d.seed,10)||1888,
+        lobes = parseInt(d.lobes,10)||5,
+        depth = parseFloat(d.depth)||.34,
+        kind  = d.cluster||'conic',
+        wing  = d.wing === '1',
+        H     = parseFloat(d.h)||190,
+        wTop  = parseFloat(d.wtop)||84,
+        wBot  = parseFloat(d.wbot)||48,
+        br    = parseFloat(d.br)||11.5;
+    var rand = rng(seed), ns='http://www.w3.org/2000/svg';
+    function el(n,attrs){ var e=document.createElementNS(ns,n); for(var k in attrs) e.setAttribute(k,attrs[k]); return e; }
+
+    /* ---- палитра ягоды берётся с самого листа (--berry), а не из общих defs ---- */
+    var hostBerry = getComputedStyle(svg).getPropertyValue('--berry');
+    var ramp = berryRamp(hostBerry);
+    var gid = 'bry-' + (idx==null?seed:idx);
+    var defs = el('defs',{});
+    var grad = el('radialGradient',{id:gid, cx:'33%', cy:'27%', r:'76%'});
+    grad.appendChild(el('stop',{offset:'0%',   'stop-color':ramp.hi}));
+    grad.appendChild(el('stop',{offset:'34%',  'stop-color':ramp.mid}));
+    grad.appendChild(el('stop',{offset:'100%', 'stop-color':ramp.lo}));
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    /* композиция листа варьируется: часть таблиц зеркальна, центры слегка смещены */
+    var mirror = (idx != null) && (idx % 3 === 1);
+    var frag = el('g', mirror ? {transform:'translate(400,0) scale(-1,1)'} : {});
+    /* подпись «5 см» — html, поэтому при зеркалении рисунок отражаем, а текст нет */
+
+    /* ---- побег ---- */
+    frag.appendChild(el('path',{class:'ln ln--stem', d:'M196 508 C196 452 186 404 178 356 C170 306 176 250 200 206'}));
+    /* черешок к листу */
+    frag.appendChild(el('path',{class:'ln', d:'M182 372 C158 350 132 330 116 300'}));
+    /* плодоножка к грозди */
+    frag.appendChild(el('path',{class:'ln', d:'M186 386 C214 372 244 352 262 330'}));
+    /* усик */
+    frag.appendChild(el('path',{class:'ln ln--thin', d:'M190 300 C214 290 236 300 240 318 C243 331 230 340 222 332 C214 324 224 312 232 318'}));
+    frag.appendChild(el('path',{class:'ln ln--thin', d:'M180 340 C160 336 148 348 152 360'}));
+
+    /* ---- лист ---- */
+    var LX = 110 + ((seed % 7) - 3) * 3.5,
+        LY = 228 + ((seed % 5) - 2) * 4.5,
+        LR = 96 + (seed % 4) * 3.5,
+        LA = ((seed % 11) - 5) * 1.4;              /* наклон таблицы, ±7° */
+    var leafG = el('g',{transform:'rotate('+P(LA)+' '+P(LX)+' '+P(LY)+')'});
+    var lp = leafPath(LX,LY,LR,lobes,depth,rand);
+    /* нижняя заливка-подмалёвок со сдвигом — эффект акварельной подкладки */
+    leafG.appendChild(el('path',{class:'leaf--wash', d:lp, transform:'translate(2.6 3.2)'}));
+    leafG.appendChild(el('path',{class:'ln leaf', d:lp}));
+    frag.appendChild(leafG);
+    /* ---- жилкование ----
+       Пять главных жилок расходятся веером от дна черешковой выемки к вершинам
+       лопастей; от каждой отходят вторичные, доведённые до самого края пластинки
+       (у настоящего листа они упираются в зубцы), и короткие третичные веточки. */
+    var ax = leafAxes(lobes);
+    var bp = leafBase(LX,LY,LR,lobes,depth);
+    var px = bp[0], py = bp[1];
+    ax.tips.forEach(function(tt){
+      var tip = leafTip(LX,LY,LR,lobes,depth,tt);
+      var mid = [(px+tip[0])/2, (py+tip[1])/2];
+      var vx = tip[0]-px, vy = tip[1]-py, vl = Math.hypot(vx,vy) || 1;
+      /* главная жилка слегка выгнута наружу от оси листа */
+      var bow = (tt === 0 ? 0 : (tt > 0 ? 1 : -1)) * vl*0.055;
+      var c = [mid[0] - vy/vl*bow + (rand()-0.5)*2.4, mid[1] + vx/vl*bow + (rand()-0.5)*2.4];
+      leafG.appendChild(el('path',{class:'ln ln--vein',
+        d:'M'+P(px)+' '+P(py)+' Q'+P(c[0])+' '+P(c[1])+' '+P(tip[0])+' '+P(tip[1])}));
+
+      /* границы этой лопасти — соседние вырезки слева и справа */
+      var bi = 0; while(bi < ax.bounds.length-2 && tt > ax.bounds[bi+1]) bi++;
+      [[ax.bounds[bi],-1],[ax.bounds[bi+1],1]].forEach(function(side){
+        var bAng = side[0], sgn = side[1];
+        [0.24,0.43,0.62,0.80].forEach(function(f){
+          var B = qpt([px,py], c, tip, f);
+          /* чем ниже точка ветвления, тем дальше по краю уходит жилка */
+          var tEnd = tt + (bAng - tt)*(0.88 - 0.50*f);
+          var E = leafXY(LX,LY,tEnd, leafR(tEnd,LR,lobes,depth,false)*0.92);
+          var ex = E[0]-B[0], ey = E[1]-B[1], el2 = Math.hypot(ex,ey) || 1;
+          var cc = [(B[0]+E[0])/2 + ey/el2*el2*0.13*sgn,
+                    (B[1]+E[1])/2 - ex/el2*el2*0.13*sgn];
+          leafG.appendChild(el('path',{class:'ln ln--hair',
+            d:'M'+P(B[0])+' '+P(B[1])+' Q'+P(cc[0])+' '+P(cc[1])+' '+P(E[0])+' '+P(E[1])}));
+          /* третичная веточка — от середины вторичной, короткая, к краю */
+          if(f < 0.7){
+            var M = qpt(B, cc, E, 0.55);
+            var T = leafXY(LX,LY, tEnd + (tt-tEnd)*0.30, leafR(tEnd + (tt-tEnd)*0.30,LR,lobes,depth,false)*0.90);
+            var Tx = M[0] + (T[0]-M[0])*0.55, Ty = M[1] + (T[1]-M[1])*0.55;
+            leafG.appendChild(el('path',{class:'ln ln--web',
+              d:'M'+P(M[0])+' '+P(M[1])+' L'+P(Tx)+' '+P(Ty)}));
+          }
+        });
+      });
+    });
+    /* черешок — от повёрнутой точки прикрепления к побегу */
+    var lrad = LA*Math.PI/180,
+        ppx = LX + (px-LX)*Math.cos(lrad) - (py-LY)*Math.sin(lrad),
+        ppy = LY + (px-LX)*Math.sin(lrad) + (py-LY)*Math.cos(lrad);
+    frag.appendChild(el('path',{class:'ln', d:'M'+P(ppx)+' '+P(ppy)+' C'+P(ppx+14)+' '+P(ppy+22)+' '+P(ppx+42)+' '+P(ppy+38)+' 116 300'}));
+
+    /* ---- гроздь ---- */
+    var CX=286, CY=336, rows=[], y=0, step=br*1.16;
+    while(y < H){
+      var u = y/H;
+      rows.push({y:y, w:clusterWidth(kind,u,wTop,wBot)});
+      y += step*(0.86 + rand()*0.26);
+    }
+    var back=[], mid=[], front=[];
+    rows.forEach(function(row, ri){
+      var half = row.w/2;
+      var n = Math.max(1, Math.round(row.w/(br*0.90)));
+      var stag = (ri % 2) ? (n>1 ? 1/(n-1)*0.5 : 0) : 0;   /* шахматная укладка рядов */
+      for(var i=0;i<n;i++){
+        var fx = (n===1) ? 0 : ((i/(n-1)) + stag - 0.5)*2;
+        if(fx > 1.02) fx = 1.02;
+        var bow = Math.sqrt(Math.max(0, 1 - Math.min(1, fx*fx)));  /* 1 — по оси грозди, 0 — по краю */
+        var x  = CX + fx*half + (rand()-0.5)*br*0.5;
+        var yy = CY + row.y - (1-bow)*br*0.62 + (rand()-0.5)*br*0.46;
+        var r  = br*(0.76 + rand()*0.28) * (0.80 + 0.22*bow) * (1 - row.y/H*0.13);
+        (bow < 0.46 ? back : (bow < 0.80 ? mid : front)).push([x,yy,r,bow]);
+      }
+    });
+    if(wing){
+      var wx = CX - wTop*0.62, wy = CY + 14;
+      frag.appendChild(el('path',{class:'ln ln--thin', d:'M'+P(CX-6)+' '+P(CY+4)+' C'+P(CX-24)+' '+P(CY+2)+' '+P(wx+10)+' '+P(wy-6)+' '+P(wx)+' '+P(wy+4)}));
+      for(var w=0;w<11;w++){
+        var a2 = rand()*Math.PI*2, rr = rand()*br*2.0;
+        back.push([wx + Math.cos(a2)*rr, wy + 14 + Math.sin(a2)*rr*1.5, br*(0.62+rand()*0.24), 0.3]);
+      }
+    }
+    /* гроздь — в отдельной группе, чтобы вписать её в поле таблицы */
+    var clG = el('g',{});
+    /* гребень */
+    clG.appendChild(el('path',{class:'ln ln--hair', d:'M'+P(CX)+' '+P(CY)+' C'+P(CX+8)+' '+P(CY+H*0.34)+' '+P(CX-8)+' '+P(CY+H*0.68)+' '+P(CX+2)+' '+P(CY+H*0.94)}));
+
+    var fillUrl = 'url(#'+gid+')';
+    function layer(list, op, spec){
+      list.sort(function(a,b){ return a[1]-b[1]; });
+      list.forEach(function(b){
+        clG.appendChild(el('circle',{class:'berry', cx:P(b[0]), cy:P(b[1]), r:P(b[2]),
+          fill:fillUrl, stroke:ramp.edge, 'stroke-opacity': ramp.light ? .5 : .42, opacity:op}));
+        if(spec){
+          clG.appendChild(el('ellipse',{
+            cx:P(b[0]-b[2]*0.30), cy:P(b[1]-b[2]*0.36), rx:P(b[2]*0.24), ry:P(b[2]*0.13),
+            fill:'#fffaf0', opacity: ramp.light ? '.40' : '.27', stroke:'none',
+            transform:'rotate(-26 '+P(b[0]-b[2]*0.30)+' '+P(b[1]-b[2]*0.36)+')'}));
+        }
+      });
+    }
+    layer(back,  ramp.light ? '.58' : '.55', false);
+    layer(mid,   ramp.light ? '.84' : '.82', false);
+    layer(front, '1', true);
+
+    /* подгонка: гроздь не должна выходить за поле таблицы (низ 508, право 392) */
+    var maxY = 0, maxX = 0;
+    [back,mid,front].forEach(function(L){ L.forEach(function(b){
+      if(b[1]+b[2] > maxY) maxY = b[1]+b[2];
+      if(b[0]+b[2] > maxX) maxX = b[0]+b[2];
+    }); });
+    var k = Math.min(1, (508 - CY) / Math.max(1, maxY - CY), (392 - CX) / Math.max(1, maxX - CX));
+    if(k < 0.999) clG.setAttribute('transform','translate('+P(CX)+' '+P(CY)+') scale('+P(k)+') translate('+P(-CX)+' '+P(-CY)+')');
+    frag.appendChild(clG);
+
+    /* ---- фиг. 2: отдельная ягода на плодоножке, ×2 ----
+       у зеркальных таблиц гроздь уходит влево, поэтому деталь переезжает вправо */
+    var DX = mirror ? 308 : 92, DY = 452, BW = br*1.62, BH = br*1.84;
+    var det = el('g',{});
+    /* плодоножка с подушечкой */
+    det.appendChild(el('path',{class:'ln ln--thin',
+      d:'M'+P(DX)+' '+P(DY-BH)+' c'+P(-2)+' '+P(-br*0.5)+' '+P(3)+' '+P(-br*0.9)+' '+P(0.5)+' '+P(-br*1.5)}));
+    det.appendChild(el('ellipse',{class:'ln ln--hair', cx:P(DX), cy:P(DY-BH*0.98), rx:P(br*0.30), ry:P(br*0.16)}));
+    /* тело ягоды */
+    det.appendChild(el('ellipse',{cx:P(DX), cy:P(DY), rx:P(BW), ry:P(BH),
+      fill:fillUrl, stroke:ramp.edge, 'stroke-opacity': ramp.light ? .55 : .48, 'stroke-width':.7,
+      'vector-effect':'non-scaling-stroke'}));
+    /* пруин — восковой налёт, короткая штриховка по верхней дуге */
+    for(var pN=0; pN<7; pN++){
+      var pa = -2.25 + pN*0.20;
+      det.appendChild(el('path',{class:'ln ln--hair', 'stroke-opacity':'.30', stroke:'#fffaf0',
+        d:'M'+P(DX+Math.cos(pa)*BW*0.72)+' '+P(DY+Math.sin(pa)*BH*0.72)+
+          ' L'+P(DX+Math.cos(pa)*BW*0.90)+' '+P(DY+Math.sin(pa)*BH*0.90)}));
+    }
+    /* блик */
+    det.appendChild(el('ellipse',{cx:P(DX-BW*0.30), cy:P(DY-BH*0.38), rx:P(BW*0.21), ry:P(BH*0.11),
+      fill:'#fffaf0', opacity: ramp.light ? '.42' : '.30', stroke:'none',
+      transform:'rotate(-26 '+P(DX-BW*0.30)+' '+P(DY-BH*0.38)+')'}));
+    /* мерная скоба слева от ягоды */
+    det.appendChild(el('path',{class:'ln ln--hair', 'stroke-opacity':'.45',
+      d:'M'+P(DX-BW-11)+' '+P(DY-BH)+' l-4 0 m0 0 l0 '+P(BH*2)+' m0 0 l4 0'}));
+    svg.appendChild(frag);
+    /* деталь не зеркалим: она всегда читается «как напечатано» */
+    svg.appendChild(det);
+    return mirror;
+  }
+
+  var plates = document.querySelectorAll('.plate');
+  for(var i=0;i<plates.length;i++){
+    var mir = false;
+    try{ mir = drawPlate(plates[i], i); }catch(e){}
+    var box = plates[i].parentNode;
+    if(mir && box) box.classList.add('is-mir');
+    if(box && box.classList.contains('plate-box') && !box.querySelector('.plate__fig2')){
+      var f2 = document.createElement('span');
+      f2.className = 'plate__fig2';
+      f2.innerHTML = '<b>Деталь.</b> Отдельная ягода на плодоножке, ×2';
+      box.appendChild(f2);
+    }
+  }
+
+  /* --- этикетка гербария: собирается из того, что уже есть на листе --- */
+  var LOCUS = {
+    'map--all':'Токлукская · Козская · Капсель',
+    'map--koz':'Козская (Солнечная) долина',
+    'map--kap':'урочище Капсель'
+  };
+  document.querySelectorAll('.sheet').forEach(function(sheet){
+    var col = sheet.querySelector('.plate-col');
+    if(!col || col.querySelector('.herbtag')) return;
+    var noEl  = sheet.querySelector('.sheet__no'),
+        nmEl  = sheet.querySelector('.sheet__name'),
+        latEl = sheet.querySelector('.sheet__lat'),
+        mapEl = sheet.querySelector('.urm svg');
+    if(!noEl || !nmEl) return;
+
+    var no = (noEl.childNodes[0] ? noEl.childNodes[0].textContent : '').trim();
+    var rubric = (noEl.querySelector('span') ? noEl.querySelector('span').textContent : '').trim();
+    var nmClone = nmEl.cloneNode(true);
+    nmClone.querySelectorAll('br').forEach(function(b){ b.replaceWith(document.createTextNode(' ')); });
+    var nm = nmClone.textContent.replace(/­/g,'').replace(/\s+/g,' ').trim();
+    var lat = latEl ? latEl.textContent.trim() : '';
+    var locus = 'земли хозяйства';
+    if(mapEl){
+      for(var key in LOCUS) if(mapEl.classList.contains(key)) locus = LOCUS[key];
+    }
+    var sumEl = sheet.querySelector('.wines__sum b');
+    var n = sumEl ? parseInt(sumEl.textContent, 10) : NaN;
+    var recs = '';
+    if(isFinite(n)){
+      var last = n % 10, tens = n % 100;
+      recs = n + ' ' + ((last === 1 && tens !== 11) ? 'запись' :
+             (last >= 2 && last <= 4 && (tens < 12 || tens > 14)) ? 'записи' : 'записей') + ' из 83';
+    }
+
+    var tag = document.createElement('div');
+    tag.className = 'herbtag';
+    tag.setAttribute('aria-hidden','true');
+    tag.innerHTML =
+      '<div class="herbtag__hd"><span>Herbarium Vallis Solaris</span><span>' + no + '</span></div>' +
+      '<p class="herbtag__nm">' + nm + '</p>' +
+      '<p class="herbtag__lat">' + lat + '</p>' +
+      '<dl>' +
+        '<dt>Locus</dt><dd>' + locus + ', Судак, Крым</dd>' +
+        '<dt>Determ.</dt><dd>по каталогу хозяйства' + (recs ? ' — ' + recs : '') + '</dd>' +
+        '<dt>Icon.</dt><dd>реконструкция по типу вида, не промер</dd>' +
+      '</dl>' +
+      '<div class="herbtag__foot"><span>' + (rubric || 'автохтон') + '</span><span>MMXXVI</span></div>';
+    col.appendChild(tag);
+  });
+
+  /* --- названия вин в списках → ссылки на карточки каталога ---------------
+     Таблица соответствий ведётся вручную: имена на листах даны в редакционном
+     написании («Чёрный» через ё), адреса — в схеме нового сайта /vina/. --- */
+  var WINE = [
+    ['Чёрный Доктор Солнечной Долины','chernyj-doktor'],
+    ['Чёрный Доктор','chernyj-doktor'],
+    ['Чёрный Полковник','chernyj-polkovnik'],
+    ['Меганом Blanc de Blancs','meganom-blanc-de-blancs'],
+    ['Меганом красное','meganom-krasnoe'],
+    ['Меганом белое','meganom-beloe'],
+    ['Меганом Reserve','meganom-reserve'],
+    ['Меганом Select','meganom-select'],
+    ['Меганом Кокур','meganom-kokur'],
+    ['Пти Вердо Reserve','pti-verdo-reserve'],
+    ['Пти Вердо','pti-verdo'],
+    ['Токлук','tokluk-saperavi-kefesiya'],
+    ['Саперави','saperavi'],
+    ['Кокур Солнечной Долины','kokur'],
+    ['Сухое белое Солнечной Долины','suhoe-beloe'],
+    ['Портвейн Крымский Солнечной Долины','portvejn-krymskij'],
+    ['Портвейн Белый Крымский','portvejn-belyj-krymskij'],
+    ['Портвейн Крымский','portvejn-krymskij'],
+    ['Порто Солнечной Долины белое','porto-beloe'],
+    ['Золотая Фортуна Архадерессе','zolotaya-fortuna-arhaderesse'],
+    ['Мадера Крымская','madera-krymskaya'],
+    ['Солнечная Долина','solnechnaya-dolina-beloe'],
+    ['Солдайя','soldaja']
+  ];
+  document.querySelectorAll('.wl dd').forEach(function(dd){
+    if(dd.querySelector('a')) return;
+    var head = dd.firstChild;
+    if(!head || head.nodeType !== 3) return;            /* строка-примечание — не ссылка */
+    var raw = head.textContent, name = raw.replace(/\s+$/,'');
+    var hit = null;
+    for(var i=0;i<WINE.length;i++){ if(name === WINE[i][0]){ hit = WINE[i]; break; } }
+    if(!hit) return;
+    var a = document.createElement('a');
+    a.href = '/vina/' + hit[1];
+    a.textContent = name;
+    dd.replaceChild(a, head);
+    if(raw.length > name.length) a.after(document.createTextNode(raw.slice(name.length)));
+  });
+
+  /* --- калька редактора: служебные заметки об источниках, по умолчанию скрыты --- */
+  var edsw = document.querySelector('.edsw');
+  if(edsw){
+    var edEls = document.querySelectorAll('.velum--ed, .wl__ed');
+    edsw.addEventListener('click', function(){
+      var on = edsw.getAttribute('aria-pressed') !== 'true';
+      edsw.setAttribute('aria-pressed', on ? 'true' : 'false');
+      edEls.forEach(function(e){ e.hidden = !on; });
+    });
+  }
+
+  /* --- служебная пилюля кальки — только по ?debug --- */
+  if(/[?&]debug\b/.test(location.search)) document.body.classList.add('is-debug');
+
+  /* --- мобильный аккордеон: на узком экране длинные блоки листа свёрнуты --- */
+  var folds = document.querySelectorAll('.blk--fold');
+  function syncFolds(){
+    var narrow = window.matchMedia('(max-width:820px)').matches;
+    folds.forEach(function(d){ if(narrow){ if(!d.dataset.touched) d.open = false; } else d.open = true; });
+  }
+  folds.forEach(function(d){ d.addEventListener('toggle', function(){ d.dataset.touched = '1'; }); });
+  syncFolds();
+  window.addEventListener('resize', function(){ folds.forEach(function(d){ delete d.dataset.touched; }); syncFolds(); });
+
+  /* --- приложение IX—XI: раскрывается при переходе по якорю или из рейки --- */
+  var app = document.getElementById('app');
+  if(app){
+    var openApp = function(h){ if(h && app.querySelector(h)) app.open = true; };
+    openApp(location.hash);
+    document.querySelectorAll('a[href^="#l"]').forEach(function(a){
+      a.addEventListener('click', function(){ openApp(a.getAttribute('href')); });
+    });
+    window.addEventListener('hashchange', function(){ openApp(location.hash); });
+  }
+
+  /* --- cookie-полоса --- */
+  var ckb = document.getElementById('ckb'), ckbOk = document.getElementById('ckbOk');
+  if(ckb && ckbOk){
+    var seen = false;
+    try { seen = localStorage.getItem('sd-ckb') === '1'; } catch(e){}
+    if(!seen) ckb.classList.remove('off');
+    ckbOk.addEventListener('click', function(){
+      ckb.classList.add('off');
+      try { localStorage.setItem('sd-ckb','1'); } catch(e){}
+    });
+  }
+
+  /* --- рейка: активный лист --- */
+  var links = {}, rail = document.querySelectorAll('.rail a');
+  for(var j=0;j<rail.length;j++) links[rail[j].getAttribute('href').slice(1)] = rail[j];
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var a = links[en.target.id];
+        if(!a) return;
+        if(en.isIntersecting){
+          for(var k in links) links[k].classList.remove('on');
+          a.classList.add('on');
+        }
+      });
+    }, {rootMargin:'-45% 0px -45% 0px'});
+    document.querySelectorAll('.sheet').forEach(function(s){ io.observe(s); });
+  }
+})();
+
+/* ---------- возрастной гейт: кнопка «Да» не была подключена ---------- */
+(function(){
+  var gate = document.getElementById('gate');
+  if(!gate) return;
+  var KEY = 'sv-age-ok', passed = false;
+  try { passed = (function(){var K=['sv_age_ok','sv-age','sv_age','sv-age-ok'];for(var i=0;i<K.length;i++){try{if(localStorage.getItem(K[i])==='1'||sessionStorage.getItem(K[i])==='1')return true;}catch(e){}}return false;})(); } catch(e){}
+  if(passed){ gate.classList.add('off'); gate.setAttribute('aria-hidden','true'); return; }
+  document.body.style.overflow = 'hidden';
+  var yes = document.getElementById('gateYes');
+  if(yes) yes.addEventListener('click', function(){
+    gate.classList.add('off');
+    gate.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    try { (function(){var K=['sv_age_ok','sv-age','sv_age','sv-age-ok'];for(var i=0;i<K.length;i++){try{localStorage.setItem(K[i],'1');sessionStorage.setItem(K[i],'1');}catch(e){}}})(); } catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

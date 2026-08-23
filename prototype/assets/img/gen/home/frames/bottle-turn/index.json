@@ -1,0 +1,12 @@
+{
+ "name": "bottle-turn",
+ "count": 96,
+ "width": 1600,
+ "height": 900,
+ "duration": 10,
+ "pattern": "f-{i}.webp",
+ "pad": 3,
+ "quality": 82,
+ "bytes": 1564950,
+ "mb": 1.49
+}

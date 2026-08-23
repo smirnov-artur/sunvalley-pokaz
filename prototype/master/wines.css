@@ -1,0 +1,242 @@
+body{font-feature-settings:"lnum" 1}
+/* ВИННАЯ КАРТА ДОМА — каталог мастер-концепта «Одна долина».
+   master.css подключён первым и не тронут; здесь только слой каталога.
+   Дисциплина: радиус 0, ни одной тени, золото — один смысловой акцент на экран,
+   бордо/гранат/терракота/янтарь живут ТОЛЬКО как свет под бутылкой. */
+
+.wns{
+  --fg:#fbf7f0; --fg-dim:rgba(251,247,240,.62);
+  --hair:rgba(185,155,99,.35);
+  --hh:74px;
+  background:var(--ink); color:var(--fg);
+  -webkit-text-size-adjust:100%; text-size-adjust:100%;
+}
+.wns main{position:relative;z-index:1}
+.wns h2{color:var(--fg)}
+.wns ::selection{background:var(--gold);color:var(--ink)}
+
+/* ─── шапка: холст держит её сам — чернила по умолчанию, камень над винной картой.
+       Подложка непрозрачна на всю высоту строки меню и растворяется ниже неё,
+       чтобы ни одна строка регистра не просвечивала сквозь навигацию. ─── */
+.wns .hdr{
+  --hdr-bg:22,18,16;
+  padding-top:17px;padding-bottom:17px;
+  background:rgb(var(--hdr-bg));
+  backdrop-filter:none; color:var(--stone);
+  transition:background .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);
+}
+/* растворяющийся хвост подложки — контент не просвечивает сквозь меню */
+.wns .hdr::after{content:'';position:absolute;left:0;right:0;top:100%;height:34px;pointer-events:none;
+  background:linear-gradient(rgb(var(--hdr-bg)),rgba(var(--hdr-bg),0))}
+.wns .hdr__logo{filter:none}
+.wns .hdr__nav a{color:rgba(251,247,240,.66)}
+.wns .hdr__nav a:hover,.wns .hdr__nav a[aria-current]{color:var(--stone);border-color:var(--gold)}
+.wns .hdr__tel{color:rgba(251,247,240,.92)}
+.wns .hdr.is-light{--hdr-bg:251,247,240;color:var(--ink)}
+.wns .hdr.is-light .hdr__nav a{color:rgba(22,18,16,.58)}
+.wns .hdr.is-light .hdr__nav a:hover,.wns .hdr.is-light .hdr__nav a[aria-current]{color:var(--ink)}
+.wns .hdr.is-light .hdr__tel{color:var(--ink)}
+.wns .hdr.is-light .btn--ghost{color:#8a6d3b;border-color:#b99b63}
+.wns .hdr.is-light .btn--ghost:hover{color:var(--ink)}
+
+/* ─── маски появления (снизу, без fade-in «в лоб») ─── */
+.ln{display:block;overflow:hidden}
+.ln>i{display:block;font-style:normal}
+.msk{overflow:hidden}
+.msk>i{display:block;font-style:normal}
+.hero__sub,.ch__leg{overflow:hidden}
+.hero__sub>i,.ch__leg>i{display:block}
+.hb__m,.ch__m{display:block;overflow:hidden;line-height:0}
+.hb figcaption{overflow:hidden}
+.hb figcaption>i{display:block;font-style:normal}
+.toc__in{display:flex;flex-wrap:wrap;width:100%}
+
+/* ═══ I · ВХОД ═══ */
+.hero{position:relative;overflow:hidden;min-height:100svh;display:flex;align-items:center;padding:calc(var(--hh) + clamp(18px,4vh,46px)) var(--pad) clamp(26px,4vh,54px)}
+.hero__in{width:100%;max-width:1280px;margin:0 auto}
+.hero .h-hero{font-size:clamp(2.6rem,5.2vw,4.6rem);line-height:1.04;letter-spacing:-.005em;margin:0 0 .3em}
+.hero__sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.6vw,1.45rem);line-height:1.4;color:var(--fg-dim);max-width:40ch}
+
+.shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,2vw,38px);align-items:end;margin:clamp(24px,4.5vh,58px) 0 clamp(20px,3vh,38px)}
+.hb{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:clamp(190px,32vh,320px);padding-bottom:2px}
+.hb__ph{position:relative;display:flex;align-items:flex-end;justify-content:center}
+/* свет — не UI-цвет: пятно у основания + мягкий ореол вокруг тела бутылки */
+.hb__light,.ch__light{position:absolute;left:50%;top:-6%;bottom:-15%;width:200%;transform:translateX(-50%);pointer-events:none;
+  background:
+    radial-gradient(40% 25% at 50% 88%,color-mix(in srgb,var(--tint) 68%,transparent) 0%,color-mix(in srgb,var(--tint) 26%,transparent) 46%,transparent 74%),
+    radial-gradient(46% 52% at 50% 50%,color-mix(in srgb,var(--tint) 22%,transparent) 0%,transparent 74%)}
+.hb__m{position:relative;z-index:1}
+.hb__img{height:clamp(160px,27vh,282px);width:auto;object-fit:contain;object-position:bottom}
+/* основание кадрировано в исходнике — растворяем его в свету, а не режем по прямой */
+.hb__img,.ch__b{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 91%,rgba(0,0,0,.4) 97.5%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 91%,rgba(0,0,0,.4) 97.5%,transparent 100%)}
+.hb figcaption{position:relative;z-index:1;margin-top:16px;text-align:center;line-height:1.35}
+.hb figcaption b{display:block;font-weight:500;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--stone)}
+.hb figcaption span{display:block;margin-top:5px;font-size:.68rem;letter-spacing:.1em;color:var(--fg-dim)}
+
+.toc{display:block;overflow:hidden;border-top:1px solid var(--hair)}
+.toc a{display:flex;align-items:baseline;gap:9px;flex:1 1 auto;padding:13px 22px 12px 0;
+  font:500 .68rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dim);
+  border-bottom:1px solid transparent;transition:color .35s,border-color .35s}
+.toc a b{font:400 .86rem/1 var(--serif);letter-spacing:.06em;color:var(--gold)}
+.toc a:hover{color:var(--stone);border-bottom-color:var(--gold)}
+.toc__all{color:var(--gold)}
+
+/* ═══ II · ГЛАВЫ ЛИНЕЕК ═══ */
+.ch{position:relative;padding:clamp(56px,8vh,110px) var(--pad) clamp(56px,8vh,110px);border-top:1px solid var(--hair)}
+.ch__g{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(240px,32%) minmax(0,1fr);gap:clamp(28px,5vw,86px);align-items:start}
+.ch__fig{position:sticky;top:calc(var(--hh) + 3vh);height:min(66vh,600px);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;margin:0}
+.ch__ph{position:relative;display:flex;align-items:flex-end;justify-content:center}
+.ch__m{position:relative;z-index:1}
+.ch__b{height:min(52vh,470px);width:auto;object-fit:contain}
+.ch__cap{position:relative;z-index:1;margin-top:20px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim);text-align:center}
+
+.ch__t{padding-top:clamp(4px,1vh,14px)}
+.ch__h{font-size:clamp(2.2rem,4.4vw,3.9rem);line-height:1.04;margin:0 0 .34em}
+.ch__leg{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.5vw,1.4rem);line-height:1.42;color:var(--fg-dim);max-width:44ch}
+
+.dos{margin:clamp(22px,3vw,36px) 0 clamp(24px,3.5vw,44px);border-top:1px solid var(--hair)}
+.dos>div{display:grid;grid-template-columns:minmax(104px,148px) minmax(0,1fr);gap:clamp(12px,2vw,26px);padding:10px 0;border-bottom:1px solid var(--hair);overflow:hidden}
+.dos dt{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:.3em}
+.dos dd{font-size:.88rem;line-height:1.5;color:var(--fg-dim)}
+
+.reg__grp{margin:clamp(20px,2.6vw,32px) 0 7px;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,247,240,.45)}
+.reg__l{list-style:none;border-top:1px solid var(--hair)}
+.reg__r{overflow:hidden;border-bottom:1px solid var(--hair);transition:border-color .4s}
+.reg__r:hover{border-bottom-color:var(--gold)}
+.reg__in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 88px 104px;gap:clamp(10px,1.6vw,24px);align-items:baseline;padding:12px 0}
+.reg__n{font-family:var(--serif);font-size:clamp(1.12rem,1.4vw,1.36rem);line-height:1.2;color:var(--stone)}
+.reg__g{font-size:.76rem;line-height:1.4;color:var(--fg-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reg__d{font-size:.72rem;letter-spacing:.08em;color:var(--fg-dim);text-align:right;white-space:nowrap;font-feature-settings:"tnum" 1,"lnum" 1}
+.reg__d--n{color:rgba(251,247,240,.34)}
+/* строка регистра — вход в карточку вина: наведение зажигает имя и стрелку */
+a.reg__in{color:inherit;text-decoration:none;cursor:pointer}
+a.reg__in .reg__n{transition:color .3s}
+a.reg__in .reg__n::after{content:'→';display:inline-block;margin-left:.42em;font-family:var(--sans);font-size:.58em;
+  color:var(--gold);opacity:0;transform:translateX(-7px);transition:opacity .35s,transform .35s}
+.reg__r:has(a.reg__in):hover{background:rgba(185,155,99,.08)}
+.reg__r:hover a.reg__in .reg__n,a.reg__in:focus-visible .reg__n{color:var(--gold-hi)}
+.reg__r:hover a.reg__in .reg__n::after,a.reg__in:focus-visible .reg__n::after{opacity:1;transform:none}
+a.reg__in:focus-visible{outline:1px solid var(--gold);outline-offset:-1px}
+.reg__r--off .reg__in{cursor:default}
+
+.go{display:inline-block;margin-top:clamp(24px,3.4vw,40px);padding-bottom:5px;font:500 .7rem/1 var(--sans);
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold);transition:color .35s,border-color .35s}
+.go:hover{color:var(--gold-hi);border-bottom-color:var(--gold-hi)}
+
+/* ═══ III · ПОЛНАЯ ВИННАЯ КАРТА (смена холста) ═══ */
+.turn{position:relative}
+.seam{position:sticky;top:0;height:100svh;display:grid;place-items:center;background:var(--ink);border-top:1px solid var(--hair)}
+.seam__in{text-align:center;padding:0 var(--pad)}
+.seam__t{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.4vw,2rem);color:var(--fg-dim)}
+
+.carte{position:relative;z-index:2;background:var(--stone);
+  --fg:#161210; --fg-dim:rgba(22,18,16,.6); --hair:rgba(150,120,60,.4);
+  color:var(--fg);padding:clamp(60px,9vh,120px) var(--pad) clamp(50px,7vh,96px);border-top:1px solid rgba(22,18,16,.55)}
+.carte__in{max-width:1280px;margin:0 auto}
+.carte h2{color:var(--fg);font-size:clamp(2.2rem,4.4vw,3.9rem);margin-bottom:.32em}
+.carte__sub{max-width:60ch;font-size:.95rem;color:var(--fg-dim)}
+.carte__note{margin-top:clamp(24px,3vw,38px);max-width:78ch;font-size:.74rem;line-height:1.6;color:rgba(22,18,16,.45)}
+
+.flt{display:flex;flex-wrap:wrap;gap:clamp(12px,2vw,32px);margin:clamp(26px,4vh,48px) 0 0;padding-bottom:2px}
+.flt__b{background:none;border:0;border-bottom:1px solid transparent;cursor:pointer;padding:6px 0 9px;
+  font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dim);
+  transition:color .3s,border-color .3s}
+.flt__b i{font-style:normal;margin-left:7px;font-size:.64rem;opacity:.5;font-feature-settings:"tnum" 1,"lnum" 1}
+.flt__b:hover{color:var(--fg)}
+.flt__b.is-on{color:var(--fg);border-bottom-color:var(--gold)}
+
+.crt{border-top:1px solid var(--hair);margin-top:16px}
+.crw{overflow:hidden;border-bottom:1px solid var(--hair);transition:border-color .35s}
+.crw:hover{border-bottom-color:var(--gold)}
+.crw.is-off{display:none}
+.crw__in{display:grid;grid-template-columns:minmax(0,1fr) 148px 104px 92px 58px;gap:clamp(10px,1.6vw,26px);align-items:baseline;padding:12px 0}
+.crw__n{font-family:var(--serif);font-size:clamp(1.24rem,1.55vw,1.5rem);line-height:1.2;color:var(--fg)}
+.crw__c{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dim);text-align:right;white-space:nowrap;font-feature-settings:"tnum" 1,"lnum" 1}
+.crw__c--t{text-align:left}
+.crw__c--n{color:rgba(22,18,16,.3)}
+/* строка полной карты — тоже вход в карточку */
+a.crw__in{color:inherit;text-decoration:none;cursor:pointer}
+a.crw__in .crw__n{transition:color .3s,box-shadow .3s;box-shadow:inset 0 -1px 0 transparent}
+.crw:hover{background:rgba(150,120,60,.09)}
+.crw:hover a.crw__in .crw__n,a.crw__in:focus-visible .crw__n{box-shadow:inset 0 -1px 0 var(--gold)}
+a.crw__in:focus-visible{outline:1px solid var(--gold);outline-offset:-1px}
+.crw[data-orph] .crw__n::after{content:' · вне каталога';font-family:var(--sans);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,18,16,.36)}
+
+/* миниатюра бутылки у курсора */
+.thb{position:fixed;left:0;top:0;z-index:120;pointer-events:none;opacity:0;will-change:transform;transition:opacity .28s ease}
+.thb.is-on{opacity:1}
+.thb img{display:block;width:130px;height:auto}
+
+/* ═══ IV · ФИНАЛ ═══ */
+.fin{position:relative;z-index:2;background:var(--ink);min-height:88svh;display:flex;align-items:center;
+  padding:clamp(80px,12vh,150px) var(--pad);border-top:1px solid var(--hair)}
+.fin__in{width:100%;max-width:1280px;margin:0 auto}
+.fin h2{font-size:clamp(2.2rem,4.4vw,3.9rem);line-height:1.06}
+.fin__l{margin-top:clamp(20px,2.6vw,32px);max-width:58ch;font-size:1rem;color:var(--fg-dim)}
+.fin__act{margin-top:clamp(30px,4.5vw,58px);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(22px,4vw,58px);
+  padding-top:clamp(24px,3vw,38px);border-top:1px solid var(--hair)}
+.fin__c{max-width:46ch}
+.fin__tel{display:inline-block;font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1;color:var(--stone);font-feature-settings:"lnum" 1}
+.fin__tel:hover{color:var(--gold-hi)}
+.fin__c .mini{margin-top:10px;color:var(--fg-dim)}
+.wns .ftr{background:var(--ink)}
+
+/* ═══ АДАПТИВ ═══ */
+@media (max-width:1100px){
+  .ch__g{grid-template-columns:minmax(200px,30%) minmax(0,1fr)}
+  .reg__in{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr) 80px 96px}
+  .crw__in{grid-template-columns:minmax(0,1fr) 132px 96px 86px 54px}
+}
+@media (max-width:820px){
+  .wns{--hh:62px}
+  .wns .hdr{padding-top:13px;padding-bottom:13px;gap:12px}
+  .wns .hdr::after{height:26px}
+  .wns .hdr__logo{height:32px}
+  .wns .hdr .btn--s{padding:.7em 1em;font-size:.6rem;letter-spacing:.12em;white-space:nowrap}
+  .shelf{grid-template-columns:repeat(2,1fr);gap:clamp(8px,3vw,20px) clamp(10px,4vw,26px)}
+  .hb{min-height:0}
+  .hb__img{height:clamp(150px,22vh,196px)}
+  .hb__light{width:150%}
+  .toc a{flex:1 1 46%;padding-right:12px}
+
+  .ch{padding-left:var(--pad);padding-right:var(--pad)}
+  .ch__g{grid-template-columns:1fr;gap:clamp(22px,5vw,38px)}
+  .ch__fig{position:static;height:auto;padding:clamp(18px,5vw,34px) 0 0}
+  .ch__b{height:clamp(210px,34vh,300px)}
+  .ch__light{width:min(420px,120%);height:min(420px,120%)}
+  .dos>div{grid-template-columns:1fr;gap:2px;padding:9px 0}
+  .dos dt{padding-top:0}
+
+  .reg__in,.crw__in{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:11px 0}
+  .reg__n,.crw__n{flex:1 0 100%;font-size:1.16rem;line-height:1.25}
+  .reg__g{flex:1 0 100%;white-space:normal;font-size:.74rem}
+  .reg__d,.crw__c{text-align:left;font-size:.66rem}
+  .crw__c--n{display:none}
+  /* разделитель ставим ПЕРЕД ячейкой, чтобы пустые поля не оставляли висячих точек */
+  .crw__c:not(.crw__c--t):not(.crw__c--n)::before{content:'·';margin-right:10px;opacity:.45}
+  /* в регистре пустых ячеек больше нет — прочерк тоже данные, показываем его и на телефоне */
+  .reg__d+.reg__d::before{content:'·';margin-right:10px;opacity:.45}
+  .flt{gap:12px 20px}
+  .fin__act{gap:22px}
+}
+@media (max-width:600px){
+  .wns .hdr__tel{display:none}
+}
+@media (max-width:420px){
+  .toc a{flex:1 0 100%}
+  .hb figcaption b{font-size:.66rem}
+  .crw[data-orph] .crw__n::after{display:block;margin-top:2px}
+}
+
+/* ═══ ПОКОЙ ═══ */
+@media (prefers-reduced-motion: reduce){
+  .ln>i,.hero__sub>i,.ch__leg>i,.reg__in,.crw__in{transform:none!important;opacity:1!important}
+  .ln,.hero__sub,.ch__leg,.reg__r,.crw{overflow:visible}
+  .seam{position:relative;height:auto;padding:clamp(60px,10vh,120px) 0}
+  .ch__fig{position:static;height:auto}
+  .ch__b{height:min(46vh,420px)}
+  .thb{display:none}
+  .wns .hdr,.crw,.reg__r,.flt__b,.toc a{transition:none}
+}

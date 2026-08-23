@@ -1,0 +1,331 @@
+body{font-feature-settings:"lnum" 1}
+/* ВИЗИТ · ГОЛИЦЫНСКИЕ ПОДВАЛЫ АРХАДЕРЕССЕ — страница энотуризма.
+   master.css подключён первым и НЕ тронут; здесь только слой визита.
+   Дисциплина (SUNVALLEY-DESIGN §6): радиус 0 везде, ни одной тени,
+   ровно ОДИН золотой смысловой элемент на экран, золото в декоре — только 1px-штрихом,
+   текст никогда не поверх ключевого визуала (у текста своё тёмное поле),
+   карточек-плитки нет — программы идут регистрами-строками. */
+
+.vst{
+  --fg:#fbf7f0; --fg-dim:rgba(251,247,240,.62);
+  --hair:rgba(185,155,99,.35);
+  --hh:78px;
+  background:var(--ink); color:var(--fg);
+}
+.vst main{position:relative;z-index:1}
+.vst h1,.vst h2{color:var(--fg)}
+.vst ::selection{background:var(--gold);color:var(--ink)}
+
+/* ─── шапка: чернила по умолчанию, камень над светлыми сценами (как в wines) ─── */
+.vst .hdr{
+  background:linear-gradient(rgba(22,18,16,.95),rgba(22,18,16,.62) 58%,rgba(22,18,16,0));
+  backdrop-filter:none; color:var(--stone);
+  transition:background .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);
+}
+.vst .hdr__logo{filter:none}
+.vst .hdr__nav a{color:rgba(251,247,240,.66)}
+.vst .hdr__nav a:hover,.vst .hdr__nav a[aria-current]{color:var(--stone);border-color:var(--gold)}
+.vst .hdr__tel{color:rgba(251,247,240,.92)}
+.vst .hdr.is-light{background:linear-gradient(rgba(251,247,240,.96),rgba(251,247,240,.66) 58%,rgba(251,247,240,0));color:var(--ink)}
+.vst .hdr.is-light .hdr__nav a{color:rgba(22,18,16,.58)}
+.vst .hdr.is-light .hdr__nav a:hover,.vst .hdr.is-light .hdr__nav a[aria-current]{color:var(--ink)}
+.vst .hdr.is-light .hdr__tel{color:var(--ink)}
+.vst .hdr.is-light .btn--ghost{color:#8a6d3b;border-color:#b99b63}
+.vst .hdr.is-light .btn--ghost:hover{color:var(--ink);background:var(--gold)}
+
+/* ─── маски появления: без fade-in «в лоб», текст выезжает из-под кромки ─── */
+.ln,.msk{display:block;overflow:hidden}
+.ln>i,.msk>i{display:block;font-style:normal}
+.figm{display:block;overflow:hidden;line-height:0}
+
+/* ═══════════ I · ГЕРОЙ: СПУСК ═══════════ */
+.vhero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;
+  padding:calc(var(--hh) + clamp(24px,6vh,64px)) var(--pad) clamp(46px,9vh,104px)}
+.vhero__ph{position:absolute;inset:0;z-index:0;overflow:hidden}
+/* кадр выше рамки: параллакс ходит внутри запаса и не открывает края */
+.vhero__img{position:absolute;left:0;top:-9%;width:100%;height:118%;object-fit:cover;object-position:50% 52%;will-change:transform}
+/* тёмная вуаль: слева — плотное поле под текст, сверху — под шапку, снизу — под стык со сценой цифр */
+.vhero__veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(100deg,rgba(15,12,10,.94) 0%,rgba(15,12,10,.9) 30%,rgba(15,12,10,.62) 54%,rgba(15,12,10,.24) 78%,rgba(15,12,10,.34) 100%),
+    linear-gradient(rgba(15,12,10,.72),rgba(15,12,10,0) 34%,rgba(15,12,10,0) 58%,rgba(22,18,16,.92) 100%)}
+/* спуск: сплошной слой чернил густеет по скроллу — только opacity, дёшево для композитора */
+.vhero__deep{position:absolute;inset:0;z-index:1;pointer-events:none;background:#0f0c0a;opacity:0}
+.vhero__in{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto}
+.vhero__t{max-width:min(46ch,50%);padding-left:clamp(16px,2vw,26px);border-left:1px solid var(--hair)}
+.vhero .h-hero{font-size:clamp(2.9rem,6.4vw,6rem);line-height:1;letter-spacing:-.008em;margin:.14em 0 .3em}
+.vhero__sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.65vw,1.5rem);line-height:1.4;
+  color:rgba(251,247,240,.72);max-width:34ch}
+.vhero__meta{margin-top:clamp(22px,3.4vh,40px);line-height:1.7;
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,240,.5);
+  font-feature-settings:"lnum" 1}
+.vhero__meta b{font-weight:500;color:rgba(251,247,240,.78)}
+.vhero__dn{position:absolute;right:0;bottom:2px;display:flex;flex-direction:column;align-items:center;gap:11px;
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(251,247,240,.45)}
+.vhero__dn i{display:block;width:1px;height:clamp(40px,7vh,72px);background:linear-gradient(rgba(185,155,99,.55),transparent)}
+
+/* ═══════════ II · ПОДВАЛ ЦИФРАМИ ═══════════ */
+.vnum{position:relative;background:var(--ink);padding:clamp(64px,11vh,140px) var(--pad) clamp(20px,4vh,52px)}
+.vnum__in{max-width:1280px;margin:0 auto}
+.vnum h2{font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;max-width:22ch}
+.vnum__leg{margin-top:clamp(16px,2vw,24px);max-width:56ch;font-size:.95rem;color:var(--fg-dim)}
+/* золото в декоре — только 1px-штрихом (Franco Maria Ricci gold rule) */
+.vnum__rule{height:1px;margin:clamp(34px,5vh,64px) 0 0;background:var(--gold);opacity:.55;transform-origin:0 50%}
+
+.vnum__g{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.vn{padding:clamp(26px,3.4vw,44px) clamp(14px,1.8vw,28px) clamp(30px,4vw,52px);border-left:1px solid var(--hair)}
+.vn:first-child{border-left:0;padding-left:0}
+.vn__v{display:block;overflow:hidden;font-family:var(--serif);font-weight:500;
+  font-size:clamp(3rem,6.2vw,6.2rem);line-height:.94;letter-spacing:-.012em;color:var(--stone);
+  font-feature-settings:"lnum" 1;white-space:nowrap}
+.vn__v>i{display:block;font-style:normal}
+.vn__u{font-size:.46em;letter-spacing:0;vertical-align:.34em;margin-left:.06em;color:rgba(251,247,240,.7)}
+.vn__k{display:block;margin-top:clamp(14px,1.8vw,22px);font-size:.68rem;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(251,247,240,.82)}
+.vn__d{display:block;margin-top:.7em;font-size:.78rem;line-height:1.5;color:var(--fg-dim);max-width:26ch}
+
+/* фотополоса: реальный кадр подвала, подпись — под кадром, не поверх */
+.vnum__band{position:relative;margin-top:clamp(10px,2vh,24px)}
+.vband{position:relative;display:block;height:clamp(220px,42vh,420px);overflow:hidden;border-top:1px solid var(--hair)}
+.vband img{position:absolute;left:0;top:-9%;width:100%;height:118%;object-fit:cover;object-position:50% 48%;will-change:transform}
+.vband::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(rgba(22,18,16,.5),rgba(22,18,16,.12) 42%,rgba(22,18,16,.66))}
+.vnum__cap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;padding:13px 0 0;
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,240,.48)}
+
+/* ═══════════ ВОРОТА: смена холста ink → stone ═══════════ */
+.turn{position:relative}
+.seam{position:sticky;top:0;height:100svh;display:grid;place-items:center;background:var(--ink);
+  border-top:1px solid var(--hair);padding:0 var(--pad)}
+.seam__in{text-align:center;max-width:44ch}
+.seam__k{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(251,247,240,.42);margin-bottom:1.8em}
+.seam__t{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.35;
+  color:rgba(251,247,240,.78)}
+
+/* ═══════════ III · ПРОГРАММЫ (камень) ═══════════ */
+.progs{position:relative;z-index:2;background:var(--stone);
+  --fg:#161210; --fg-dim:rgba(22,18,16,.6); --hair:rgba(150,120,60,.4);
+  color:var(--fg);padding:clamp(62px,10vh,132px) var(--pad) clamp(52px,8vh,110px);
+  border-top:1px solid rgba(22,18,16,.55)}
+.progs__in{max-width:1280px;margin:0 auto}
+.progs h2{color:var(--fg);font-size:clamp(2.1rem,4.2vw,3.7rem);line-height:1.05;margin-bottom:.3em}
+.progs__leg{max-width:62ch;font-size:.98rem;color:var(--fg-dim)}
+.progs__hd{display:grid;grid-template-columns:44px minmax(0,1fr) 152px 172px;gap:clamp(10px,1.8vw,26px);
+  margin:clamp(34px,5vh,60px) 0 0;padding-bottom:11px;border-bottom:1px solid rgba(22,18,16,.5);
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(22,18,16,.42)}
+.progs__hd span:nth-child(3),.progs__hd span:nth-child(4){text-align:right}
+
+.prl{list-style:none}
+.pr{overflow:hidden;border-bottom:1px solid var(--hair);transition:border-color .45s cubic-bezier(.16,1,.3,1)}
+.pr:hover{border-bottom-color:var(--gold)}
+.pr__in{display:grid;grid-template-columns:44px minmax(0,1fr) 152px 172px;gap:clamp(10px,1.8vw,26px);
+  align-items:baseline;padding:clamp(18px,2.4vw,30px) 0}
+.pr__no{font-family:var(--serif);font-size:1.05rem;line-height:1.2;color:rgba(22,18,16,.34);
+  font-feature-settings:"lnum" 1;transition:color .4s}
+.pr:hover .pr__no{color:#8a6d3b}
+.pr__b{min-width:0}
+.pr__n{display:block;font-family:var(--serif);font-size:clamp(1.3rem,2.05vw,2rem);line-height:1.12;
+  letter-spacing:-.004em;color:var(--fg)}
+.pr__c{display:block;margin-top:.72em;font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(22,18,16,.52)}
+.pr__c em{font-style:normal;color:rgba(22,18,16,.3);margin:0 .5em}
+.pr__note{display:block;margin-top:.8em;max-width:56ch;font-size:.83rem;line-height:1.5;color:var(--fg-dim)}
+.pr__d{font-size:.75rem;letter-spacing:.05em;color:var(--fg-dim);text-align:right;white-space:nowrap;
+  font-feature-settings:"tnum" 1,"lnum" 1}
+.pr__p{text-align:right;white-space:nowrap;line-height:1}
+.pr__p b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,2.1vw,2rem);color:var(--fg);
+  font-feature-settings:"lnum" 1;letter-spacing:-.01em}
+.pr__pre{display:block;margin-bottom:.5em;font-size:.6rem;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(22,18,16,.4)}
+.pr__per{display:block;margin-top:.62em;font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(22,18,16,.42)}
+
+.adds{display:grid;grid-template-columns:minmax(0,1fr) 172px;gap:clamp(10px,1.8vw,26px);align-items:baseline;
+  padding:clamp(16px,2vw,24px) 0;border-bottom:1px solid var(--hair)}
+.adds__t{font-size:.86rem;color:var(--fg-dim)}
+.adds__t b{font-weight:400;font-family:var(--serif);font-size:1.15rem;color:var(--fg);margin-right:.6em}
+.adds__p{text-align:right;white-space:nowrap;font-family:var(--serif);font-size:1.15rem;color:var(--fg);
+  font-feature-settings:"lnum" 1}
+.progs__note{margin-top:clamp(24px,3vw,38px);max-width:82ch;font-size:.74rem;line-height:1.65;color:rgba(22,18,16,.45)}
+
+/* ═══════════ IV · КАК ДОБРАТЬСЯ (камень) ═══════════ */
+.way{position:relative;z-index:2;background:var(--stone);
+  --fg:#161210; --fg-dim:rgba(22,18,16,.6); --hair:rgba(150,120,60,.4);
+  color:var(--fg);padding:clamp(52px,8vh,110px) var(--pad) clamp(62px,10vh,130px);
+  border-top:1px solid var(--hair)}
+.way__g{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:clamp(30px,5vw,86px);align-items:start}
+.way h2{color:var(--fg);font-size:clamp(1.9rem,3.5vw,3rem);line-height:1.06;margin-bottom:.42em}
+.way__l{max-width:46ch;font-size:.95rem;color:var(--fg-dim)}
+.adr{margin:clamp(26px,3.4vw,40px) 0 0;border-top:1px solid var(--hair)}
+.adr>div{display:grid;grid-template-columns:minmax(112px,150px) minmax(0,1fr);gap:clamp(12px,2vw,26px);
+  padding:12px 0;border-bottom:1px solid var(--hair);overflow:hidden}
+.adr dt{font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;color:#8a6d3b;padding-top:.34em}
+.adr dd{font-size:.9rem;line-height:1.55;color:var(--fg);font-feature-settings:"lnum" 1}
+.adr dd span{color:var(--fg-dim)}
+.adr dd a{border-bottom:1px solid rgba(22,18,16,.28)}
+.adr dd a:hover{border-bottom-color:var(--gold)}
+
+/* скобочная капитель — типографский «архивный» жест вместо кнопки (Franco Maria Ricci) */
+.brk{display:inline-block;margin-top:clamp(26px,3.4vw,40px);
+  font:500 .72rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b;
+  transition:color .35s,letter-spacing .45s cubic-bezier(.16,1,.3,1)}
+.brk i{font-style:normal;opacity:.55;margin:0 .55em;transition:opacity .35s}
+.brk:hover{color:var(--ink);letter-spacing:.235em}
+.brk:hover i{opacity:1}
+.way__alt{display:block;margin-top:1.5em;font-size:.76rem;letter-spacing:.03em;color:var(--fg-dim)}
+.way__alt a{border-bottom:1px solid rgba(22,18,16,.28)}
+.way__alt a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+.way__fig{margin:0}
+.way__fig .figm{position:relative;height:clamp(300px,52vh,540px)}
+.way__fig img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;object-position:50% 56%;will-change:transform}
+.way__fig figcaption{margin-top:13px;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,18,16,.45)}
+.tips{margin-top:clamp(26px,3.4vw,40px);border-top:1px solid var(--hair)}
+.tips li{list-style:none;padding:11px 0;border-bottom:1px solid var(--hair);font-size:.82rem;line-height:1.5;
+  color:var(--fg-dim);overflow:hidden}
+.tips li b{font-weight:500;color:var(--fg)}
+
+/* ═══════════ V · ФИНАЛ (чернила) ═══════════ */
+.vfin{position:relative;z-index:2;background:var(--ink);min-height:80svh;display:flex;align-items:center;
+  padding:clamp(80px,13vh,160px) var(--pad);border-top:1px solid var(--hair)}
+.vfin__in{width:100%;max-width:1280px;margin:0 auto}
+.vfin h2{font-size:clamp(2.1rem,4.2vw,3.7rem);line-height:1.06}
+.vfin__l{margin-top:clamp(20px,2.6vw,32px);max-width:58ch;font-size:1rem;color:var(--fg-dim)}
+.vfin__act{margin-top:clamp(32px,4.8vw,62px);display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(22px,4vw,60px);padding-top:clamp(24px,3vw,40px);border-top:1px solid var(--hair)}
+.vfin__c{max-width:46ch}
+.vfin__tel{display:inline-block;font-family:var(--serif);font-size:clamp(1.6rem,2.7vw,2.5rem);line-height:1;
+  color:var(--stone);font-feature-settings:"lnum" 1;transition:color .35s}
+.vfin__tel:hover{color:var(--gold-hi)}
+.vfin__c .mini{margin-top:11px;color:var(--fg-dim);line-height:1.55}
+.vfin__slots{margin-top:clamp(26px,3.4vw,42px);display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--hair)}
+.vfin__slots span{flex:1 1 auto;padding:14px 20px 13px 0;font-size:.72rem;letter-spacing:.14em;
+  color:rgba(251,247,240,.7);font-feature-settings:"lnum" 1;overflow:hidden}
+.vfin__slots span b{display:block;font-weight:400;font-family:var(--serif);font-size:1.25rem;color:var(--stone)}
+.vfin__slots span i{display:block;margin-top:5px;font-style:normal;font-size:.6rem;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(251,247,240,.42)}
+/* заявка на визит — те же чернила, волосяные линии, золото только штрихом */
+.bkg{margin-top:clamp(34px,4.6vw,58px);padding-top:clamp(26px,3.4vw,42px);border-top:1px solid var(--hair)}
+.bkg__k{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:clamp(20px,2.6vw,32px)}
+/* 6 колонок: программа во всю ширину, дата/сеанс/гостей — по две, имя и телефон — по три */
+.bkg__g{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(18px,2.4vw,34px) clamp(18px,2.6vw,40px)}
+.fld{display:block;min-width:0;grid-column:span 2}
+.fld--w{grid-column:1/-1}
+.fld--h{grid-column:span 3}
+.fld__l{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(251,247,240,.46);margin-bottom:.8em}
+.fld__i{display:block;width:100%;background:transparent;border:0;border-bottom:1px solid var(--hair);
+  border-radius:0;padding:.5em 0 .62em;color:var(--stone);font:400 1rem/1.4 var(--sans);
+  font-feature-settings:"lnum" 1;appearance:none;-webkit-appearance:none;
+  transition:border-color .35s,color .35s}
+.fld__i::placeholder{color:rgba(251,247,240,.3)}
+.fld__i:hover{border-bottom-color:rgba(185,155,99,.62)}
+.fld__i:focus{outline:0;border-bottom-color:var(--gold-hi)}
+.fld__i:focus-visible{outline:0}
+select.fld__i{cursor:pointer;text-overflow:ellipsis;
+  background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);
+  background-position:calc(100% - 9px) calc(50% - 1px),calc(100% - 4px) calc(50% - 1px);
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:22px}
+select.fld__i option{background:var(--ink);color:var(--stone)}
+input[type="date"].fld__i::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.5;cursor:pointer}
+input[type="date"].fld__i::-webkit-calendar-picker-indicator:hover{opacity:.9}
+.fld__i:user-invalid{border-bottom-color:rgba(159,58,58,.9)}
+
+.bkg__add{position:relative;display:flex;align-items:flex-start;gap:12px;margin-top:clamp(22px,2.8vw,34px);
+  font-size:.82rem;line-height:1.5;color:var(--fg-dim);color:rgba(251,247,240,.62);cursor:pointer}
+.bkg__add input{position:absolute;opacity:0;width:0;height:0}
+.bkg__add i{flex:0 0 auto;display:block;width:14px;height:14px;margin-top:4px;
+  border:1px solid var(--hair);transition:border-color .3s,background .3s}
+.bkg__add:hover i{border-color:var(--gold-hi)}
+.bkg__add input:checked + i{background:var(--gold);border-color:var(--gold)}
+.bkg__add input:focus-visible + i{outline:1px solid var(--gold-hi);outline-offset:2px}
+
+.bkg__f{margin-top:clamp(26px,3.4vw,42px);display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(20px,3.4vw,48px)}
+.bkg__note{flex:1 1 34ch;max-width:62ch;font-size:.78rem;line-height:1.55;color:rgba(251,247,240,.5)}
+.bkg__note a{color:var(--stone);border-bottom:1px solid var(--hair);font-feature-settings:"lnum" 1}
+.bkg__note a:hover{border-bottom-color:var(--gold-hi)}
+
+.bkg__ok{margin-top:clamp(20px,2.6vw,30px);padding:16px 20px;border-left:1px solid var(--gold);
+  font-size:.9rem;line-height:1.55;color:var(--stone);background:rgba(185,155,99,.07);
+  font-feature-settings:"lnum" 1}
+.bkg.is-sent .bkg__g,.bkg.is-sent .bkg__add,.bkg.is-sent .bkg__f{opacity:.4;transition:opacity .5s}
+
+.vst .ftr{background:var(--ink)}
+
+/* ═══════════ АДАПТИВ ═══════════ */
+@media (max-width:1100px){
+  .progs__hd,.pr__in{grid-template-columns:36px minmax(0,1fr) 128px 148px}
+  .way__g{grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(24px,4vw,48px)}
+}
+@media (max-width:900px){
+  .vhero__t{max-width:min(46ch,68%)}
+  .vhero__veil{background:
+    linear-gradient(100deg,rgba(15,12,10,.95) 0%,rgba(15,12,10,.9) 46%,rgba(15,12,10,.5) 76%,rgba(15,12,10,.36) 100%),
+    linear-gradient(rgba(15,12,10,.74),rgba(15,12,10,0) 32%,rgba(15,12,10,0) 54%,rgba(22,18,16,.94) 100%)}
+  .vnum__g{grid-template-columns:repeat(2,1fr)}
+  .vn{padding-left:clamp(14px,3vw,24px)}
+  .vn:nth-child(3){border-left:0;padding-left:0}
+  .way__g{grid-template-columns:1fr}
+  .way__fig{grid-row:1}
+  .way__fig img{height:clamp(220px,34vh,320px)}
+}
+@media (max-width:820px){
+  .vst{--hh:64px}
+
+  /* шапка: на узком экране градиент не успевает погасить текст — заголовки
+     пролезали сквозь логотип, телефон и кнопку. Плотная плашка + короткая растушёвка. */
+  .vst .hdr{background:rgb(22,18,16)}
+  .vst .hdr::after{content:'';position:absolute;left:0;right:0;top:100%;height:22px;pointer-events:none;
+    background:linear-gradient(rgb(22,18,16),rgba(22,18,16,0))}
+  .vst .hdr.is-light{background:rgb(251,247,240)}
+  .vst .hdr.is-light::after{background:linear-gradient(rgb(251,247,240),rgba(251,247,240,0))}
+
+  .vhero{align-items:flex-end}
+  .vhero__t{max-width:none}
+  .vhero__dn{display:none}
+
+  /* программы: строка складывается, цена уходит в свою строку — плитки по-прежнему нет */
+  .progs__hd{display:none}
+  .pr__in{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 14px;padding:16px 0 18px}
+  .pr__no{flex:0 0 auto;font-size:.95rem}
+  .pr__b{flex:1 1 calc(100% - 34px)}
+  .pr__n{font-size:1.24rem}
+  .pr__d{flex:1 1 auto;text-align:left;margin-top:12px;font-size:.68rem}
+  .pr__p{flex:0 0 auto;text-align:right;margin-top:10px}
+  .pr__p b{display:inline;font-size:1.32rem}
+  .pr__pre{display:inline;margin:0 .55em 0 0}
+  .pr__per{display:inline;margin:0 0 0 .55em}
+  .adds{grid-template-columns:minmax(0,1fr) auto}
+  .vfin__slots span{flex:1 1 44%;padding-right:14px}
+  .bkg__g{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .fld--h{grid-column:span 2}
+  .bkg__f .btn{flex:1 1 100%;text-align:center}
+}
+@media (max-width:600px){
+  .vnum__g{grid-template-columns:1fr}
+  .vn{border-left:0;padding-left:0;padding-right:0;border-top:1px solid var(--hair)}
+  .vn:first-child{border-top:0;padding-top:0}
+  .vnum__cap{font-size:.6rem}
+  /* «Ассорти дегустационное» + пояснение сливались в одну строку — разводим */
+  .adds__t b{display:block;margin:0 0 4px}
+  .adr>div{grid-template-columns:1fr;gap:3px;padding:10px 0}
+  .adr dt{padding-top:0}
+  .vfin__act{gap:24px}
+  .vfin__slots span{flex:1 1 100%;padding:11px 0}
+  .bkg__g{grid-template-columns:1fr}
+  .fld,.fld--w,.fld--h{grid-column:1/-1}
+}
+
+/* ═══════════ ПОКОЙ ═══════════ */
+@media (prefers-reduced-motion: reduce){
+  .ln>i,.msk>i,.vn__v>i,.tips li,.adr>div,.pr__in,.bkg{transform:none!important;opacity:1!important}
+  .ln,.msk,.vn__v,.pr,.tips li,.adr>div{overflow:visible}
+  .vnum__rule{transform:none!important}
+  .seam{position:relative;height:auto;padding:clamp(56px,10vh,110px) var(--pad)}
+  .vhero__deep{display:none}
+  .vhero__img,.vband img,.way__fig img{transform:none!important;top:0;height:100%}
+  .way__fig .figm{clip-path:none!important}
+  .vst .hdr,.pr,.brk,.tips li{transition:none}
+}

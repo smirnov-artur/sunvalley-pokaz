@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Личный погреб и подарок — Солнечная Долина</title>
+<meta name="description" content="Именная ниша в голицынских подвалах «Архадерессе»: коллекционная бутылка на хранении с гравированной табличкой, подарочные сертификаты на экскурсии и дегустации, корпоративные наборы для HoReCa. Заявка без оплаты — менеджер свяжется.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../variants/a-podval/style.css">
+<style>
+/* ============================================================
+   ЭКОСИСТЕМА · ЛИЧНЫЙ ПОГРЕБ / ПОДАРОК
+   Стена именных ниш Архадерессе · гравировальное бюро
+   ============================================================ */
+
+/* ---------- общие ---------- */
+.stage{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.sec{padding:clamp(80px,11vh,140px) 0}
+.sec--tight{padding:clamp(64px,8vh,104px) 0}
+.h-note{font-family:var(--serif);font-style:italic;color:var(--stone-dim);font-size:clamp(1.05rem,1.8vw,1.35rem);max-width:44ch}
+
+/* ---------- ГЕРОЙ ---------- */
+.ghero{
+  position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(120px,15vh,168px) var(--pad) clamp(70px,9vh,110px);overflow:hidden;
+}
+.ghero__bg{position:absolute;inset:0;z-index:-2}
+.ghero__bg img{width:100%;height:100%;object-fit:cover;object-position:52% 46%;filter:brightness(.72) saturate(.98) contrast(1.06)}
+.ghero__bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(90deg, rgba(22,18,16,.94) 0%, rgba(22,18,16,.66) 46%, rgba(22,18,16,.30) 100%),
+    linear-gradient(180deg, rgba(22,18,16,.80) 0%, transparent 34%, rgba(22,18,16,.92) 100%);
+}
+.ghero__folio{position:absolute;top:clamp(88px,11vh,124px);left:0;right:0;margin-bottom:0}
+.ghero__stage{max-width:1280px;margin:0 auto;width:100%;position:relative}
+.ghero .hero__kicker{position:static;color:var(--gold);white-space:normal;margin-bottom:min(4vh,38px)}
+.ghero__title{font-size:clamp(2.9rem,6.6vw,6.2rem);letter-spacing:.012em;max-width:13ch;margin-bottom:.34em}
+.ghero__title em{font-style:normal;color:var(--gold-hi)}
+.ghero__lead{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.1vw,1.65rem);
+  color:var(--stone-dim);line-height:1.45;max-width:36ch;
+}
+/* цена услуги + первый призыв — на месте бывшего «как это законно» */
+.ghero__offer{
+  margin-top:clamp(24px,4vh,42px);display:flex;align-items:center;gap:clamp(18px,2.4vw,30px);flex-wrap:wrap;
+}
+.ghero__price{
+  border-left:1px solid var(--gold);padding-left:18px;
+}
+.ghero__price b{
+  display:block;font-family:var(--serif);font-weight:400;color:var(--gold-hi);
+  font-size:clamp(1.5rem,2.5vw,2rem);line-height:1.1;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.ghero__price small{
+  display:block;margin-top:.45em;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(251,247,240,.5);
+}
+.ghero__warn{
+  display:none;margin-top:clamp(22px,3.4vh,34px);
+  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;line-height:1.6;
+  color:rgba(251,247,240,.45);border-top:1px solid var(--hair);padding-top:14px;max-width:34ch;
+}
+/* правовая рамка — теперь в блоке 01 */
+.how__law{
+  margin-top:clamp(26px,3vw,42px);border:1px solid var(--hair);background:rgba(0,0,0,.22);
+  padding:clamp(20px,2.4vw,30px) clamp(22px,2.6vw,34px);
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px clamp(22px,3vw,40px);align-items:start;
+}
+.how__law b{color:var(--gold);font-weight:400;letter-spacing:.2em;text-transform:uppercase;font-size:.7rem;white-space:nowrap;padding-top:.25em}
+.how__law p{font-size:.86rem;line-height:1.7;color:var(--stone-dim);max-width:78ch}
+.how__law a{color:var(--gold-hi);border-bottom:1px solid var(--hair)}
+.how__law a:hover{border-color:var(--gold)}
+@media (max-width:640px){ .how__law{grid-template-columns:1fr;gap:12px} }
+/* висящая табличка-указатель в правом поле героя */
+.ghero__sign{
+  position:absolute;right:0;top:50%;transform:translateY(-50%) rotate(-1.4deg);
+  width:min(300px,30vw);display:none;
+}
+@media (min-width:1180px){ .ghero__sign{display:block} }
+.ghero__sign::before,.ghero__sign::after{
+  content:'';position:absolute;top:-46px;width:1px;height:46px;background:linear-gradient(rgba(185,155,99,.1),var(--gold));
+}
+.ghero__sign::before{left:22%}
+.ghero__sign::after{right:22%}
+
+/* ---------- ТАБЛИЧКА (гравировка по латуни) ---------- */
+/* источник света в подвале — сверху справа (как на фото героя):
+   блик у правой верхней кромки, падающая тень уходит влево-вниз */
+.plate{
+  position:relative;isolation:isolate;
+  background-color:#a68a54;
+  background-image:
+    /* зерно проката латуни */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='1888'/%3E%3CfeColorMatrix values='0 0 0 0 .09 0 0 0 0 .07 0 0 0 0 .03 0 0 0 .17 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23b)'/%3E%3C/svg%3E"),
+    /* блик от лампы — правый верхний угол */
+    radial-gradient(130% 96% at 86% 2%, rgba(255,247,216,.52), rgba(255,243,206,.13) 32%, transparent 64%),
+    /* тень в противоположном, левом нижнем углу */
+    radial-gradient(96% 78% at 8% 104%, rgba(38,26,8,.42), transparent 58%),
+    linear-gradient(202deg, #e9d6a8 0%, #c6aa70 17%, #907741 40%, #bda068 60%, #7d6539 82%, #5d4b29 100%);
+  background-size:160px 160px, auto, auto, auto;
+  border:1px solid rgba(60,45,20,.75);
+  box-shadow:
+    0 1px 0 rgba(255,244,212,.5) inset,
+    1px 0 0 rgba(255,240,204,.26) inset,
+    0 -1px 0 rgba(42,30,10,.6) inset,
+    -1px 0 0 rgba(42,30,10,.44) inset,
+    -9px 14px 30px rgba(0,0,0,.55);
+  padding:18px 22px 15px;text-align:center;overflow:hidden;
+}
+.plate::before{ /* фаска: свет по верхней и правой грани, тень по нижней и левой */
+  content:'';position:absolute;inset:5px;border:1px solid rgba(58,44,18,.34);
+  box-shadow:
+    0 1px 0 rgba(255,246,214,.34) inset,
+    -1px 0 0 rgba(255,244,208,.2) inset,
+    0 -1px 0 rgba(40,28,8,.34) inset,
+    1px 0 0 rgba(40,28,8,.26) inset;
+  pointer-events:none;
+}
+.plate::after{ /* штрихи протяжки латуни — по направлению света */
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(197deg, rgba(255,255,255,.06) 0 1px, transparent 1px 4px);
+}
+.plate__name{
+  font-family:var(--serif);line-height:1.12;color:#3b2c11;
+  text-shadow:0 1px 0 rgba(255,244,214,.62), 0 -1px 0 rgba(30,20,4,.32);
+  word-break:break-word;min-height:1.12em;
+}
+.plate__name--caps{text-transform:uppercase;letter-spacing:.16em}
+.plate__name--script{font-style:italic;letter-spacing:.01em}
+.plate__rule{
+  width:38%;height:1px;margin:.7em auto .55em;
+  background:linear-gradient(90deg,transparent,rgba(52,38,12,.55),transparent);
+  box-shadow:0 1px 0 rgba(255,244,214,.4);
+}
+.plate__sub{
+  font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(50,37,12,.72);
+  text-shadow:0 1px 0 rgba(255,244,214,.5);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.plate__screw{
+  position:absolute;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #f0e0ba, #7a6234 62%, #3d3016);
+  box-shadow:0 1px 1px rgba(0,0,0,.5), 0 0 0 1px rgba(48,36,14,.4);
+}
+.plate__screw:nth-of-type(1){left:9px;top:9px}
+.plate__screw:nth-of-type(2){right:9px;top:9px}
+.plate__screw:nth-of-type(3){left:9px;bottom:9px}
+.plate__screw:nth-of-type(4){right:9px;bottom:9px}
+/* проход резца при вводе имени */
+.plate.is-cut::after{animation:cut .8s ease-out}
+@keyframes cut{
+  0%{opacity:.5;background-position:-40% 0}
+  30%{opacity:.95}
+  100%{opacity:.5;background-position:0 0}
+}
+.plate--sign{transform:none}
+.plate--sign .plate__name{font-size:1.5rem}
+
+/* ---------- 01 · КАК УСТРОЕНО ---------- */
+.how__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.how__grid>div{background:var(--ink);padding:clamp(28px,3.2vw,54px) clamp(22px,2.6vw,46px)}
+.how__no{
+  font-family:var(--serif);font-size:clamp(2.6rem,4.4vw,3.8rem);line-height:1;color:var(--gold);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;margin-bottom:.3em;
+}
+.how__grid h3{margin-bottom:.5em}
+.how__grid p{font-size:.92rem;color:var(--stone-dim);max-width:34ch}
+
+/* ---------- 02 · СТЕНА НИШ ---------- */
+.cellar{position:relative;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.cellar__wall{
+  position:relative;padding:clamp(46px,6vw,86px) var(--pad) clamp(52px,6vw,90px);
+  background-color:#201914;
+  background-image:
+    radial-gradient(120% 70% at 50% -8%, rgba(185,155,99,.13), transparent 62%),
+    radial-gradient(90% 60% at 50% 108%, rgba(0,0,0,.55), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='.42' stroke-width='2'%3E%3Cpath d='M0 1H240M0 61H240M0 119H240'/%3E%3Cpath d='M60 1V61M180 1V61M0 61V119M120 61V119M240 61V119'/%3E%3C/g%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.05' stroke-width='1'%3E%3Cpath d='M0 3H240M0 63H240'/%3E%3Cpath d='M62 1V61M182 1V61M2 61V119M122 61V119'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='4' seed='1888'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23s)'/%3E%3C/svg%3E");
+  background-size:auto, auto, 240px 120px, 300px 300px;
+}
+.cellar__head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  max-width:1440px;margin:0 auto clamp(34px,4vw,56px);
+}
+.cellar__head h2{font-size:clamp(2.2rem,4.4vw,3.6rem);max-width:16ch}
+.cellar__legend{display:flex;gap:22px;flex-wrap:wrap;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone-dim)}
+.cellar__legend span{display:flex;align-items:center;gap:8px}
+.cellar__legend i{width:9px;height:9px;border:1px solid var(--gold);display:block}
+.cellar__legend i.busy{background:rgba(185,155,99,.55)}
+
+.niches{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:clamp(14px,1.6vw,24px);
+  max-width:1440px;margin:0 auto;
+}
+.niche{
+  position:relative;display:block;width:100%;padding:0;cursor:pointer;text-align:center;
+  background:none;border:0;font-family:inherit;color:inherit;
+}
+.niche__hole{
+  display:block;position:relative;aspect-ratio:.66/1;overflow:hidden;
+  border-radius:50% 50% 3px 3px / 34% 34% 3px 3px;
+  background:
+    radial-gradient(78% 58% at 50% 8%, rgba(185,155,99,.16), transparent 62%),
+    linear-gradient(180deg, #100c09 0%, #16110d 44%, #0a0706 100%);
+  box-shadow:
+    inset 0 6px 16px rgba(0,0,0,.95),
+    inset 0 -3px 10px rgba(0,0,0,.8),
+    inset 2px 0 8px rgba(0,0,0,.7),
+    inset -2px 0 8px rgba(0,0,0,.7),
+    0 2px 0 rgba(255,236,200,.055);
+  border:1px solid rgba(0,0,0,.6);
+  transition:box-shadow .45s ease;
+}
+.niche__hole::before{ /* арка-обод: свет по кромке свода */
+  content:'';position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;
+  box-shadow:inset 0 1px 0 rgba(226,198,148,.22);
+}
+.niche__hole::after{ /* полка-лежак */
+  content:'';position:absolute;left:9%;right:9%;bottom:11%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(185,155,99,.4),transparent);
+}
+.niche__bottle{
+  position:absolute;left:50%;bottom:11%;transform:translateX(-50%);
+  width:34%;height:auto;color:var(--gold);
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.7));
+  transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s;
+}
+/* формат бутылки в нише: половинка, стандарт, магнум */
+.niche__bottle--half{width:25%}
+.niche__bottle--std{width:34%}
+.niche__bottle--burg{width:39%}
+.niche__bottle--mag{width:45%}
+.niche__vol{
+  position:absolute;right:9%;bottom:13%;font-size:.5rem;letter-spacing:.12em;
+  color:rgba(185,155,99,.42);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.niche__dust{
+  position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(1px 1px at 30% 40%, rgba(217,168,90,.5), transparent 100%),
+             radial-gradient(1px 1px at 68% 62%, rgba(217,168,90,.35), transparent 100%),
+             radial-gradient(1px 1px at 47% 25%, rgba(217,168,90,.3), transparent 100%);
+}
+.niche__no{
+  position:absolute;top:8%;left:50%;transform:translateX(-50%);
+  font-size:.58rem;letter-spacing:.2em;color:rgba(185,155,99,.5);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+/* маленькая табличка под нишей */
+.niche__plate{
+  margin-top:10px;padding:7px 6px 6px;position:relative;
+  border:1px solid rgba(60,45,20,.7);
+  background:linear-gradient(157deg,#5f4d2b 0%,#a58c58 22%,#d6c193 46%,#9a7f4c 70%,#5e4c2a 100%);
+  box-shadow:0 1px 0 rgba(255,240,205,.32) inset,0 -1px 0 rgba(45,32,12,.5) inset,0 5px 12px rgba(0,0,0,.45);
+  min-height:36px;display:flex;flex-direction:column;justify-content:center;
+}
+.niche__plate span{
+  display:block;font-family:var(--serif);font-size:.76rem;line-height:1.2;color:#3b2c11;
+  text-transform:uppercase;letter-spacing:.1em;
+  text-shadow:0 1px 0 rgba(255,244,214,.55);
+}
+.niche__plate small{
+  display:block;margin-top:2px;font-size:.52rem;letter-spacing:.18em;color:rgba(50,37,12,.62);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+/* таблички отличаются: начертание, патина, возраст латуни */
+.niche__plate--script span{font-style:italic;text-transform:none;letter-spacing:.02em;font-size:.86rem}
+.niche__plate--patina{
+  background:linear-gradient(157deg,#4d4230 0%,#8a8156 24%,#b6ad82 48%,#7d7449 72%,#4a4130 100%);
+}
+.niche__plate--patina span{color:#31301c}
+.niche__plate--old{
+  background:linear-gradient(157deg,#54421f 0%,#93783f 26%,#c2a86f 50%,#8a6f3a 74%,#523f1d 100%);
+}
+.niche__plate--old span{letter-spacing:.2em;font-size:.7rem}
+.niche__plate--thin span{font-size:.68rem;letter-spacing:.16em}
+/* свободная ниша */
+.niche--free .niche__plate{
+  background:none;border:1px dashed rgba(185,155,99,.34);box-shadow:none;
+}
+.niche--free .niche__plate span{
+  font-family:var(--sans);font-size:.6rem;letter-spacing:.22em;color:var(--gold);text-shadow:none;
+}
+.niche--free .niche__bottle{opacity:0}
+.niche--free:hover .niche__hole,.niche--free:focus-visible .niche__hole{
+  box-shadow:inset 0 6px 16px rgba(0,0,0,.9),inset 0 -3px 10px rgba(0,0,0,.75),
+             inset 0 0 30px rgba(185,155,99,.28),0 2px 0 rgba(255,236,200,.09);
+}
+.niche--free:hover .niche__plate,.niche--free:focus-visible .niche__plate{border-color:var(--gold)}
+.niche:focus-visible{outline:1px solid var(--gold);outline-offset:6px}
+/* занятая */
+.niche--busy{cursor:default}
+.niche--busy .niche__hole{filter:saturate(.9)}
+/* выбранная */
+.niche.is-sel .niche__hole{
+  box-shadow:inset 0 6px 16px rgba(0,0,0,.85),inset 0 -3px 10px rgba(0,0,0,.7),
+             inset 0 0 44px rgba(217,168,90,.42),0 0 0 1px var(--gold),0 2px 0 rgba(255,236,200,.12);
+}
+.niche.is-sel .niche__plate{border-style:solid;border-color:var(--gold);background:rgba(185,155,99,.1)}
+.niche.is-sel .niche__plate span{color:var(--gold-hi)}
+.niche.is-sel .niche__bottle{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* ---------- 03 · БЮРО ГРАВИРОВКИ ---------- */
+.bureau{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  gap:clamp(30px,4vw,72px);align-items:start;
+  max-width:1440px;margin:0 auto;padding:0 var(--pad);
+}
+.bureau__left{position:sticky;top:clamp(88px,11vh,116px)}
+.bureau__proof{
+  border:1px solid var(--hair);background:linear-gradient(160deg,var(--ink-2),var(--ink));
+  padding:clamp(26px,3vw,44px);position:relative;
+}
+.bureau__proof::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(185,155,99,.16);pointer-events:none}
+.proof__cap{
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+  display:flex;justify-content:space-between;gap:14px;margin-bottom:1.4em;
+}
+.proof__cap span:last-child{color:var(--stone-dim);letter-spacing:.14em}
+.proof__plate{max-width:400px;margin:0 auto}
+.proof__hint{margin-top:1.5em;text-align:center;font-size:.74rem;letter-spacing:.06em;color:rgba(251,247,240,.42)}
+/* витрина выбранного вина */
+.proof__wine{display:flex;gap:clamp(16px,2vw,28px);align-items:center;margin-top:clamp(26px,3vw,40px);
+  padding-top:clamp(22px,2.6vw,32px);border-top:1px solid var(--hair)}
+.proof__wine .case{width:104px;min-width:104px;height:158px;padding-bottom:12px}
+.proof__wine .case img{width:58%}
+.wine__name{font-family:var(--serif);font-size:1.22rem;line-height:1.2;margin-bottom:.35em}
+.wine__meta{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi)}
+.wine__note{margin-top:.6em;font-size:.84rem;color:var(--stone-dim);max-width:34ch}
+
+/* форма */
+.form__lede{margin-bottom:clamp(26px,3vw,40px)}
+.form__lede h2{margin-bottom:.3em;font-size:clamp(2.1rem,4vw,3.3rem)}
+.f-row{margin-bottom:clamp(20px,2.4vw,30px)}
+.f-lab{display:block;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.85em}
+.f-lab i{font-style:normal;color:var(--stone-dim);letter-spacing:.08em;text-transform:none;font-size:.76rem;margin-left:.6em}
+.f-in,.f-sel{
+  width:100%;background:rgba(0,0,0,.28);border:0;border-bottom:1px solid var(--hair);
+  color:var(--stone);font-family:var(--serif);font-size:1.24rem;padding:.62em .8em;
+  transition:border-color .35s,background .35s;
+}
+.f-sel{font-family:var(--sans);font-size:.95rem;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23b99b63' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;border-radius:0;
+}
+.f-in:focus,.f-sel:focus{outline:none;border-color:var(--gold);background:rgba(0,0,0,.45)}
+.f-in::placeholder{color:rgba(251,247,240,.24);font-style:italic}
+.f-hint{margin-top:.6em;font-size:.76rem;color:rgba(251,247,240,.4)}
+.f-two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,26px)}
+/* переключатель начертания */
+.faces{display:flex;gap:0;border:1px solid var(--hair)}
+.faces label{
+  flex:1;text-align:center;padding:.85em .4em;cursor:pointer;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone-dim);
+  transition:background .35s,color .35s;border-left:1px solid var(--hair);
+}
+.faces label:first-of-type{border-left:0}
+.faces input{position:absolute;opacity:0;pointer-events:none}
+.faces input:checked+span{color:var(--ink)}
+.faces label:has(input:checked){background:var(--gold);color:var(--ink)}
+.faces label:hover{color:var(--gold-hi)}
+.faces label:has(input:checked):hover{color:var(--ink)}
+.faces input:focus-visible+span{outline:1px solid var(--gold);outline-offset:5px}
+/* срок + цена услуги */
+.terms{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.terms label{
+  border:1px solid var(--hair);padding:.85em .7em .8em;cursor:pointer;text-align:center;
+  display:flex;flex-direction:column;gap:.5em;
+  transition:border-color .3s,color .3s,background .3s;
+}
+.terms label:has(input:checked){border-color:var(--gold);background:rgba(185,155,99,.1)}
+.terms input{position:absolute;opacity:0;pointer-events:none}
+.terms .t-per{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--stone-dim);transition:color .3s}
+.terms label:has(input:checked) .t-per{color:var(--gold-hi)}
+.terms .t-price{
+  font-family:var(--serif);font-size:.98rem;line-height:1.15;color:var(--stone);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.terms .t-off{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(185,155,99,.72);min-height:.9em}
+.terms label:has(input:checked) .t-price{color:var(--gold-hi)}
+@media (max-width:560px){ .terms{grid-template-columns:1fr 1fr} }
+.term__total{
+  margin-top:16px;border:1px solid var(--hair);background:rgba(185,155,99,.07);
+  padding:14px 18px;display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+.term__total span{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone-dim)}
+.term__total b{
+  font-family:var(--serif);font-weight:400;font-size:1.35rem;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.term__note{margin-top:.7em;font-size:.74rem;line-height:1.6;color:rgba(251,247,240,.42)}
+
+/* согласия (152-ФЗ) — тёмная форма */
+.chk{
+  display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+  font-size:.8rem;line-height:1.6;color:rgba(251,247,240,.6);margin-bottom:.9em;
+}
+.chk input{
+  appearance:none;-webkit-appearance:none;flex:0 0 auto;width:16px;height:16px;margin-top:3px;
+  border:1px solid rgba(185,155,99,.55);background:transparent;cursor:pointer;border-radius:0;
+  transition:background .25s,border-color .25s;
+}
+.chk input:checked{background:var(--gold);border-color:var(--gold);box-shadow:inset 0 0 0 3px var(--ink)}
+.chk input:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+.chk b{font-weight:400;color:var(--stone)}
+.chk a{color:var(--gold-hi);border-bottom:1px solid var(--hair)}
+.chk a:hover{border-color:var(--gold)}
+.consents{margin:clamp(20px,2.4vw,28px) 0 clamp(22px,2.6vw,30px)}
+.chk--err input{border-color:#c2564f;box-shadow:0 0 0 3px rgba(194,86,79,.16)}
+/* светлый вариант — в форме сертификата */
+.certform .chk{color:rgba(22,18,16,.68)}
+.certform .chk input{border-color:rgba(22,18,16,.4)}
+.certform .chk input:checked{background:#8a6d3b;border-color:#8a6d3b;box-shadow:inset 0 0 0 3px #fffcf6}
+.certform .chk b{color:var(--ink)}
+.certform .chk a{color:#6d5528;border-bottom-color:rgba(138,109,59,.4)}
+.form__law{
+  margin:clamp(24px,3vw,34px) 0;padding:16px 18px;border:1px solid var(--hair);
+  font-size:.78rem;line-height:1.6;color:rgba(251,247,240,.5);background:rgba(0,0,0,.2);
+}
+.form__law b{color:var(--gold);font-weight:400}
+.form__send{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.form__send .mini{max-width:24ch}
+/* расписка после отправки */
+.receipt{
+  display:none;margin-top:clamp(24px,3vw,34px);border:1px solid var(--gold);
+  background:linear-gradient(160deg,rgba(185,155,99,.1),rgba(0,0,0,.25));
+  padding:clamp(22px,2.6vw,34px);
+}
+.receipt.on{display:block}
+.receipt__k{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:.9em}
+.receipt h3{margin-bottom:.4em}
+.receipt p{font-size:.9rem;color:var(--stone-dim);max-width:44ch}
+.receipt dl{display:grid;grid-template-columns:auto 1fr;gap:.4em 1.4em;margin-top:1.2em;font-size:.82rem}
+.receipt dt{color:rgba(251,247,240,.4);letter-spacing:.1em;text-transform:uppercase;font-size:.68rem;align-self:center}
+.receipt dd{font-family:var(--serif);font-size:1.02rem;color:var(--stone)}
+
+/* ---------- 04 · СЕРТИФИКАТЫ ---------- */
+.certs{background:var(--stone);color:var(--ink);padding:clamp(80px,11vh,140px) 0}
+.certs .folio{color:#8a6d3b}
+.certs__h{padding:0 var(--pad);max-width:1440px;margin:0 auto clamp(36px,4.6vw,64px)}
+.certs__h h2{color:var(--ink);margin-bottom:.3em}
+.certs__h p{color:rgba(22,18,16,.62);max-width:52ch}
+.certs__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.2vw,34px);
+  padding:0 var(--pad);max-width:1440px;margin:0 auto;
+}
+.cert{
+  position:relative;background:#fffcf6;border:1px solid rgba(138,109,59,.4);
+  padding:clamp(26px,2.8vw,42px);display:flex;flex-direction:column;
+  box-shadow:0 12px 34px rgba(60,42,18,.1);
+  transition:box-shadow .45s,transform .45s cubic-bezier(.16,1,.3,1);
+}
+.cert::before{content:'';position:absolute;inset:9px;border:1px solid rgba(138,109,59,.28);pointer-events:none}
+.cert::after{ /* гильош в углу */
+  content:'';position:absolute;right:14px;bottom:14px;width:72px;height:72px;pointer-events:none;opacity:.5;
+  background:
+    repeating-radial-gradient(circle at 100% 100%, transparent 0 5px, rgba(138,109,59,.32) 5px 6px);
+  -webkit-mask-image:linear-gradient(315deg,#000,transparent 72%);
+  mask-image:linear-gradient(315deg,#000,transparent 72%);
+}
+.cert:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(60,42,18,.18)}
+.cert__top{display:flex;flex-direction:column;align-items:flex-start;gap:.45em;margin-bottom:1.4em;
+  max-width:calc(100% - 92px)}
+.cert__mono{font-family:var(--serif);font-size:1.15rem;letter-spacing:.3em;color:#8a6d3b}
+.cert__no{
+  font-size:.6rem;letter-spacing:.2em;color:rgba(22,18,16,.42);text-align:left;line-height:1.5;
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.cert__no b{display:block;font-weight:400;color:#8a6d3b;letter-spacing:.16em}
+/* сухой оттиск-печать: рельеф без краски */
+.cert__seal{
+  position:absolute;right:clamp(18px,2vw,28px);top:clamp(22px,2.4vw,38px);
+  width:74px;height:74px;pointer-events:none;opacity:.5;
+  color:#8a6d3b;filter:drop-shadow(0 1px 0 rgba(255,255,255,.9));
+  transform:rotate(-9deg);
+}
+.cert__seal svg{width:100%;height:100%;display:block}
+/* рукописная линия — как в паспорте бутылки */
+.cert__hand{
+  margin:1.3em 0 .2em;padding-top:1.1em;border-top:1px dashed rgba(138,109,59,.35);
+}
+.cert__hand p{
+  font-size:.6rem!important;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(22,18,16,.42)!important;margin-bottom:.35em!important;
+}
+.cert__ink{display:block;width:100%;height:30px;color:#2f3f63;opacity:.72}
+.cert__ink path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cert__k{font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:#a8323e;margin-bottom:1em}
+.cert h3{color:var(--ink);margin-bottom:.5em;max-width:18ch}
+.cert p{font-size:.88rem;color:rgba(22,18,16,.66);margin-bottom:1.4em}
+.cert__val{
+  margin-top:auto;padding-top:1.1em;border-top:1px solid rgba(138,109,59,.3);
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+}
+.cert__sum{font-family:var(--serif);font-size:1.28rem;color:#6d5528}
+.cert__dur{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(22,18,16,.5)}
+.certs__act{
+  padding:0 var(--pad);max-width:1440px;margin:clamp(34px,4vw,54px) auto 0;
+  display:flex;gap:22px;align-items:center;flex-wrap:wrap;
+}
+/* пометка «на согласовании у юриста» */
+.jur{
+  display:inline-block;vertical-align:middle;margin-left:.7em;
+  font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid rgba(168,50,62,.5);color:#a8323e;padding:3px 7px;white-space:nowrap;
+}
+.jur--dark{border-color:rgba(217,168,90,.45);color:var(--gold-hi)}
+.pay{
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:1.6em;
+  padding-top:1.4em;border-top:1px solid rgba(138,109,59,.3);
+}
+.pay .btn--gold{background:#8a6d3b;border-color:#8a6d3b;color:#fffcf6}
+.pay .btn--gold:hover{background:var(--ink);border-color:var(--ink)}
+.pay__alt{font-size:.8rem;color:rgba(22,18,16,.55);max-width:34ch}
+.pay__law{margin-top:1.1em;font-size:.72rem;line-height:1.6;color:rgba(22,18,16,.5);max-width:70ch}
+.pay__law b{color:#6d5528;font-weight:400}
+.lnk{
+  background:none;border:0;padding:0;font:inherit;cursor:pointer;color:#6d5528;
+  border-bottom:1px solid rgba(138,109,59,.5);
+}
+.lnk:hover{color:var(--ink);border-color:var(--ink)}
+.certs__act .btn{border-color:#8a6d3b;color:#6d5528}
+.certs__act .btn:hover{background:var(--ink);color:var(--stone);border-color:var(--ink)}
+.certs__act p{font-size:.8rem;color:rgba(22,18,16,.55);max-width:40ch}
+
+/* форма сертификата — раскрывается */
+.certform{
+  grid-column:1/-1;margin-top:clamp(10px,1.4vw,18px);
+  border:1px solid rgba(138,109,59,.4);background:#fffcf6;padding:clamp(26px,3vw,44px);
+  display:none;
+}
+.certform.on{display:block}
+.certform h3{color:var(--ink);margin-bottom:1.2em}
+.certform .f-lab{color:#8a6d3b}
+.certform .f-lab i{color:rgba(22,18,16,.5)}
+.certform .f-in,.certform .f-sel{background:rgba(138,109,59,.06);color:var(--ink);border-bottom-color:rgba(138,109,59,.4)}
+.certform .f-in:focus,.certform .f-sel:focus{border-color:#8a6d3b;background:rgba(138,109,59,.1)}
+.certform .f-in::placeholder{color:rgba(22,18,16,.3)}
+.certform .f-hint{color:rgba(22,18,16,.5)}
+.certform .btn{border-color:#8a6d3b;color:#6d5528}
+.certform .btn:hover{background:var(--ink);color:var(--stone);border-color:var(--ink)}
+.certform__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
+.certform__ok{display:none;margin-top:1.4em;font-family:var(--serif);font-style:italic;font-size:1.1rem;color:#6d5528}
+.certform__ok.on{display:block}
+
+/* ---------- 05 · КОРПОРАТИВНОЕ ---------- */
+.corp{padding:clamp(80px,11vh,140px) 0}
+.corp__grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+  gap:clamp(34px,4.4vw,80px);align-items:center;
+  max-width:1440px;margin:0 auto;padding:0 var(--pad);
+}
+.corp__text h2{margin-bottom:.4em}
+.corp__text p{color:var(--stone-dim);max-width:46ch;margin-bottom:1.2em}
+.corp__list{margin:1.6em 0 2em;border-top:1px solid var(--hair)}
+.corp__list div{display:flex;gap:18px;padding:.95em 0;border-bottom:1px solid var(--hair);align-items:baseline}
+.corp__list dt{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);min-width:118px}
+.corp__list dd{font-size:.92rem;color:var(--stone-dim)}
+/* деревянный футляр — закрытая крышка из четырёх досок, свет сверху справа */
+.crate__wrap{position:relative}
+.crate__badge{
+  display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;
+  border:1px solid rgba(168,50,62,.42);background:rgba(168,50,62,.08);
+  padding:12px 16px;margin-bottom:clamp(16px,2vw,24px);
+}
+.crate__badge b{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#d08a86;font-weight:400;white-space:nowrap}
+.crate__badge span{font-size:.78rem;line-height:1.55;color:var(--stone-dim)}
+.crate{
+  position:relative;aspect-ratio:1.32/1;overflow:hidden;
+  background-color:#6d4e2e;
+  background-image:
+    /* волокно дерева */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='4' seed='42'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .1 0 0 0 0 .05 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23w)'/%3E%3C/svg%3E"),
+    /* стыки четырёх досок крышки */
+    repeating-linear-gradient(90deg,
+      transparent 0 calc(25% - 3px),
+      rgba(20,11,4,.55) calc(25% - 3px) calc(25% - 1px),
+      rgba(196,158,110,.18) calc(25% - 1px) 25%,
+      transparent 25% 25%),
+    /* свет от лампы сверху справа */
+    radial-gradient(120% 96% at 82% 4%, rgba(255,228,178,.24), transparent 58%),
+    linear-gradient(202deg,#8d6438 0%,#7a5530 26%,#5c3f24 60%,#6d4c2b 84%,#4a3320 100%);
+  background-size:320px 320px, auto, auto, auto;
+  border:1px solid rgba(24,15,8,.85);
+  box-shadow:
+    -14px 30px 66px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,226,176,.18),
+    inset 0 -2px 0 rgba(20,11,4,.6),
+    inset 0 0 70px rgba(0,0,0,.35);
+  padding:clamp(20px,2.4vw,34px);
+  display:flex;flex-direction:column;
+}
+.crate::before{ /* верхняя набивная планка с гвоздями */
+  content:'';position:absolute;left:-2%;right:-2%;top:11%;height:13px;
+  background:linear-gradient(180deg,#9b7343 0%,#7c5731 44%,#4f3821 100%);
+  box-shadow:0 1px 0 rgba(255,232,192,.2) inset,-3px 5px 9px rgba(0,0,0,.45);
+}
+.crate::after{ /* нижняя планка */
+  content:'';position:absolute;left:-2%;right:-2%;bottom:10%;height:13px;
+  background:linear-gradient(180deg,#9b7343 0%,#7c5731 44%,#4f3821 100%);
+  box-shadow:0 1px 0 rgba(255,232,192,.2) inset,-3px 5px 9px rgba(0,0,0,.45);
+}
+.crate__nails{position:absolute;inset:0;z-index:2;pointer-events:none}
+.crate__nails i{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:radial-gradient(circle at 36% 28%,#d9c39a,#6d5a35 58%,#2b2210);
+  box-shadow:-1px 2px 2px rgba(0,0,0,.55);
+}
+/* латунная табличка, врезанная в крышку */
+.crate__plate{
+  position:relative;z-index:3;margin:auto;width:min(62%,300px);
+}
+.crate__plate .plate__name{font-size:clamp(1.15rem,2vw,1.55rem)}
+.crate__burn{
+  position:absolute;inset:auto 0 0 0;padding:clamp(14px,1.8vw,22px);
+  font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(28,16,6,.52);
+  text-shadow:0 1px 0 rgba(255,220,170,.16);
+  display:flex;justify-content:space-between;gap:12px;z-index:3;
+}
+.crate__stencil{
+  position:absolute;left:clamp(16px,2vw,26px);top:clamp(16px,2vw,26px);z-index:3;
+  font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(28,16,6,.5);
+  text-shadow:0 1px 0 rgba(255,220,170,.14);line-height:1.9;
+}
+
+/* ---------- 06 · ПРАКТИЧЕСКОЕ ---------- */
+.prac2{padding:clamp(70px,9vh,120px) 0 clamp(60px,8vh,100px);border-top:1px solid var(--hair)}
+.prac2__row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  max-width:1440px;margin:0 auto;
+}
+.prac2__row>div{background:var(--ink);padding:clamp(24px,2.8vw,46px) clamp(20px,2.4vw,38px)}
+.prac2__t{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1em}
+.prac2__row p{font-size:.9rem;color:var(--stone-dim);max-width:32ch}
+.prac2__row a{color:var(--gold);border-bottom:1px solid var(--hair)}
+.prac2__row a:hover{color:var(--gold-hi);border-color:var(--gold)}
+.prac2__tel{
+  display:block;font-family:var(--serif);font-size:1.5rem;color:var(--gold-hi);
+  margin-top:.3em;border:0!important;
+}
+.prac2__mail{display:block;margin-top:.5em;font-size:.86rem;color:var(--gold)!important}
+.prac2__tg{
+  display:inline-flex;align-items:center;gap:8px;margin-top:1em;
+  border:1px solid var(--hair)!important;padding:.6em 1em;
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)!important;
+  transition:border-color .3s,color .3s;
+}
+.prac2__tg:hover{border-color:var(--gold)!important;color:var(--gold-hi)!important}
+.prac2__tg svg{width:14px;height:14px;flex:0 0 auto}
+/* кросс-связь с Клубом Долины */
+.crosslink{
+  max-width:1440px;margin:clamp(30px,3.6vw,48px) auto 0;padding:0 var(--pad);
+}
+.crosslink a{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(18px,2.4vw,34px);align-items:center;
+  border:1px solid var(--hair);padding:clamp(20px,2.4vw,30px) clamp(22px,2.6vw,34px);
+  transition:border-color .4s,background .4s;
+}
+.crosslink a:hover{border-color:var(--gold);background:rgba(185,155,99,.06)}
+.crosslink b{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:400;white-space:nowrap}
+.crosslink p{font-size:.9rem;color:var(--stone-dim);max-width:64ch}
+.crosslink em{font-style:normal;color:var(--gold-hi);white-space:nowrap;font-size:.86rem}
+@media (max-width:820px){
+  .crosslink a{grid-template-columns:1fr;gap:10px}
+}
+
+/* ---------- БУРГЕР (до 640px) ---------- */
+.burger{
+  display:none;width:40px;height:34px;border:1px solid var(--hair);background:transparent;
+  align-items:center;justify-content:center;cursor:pointer;padding:0;flex:0 0 auto;
+}
+.burger i{position:relative;display:block;width:16px;height:1px;background:var(--gold);transition:background .2s}
+.burger i::before,.burger i::after{
+  content:'';position:absolute;left:0;width:16px;height:1px;background:var(--gold);
+  transition:transform .3s ease,top .3s ease;
+}
+.burger i::before{top:-5px}
+.burger i::after{top:5px}
+.hdr.nav-open .burger i{background:transparent}
+.hdr.nav-open .burger i::before{top:0;transform:rotate(45deg)}
+.hdr.nav-open .burger i::after{top:0;transform:rotate(-45deg)}
+
+/* ---------- АДАПТИВ ---------- */
+@media (max-width:1180px){
+  .niches{grid-template-columns:repeat(6,1fr)}
+  .bureau{grid-template-columns:1fr;gap:clamp(34px,5vw,56px)}
+  .bureau__left{position:static}
+  .proof__plate{max-width:460px}
+  .prac2__row{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:1000px){
+  .certs__grid{grid-template-columns:1fr 1fr}
+  .certform__grid{grid-template-columns:1fr 1fr}
+  .corp__grid{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .how__grid{grid-template-columns:1fr}
+  .ghero__folio{position:static;margin-bottom:clamp(26px,5vh,44px);padding:0}
+  .ghero{padding-top:clamp(126px,16vh,156px)}
+  .cellar__head{align-items:flex-start}
+}
+@media (max-width:640px){
+  /* шапка сворачивается в бургер — иначе «Контакты» уезжает за экран */
+  .hdr,.hdr.solid{flex-wrap:wrap;align-items:center;padding:10px var(--pad);row-gap:0}
+  .hdr__brand{width:auto;margin:0;text-align:left;align-items:flex-start}
+  .burger{display:flex;margin-left:auto}
+  .hdr__nav{
+    display:none;order:3;width:100%;margin:0;padding:10px 0 6px;
+    flex-direction:column;gap:0;overflow:visible;border-top:1px solid var(--hair);margin-top:10px;
+  }
+  .hdr.nav-open .hdr__nav{display:flex}
+  .hdr__nav a{
+    font-size:.72rem;letter-spacing:.18em;padding:12px 0;width:100%;
+    border-bottom:1px solid var(--hair);border-top:0;
+  }
+  .hdr__nav a:last-child{border-bottom:0}
+
+  /* стена: сетка 4×6 вместо 12 рядов по 2 — иначе 4000 px скролла */
+  .niches{grid-template-columns:repeat(4,1fr);gap:9px}
+  .niche__no{display:none}
+  .niche__vol{display:none}
+  .niche__hole{border-radius:50% 50% 2px 2px / 30% 30% 2px 2px}
+  .niche__plate{margin-top:6px;padding:5px 3px 4px;min-height:26px}
+  .niche__plate span{font-size:.56rem;letter-spacing:.05em}
+  .niche__plate--script span{font-size:.6rem}
+  .niche__plate--old span{font-size:.52rem;letter-spacing:.08em}
+  .niche__plate--thin span{font-size:.52rem}
+  .niche__plate small{font-size:.44rem;letter-spacing:.08em}
+  .niche--free .niche__plate span{font-size:.48rem;letter-spacing:.1em}
+
+  .certs__grid{grid-template-columns:1fr}
+  .certform__grid{grid-template-columns:1fr}
+  .prac2__row{grid-template-columns:1fr}
+  .f-two{grid-template-columns:1fr}
+  .proof__wine{flex-direction:column;align-items:flex-start}
+  /* предупреждение о вреде — уже на первом экране, а не за седьмым */
+  .ghero__warn{display:block}
+  .cert__seal{width:56px;height:56px}
+}
+@media (max-width:480px){
+  .plate--sign .plate__name{font-size:1.2rem}
+  .niches{gap:7px}
+}
+@media (prefers-reduced-motion: reduce){
+  .plate.is-cut::after{animation:none}
+  .cert:hover{transform:none}
+}
+</style>
+
+<!-- ============ МОСТ В МАСТЕР-САЙТ: герб + телефон + запись ============ -->
+<style>
+/* Герб вырезан из общего логотипа: окно 20×34 показывает корону и щит,
+   clip-path отсекает горизонтальные линейки лоскута с надписью. */
+.hdr__logo{display:block;position:relative;flex:0 0 auto;width:20px;height:34px;overflow:hidden}
+.hdr__logo img{position:absolute;left:-49.6px;top:0;width:119px;height:auto;max-width:none;display:block;clip-path:polygon(41.67% 0,58.33% 0,58.33% 60.98%,55.83% 60.98%,55.83% 69.52%,44.17% 69.52%,44.17% 60.98%,41.67% 60.98%)}
+.hdr__brand{flex-direction:row;align-items:center;gap:11px;flex:0 0 auto}
+.hdr__wm{display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}
+
+/* шапка может переносить мост на свою строку, меню при этом не сжимается */
+.hdr{flex-wrap:wrap;row-gap:7px}
+.hdr__nav{flex:0 0 auto}
+.hdr__nav a{white-space:nowrap}
+/* свободное место делится поровну: бренд слева, меню посередине, мост справа */
+@media (min-width:821px){.hdr__nav{margin-left:auto}.hdr__brand{margin-right:clamp(20px,2vw,34px)}}
+
+.brg{display:flex;align-items:center;flex:0 0 auto;
+  gap:clamp(10px,1.2vw,16px);margin-left:auto;padding-left:clamp(14px,1.6vw,24px)}
+.hdr .brg__tel{
+  font-size:.72rem;letter-spacing:.05em;white-space:nowrap;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1,"onum" 0;
+  border-bottom:1px solid transparent;padding:6px 0;transition:color .3s,border-color .3s;
+}
+.hdr .brg__tel:hover{color:var(--stone);border-color:var(--gold)}
+.hdr .brg__cta{
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  border:1px solid var(--gold);color:var(--gold-hi);padding:7px 12px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.hdr .brg__cta:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+@media (max-width:820px){
+  .hdr{row-gap:0}
+  .hdr__brand{gap:9px;justify-content:center}
+  .hdr__logo{width:16.5px;height:28px}
+  .hdr__logo img{left:-40.85px;width:98px}
+  .brg{width:100%;margin:0;padding:0 0 8px;justify-content:center;gap:14px}
+  .hdr .brg__tel{font-size:.64rem;letter-spacing:.04em;padding:0}
+  .hdr .brg__cta{font-size:.58rem;letter-spacing:.09em;padding:5px 10px}
+}
+
+/* телефон: шапка в одну строку — герб, запись, бургер; номер уезжает в меню */
+@media (max-width:640px){
+  .brg{order:2;width:auto;margin-left:auto;padding:0;gap:10px}
+  .hdr .brg__tel{display:none}
+  .hdr .brg__cta{font-size:.56rem;letter-spacing:.07em;padding:6px 9px}
+  .hdr .burger{order:3;margin-left:12px}
+  .hdr .hdr__nav{order:4}
+  /* меню раскрыто — номер возвращается строкой под пунктами */
+  .hdr.nav-open .brg{order:5;width:100%;margin:0;padding:12px 0 2px;justify-content:center;gap:16px}
+  .hdr.nav-open .brg__tel{display:inline-block;font-size:.72rem;letter-spacing:.06em}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr solid" id="hdr">
+  <a class="hdr__brand" href="../master/index.html">
+    <span class="hdr__logo"><img src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина" decoding="async"></span>
+    <span class="hdr__wm">
+      <span class="hdr__name">Солнечная&nbsp;Долина</span>
+      <span class="hdr__est">Крым · 1888</span>
+    </span>
+  </a>
+  <button class="burger" type="button" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="hdrNav"><i></i></button>
+  <nav class="hdr__nav" id="hdrNav" aria-label="Главное меню">
+    <a href="../variants/a-podval/catalog.html">Вина</a>
+    <a href="../variants/a-podval/visit.html">Визит</a>
+    <a href="#wall">Личный погреб</a>
+    <a href="#certs">Сертификаты</a>
+    <a href="wine-club.html">Клуб</a>
+    <a href="#practical">Контакты</a>
+  </nav>
+  <div class="brg">
+    <a class="brg__tel" href="tel:+79789563322">+7&nbsp;978&nbsp;956-33-22</a>
+    <a class="brg__cta" href="../master/index.html#visit">Забронировать дегустацию</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ ГЕРОЙ ============ -->
+  <section class="ghero" id="top">
+    <div class="ghero__bg" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="../assets/img/deg2-800.avif 800w, ../assets/img/deg2-1200.avif 1200w, ../assets/img/deg2-1600.avif 1600w, ../assets/img/deg2.avif 1920w" sizes="100vw">
+        <source type="image/webp" srcset="../assets/img/deg2-800.webp 800w, ../assets/img/deg2-1200.webp 1200w, ../assets/img/deg2-1600.webp 1600w, ../assets/img/deg2.webp 1920w" sizes="100vw">
+        <img src="../assets/img/deg2.jpg" alt="" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+    <div class="folio ghero__folio"><span>Личный погреб — Архадерессе</span><span>ниши в стене подвала · с 1888 года</span></div>
+
+    <div class="ghero__stage">
+      <p class="hero__kicker">Личный погреб · Услуга хранения</p>
+      <h1 class="ghero__title">Именная ниша<br>в стене <em>Архадерессе</em></h1>
+      <p class="ghero__lead">Каменная ниша галереи&nbsp;№&nbsp;3 закрепляется за вами: латунная табличка ручной гравировки, +14&nbsp;°C круглый год и право спуститься к&nbsp;ней в&nbsp;любой день срока. Бутылку вы выбираете сами — в&nbsp;магазине винодельни, при визите.</p>
+      <p class="datum"><span>с. Миндальное, Судак</span><i></i><span>+14 °C круглый год</span><i></i><span>18+</span></p>
+
+      <div class="ghero__offer">
+        <p class="ghero__price"><b>от 60 000 ₽ / год</b><small>хранение · гравировка · табличка за 3 дня</small></p>
+        <a class="btn btn--gold" href="#bureau">Заявка на нишу →</a>
+      </div>
+      <p class="ghero__warn">Чрезмерное употребление алкоголя вредит вашему здоровью. Услуга доступна лицам старше 18 лет.</p>
+
+      <aside class="ghero__sign" aria-hidden="true">
+        <div class="plate plate--sign">
+          <i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i>
+          <p class="plate__name plate__name--caps">Ниша&nbsp;№&nbsp;18</p>
+          <div class="plate__rule"></div>
+          <p class="plate__sub">Свободна · Архадерессе</p>
+        </div>
+      </aside>
+    </div>
+
+    <a class="hero__descend" href="#how">
+      <span class="hero__line"></span>
+      <span class="hero__descend-t">Спуститься к стене</span>
+    </a>
+  </section>
+
+  <!-- ============ 01 · КАК УСТРОЕНО ============ -->
+  <section class="sec sec--tight" id="how">
+    <div class="folio"><span>01 — Как устроено</span><span>три шага · без онлайн-оплаты вина</span></div>
+    <div class="how__grid">
+      <div>
+        <p class="how__no">01</p>
+        <h3>Выбираете нишу</h3>
+        <p>В галерее старинного подвала — ряд каменных ниш. Свободную выбираете сами: номер закрепляется за вами на весь срок хранения.</p>
+      </div>
+      <div>
+        <p class="how__no">02</p>
+        <h3>Гравируем табличку</h3>
+        <p>Латунная табличка с вашим именем или посвящением. Начертание вы видите сразу — оттиск собирается прямо на экране, прежде чем резец коснётся металла.</p>
+      </div>
+      <div>
+        <p class="how__no">03</p>
+        <h3>Приезжаете за бутылкой</h3>
+        <p>Вино дозревает в подвале. В любой день из срока хранения вы спускаетесь к своей нише — попробовать на дегустации или забрать бутылку с собой.</p>
+      </div>
+    </div>
+
+    <div class="how__law">
+      <b>Как это законно</b>
+      <p>Ниша — это услуга хранения и именной гравировки, а не продажа вина. Вино выбирается, оплачивается и передаётся исключительно лично, в <a href="../variants/a-podval/catalog.html">фирменном магазине винодельни</a> при визите, лицам старше 18 лет. Онлайн мы принимаем только заявку на услугу — менеджер погреба свяжется с вами по телефону и согласует срок, гравировку и день визита. Розничная продажа алкоголя дистанционным способом в России запрещена, и мы её не ведём.</p>
+    </div>
+  </section>
+
+  <!-- ============ 02 · СТЕНА НИШ ============ -->
+  <section class="cellar" id="wall">
+    <div class="cellar__wall">
+      <div class="cellar__head">
+        <div>
+          <div class="folio folio--bare"><span>02 — Стена</span></div>
+          <h2>Двадцать четыре ниши<br>в галерее № 3</h2>
+        </div>
+        <div class="cellar__legend">
+          <span><i class="busy"></i> занята</span>
+          <span><i></i> свободна</span>
+          <span>Галерея № 3 · глубина 9 м · +14 °C</span>
+        </div>
+      </div>
+
+      <!-- силуэты форматов: 0,375 · 0,75 бордо · 0,75 бургунди · 1,4 л -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="btl" viewBox="0 0 40 130">
+          <path d="M13 16h14v18c0 9 8 13 8 27v58c0 4-2 6-5 6H17c-3 0-5-2-5-6V61c0-14 8-18 8-27z"
+                fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-opacity=".85" stroke-width="1.4"/>
+          <rect x="12.4" y="3" width="15.2" height="14" fill="currentColor" fill-opacity=".78"/>
+          <rect x="14" y="86" width="12" height="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-opacity=".4" stroke-width=".8"/>
+        </symbol>
+        <symbol id="btl-half" viewBox="0 0 32 104">
+          <path d="M11 13h10v14c0 7 5.5 10 5.5 20v46c0 3.4-1.6 5-4 5H9.5c-2.4 0-4-1.6-4-5V47c0-10 5.5-13 5.5-20z"
+                fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-opacity=".85" stroke-width="1.3"/>
+          <rect x="10.4" y="2" width="11.2" height="11" fill="currentColor" fill-opacity=".78"/>
+          <rect x="10" y="66" width="12" height="22" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-opacity=".4" stroke-width=".7"/>
+        </symbol>
+        <symbol id="btl-burg" viewBox="0 0 46 130">
+          <path d="M16.5 15h13v13c0 4 2 6 5.5 11 3.6 5 5 9 5 18v60c0 4-2 6-5.5 6H12.5c-3.5 0-5.5-2-5.5-6V57c0-9 1.4-13 5-18 3.5-5 4.5-7 4.5-11z"
+                fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-opacity=".85" stroke-width="1.4"/>
+          <rect x="15.6" y="2" width="14.8" height="13" fill="currentColor" fill-opacity=".78"/>
+          <rect x="14" y="88" width="18" height="24" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-opacity=".4" stroke-width=".8"/>
+        </symbol>
+        <symbol id="seal" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3.4"/>
+          <path d="M50 21l3.7 8.6 9.3.8-7 6.1 2.1 9.1L50 40.9l-8.1 4.7 2.1-9.1-7-6.1 9.3-.8z" fill="currentColor" fill-opacity=".45"/>
+          <text x="50" y="66" text-anchor="middle" font-size="14" letter-spacing="2.5" fill="currentColor" font-family="Georgia, serif">СД</text>
+          <text x="50" y="80" text-anchor="middle" font-size="7.5" letter-spacing="1.8" fill="currentColor" font-family="Georgia, serif">1888</text>
+        </symbol>
+        <symbol id="btl-mag" viewBox="0 0 54 150">
+          <path d="M18 19h18v21c0 11 11 15 11 32v67c0 5-2.6 7-6.5 7H23.5c-3.9 0-6.5-2-6.5-7V72c0-17 11-21 11-32z"
+                fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-opacity=".85" stroke-width="1.5"/>
+          <rect x="17.2" y="3" width="19.6" height="16" fill="currentColor" fill-opacity=".78"/>
+          <rect x="19" y="100" width="16" height="30" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-opacity=".4" stroke-width=".9"/>
+        </symbol>
+      </svg>
+
+      <div class="niches" id="niches" role="group" aria-label="Ниши галереи № 3"></div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · БЮРО ГРАВИРОВКИ ============ -->
+  <section class="sec" id="bureau">
+    <div class="folio"><span>03 — Бюро гравировки</span><span>оттиск таблички · заявка без оплаты</span></div>
+
+    <div class="bureau">
+
+      <!-- ЛЕВО: живой оттиск -->
+      <div class="bureau__left">
+        <div class="bureau__proof">
+          <p class="proof__cap"><span>Оттиск таблички</span><span id="proofNiche">ниша не выбрана</span></p>
+
+          <div class="plate proof__plate" id="plate">
+            <i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i>
+            <p class="plate__name plate__name--caps" id="plateName">Ваше имя</p>
+            <div class="plate__rule"></div>
+            <p class="plate__sub" id="plateSub">Архадерессе · ниша № — · MMXXVI</p>
+          </div>
+          <p class="proof__hint">Латунь 2 мм, ручная штихельная гравировка. Оттиск обновляется по мере ввода.</p>
+
+          <div class="proof__wine">
+            <div class="case case--s" style="--case-tint:var(--red)">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/cherniy_doctor2017-500.avif">
+                <source type="image/webp" srcset="../assets/img/cherniy_doctor2017-500.webp">
+                <img src="../assets/img/cherniy_doctor2017.jpg" alt="Витрина коллекции подвала — иллюстрация" loading="lazy" decoding="async">
+              </picture>
+              <span class="case__shelf"></span>
+            </div>
+            <div>
+              <h3 class="wine__name">Коллекция подвала</h3>
+              <p class="wine__meta">6 марок выдержки 1990–2001 · 16–17,5%</p>
+              <p class="wine__note">Иллюстрация. Конкретную бутылку онлайн мы не резервируем: наличие уточняет менеджер, выбор и оплата — лично в магазине винодельни при визите.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ПРАВО: форма -->
+      <form class="bureau__right" id="resForm" novalidate>
+        <div class="form__lede">
+          <h2>Заявка на нишу</h2>
+          <p class="h-note">Ничего не оплачивается онлайн. Мы фиксируем нишу на семь дней и звоним, чтобы согласовать вино, срок и день визита.</p>
+        </div>
+
+        <div class="f-row">
+          <label class="f-lab" for="fName">Гравировка <i>до 28 знаков</i></label>
+          <input class="f-in" id="fName" name="name" type="text" maxlength="28" autocomplete="off"
+                 placeholder="Анна и Дмитрий Ковалёвы" aria-describedby="fNameHint">
+          <p class="f-hint" id="fNameHint">Имя, фамилия, посвящение или дата — то, что прочтут на камне через десять лет.</p>
+        </div>
+
+        <div class="f-row">
+          <span class="f-lab" id="faceLab">Начертание резца</span>
+          <div class="faces" role="radiogroup" aria-labelledby="faceLab">
+            <label><input type="radio" name="face" value="caps" checked><span>Капитель</span></label>
+            <label><input type="radio" name="face" value="script"><span>Курсив</span></label>
+          </div>
+        </div>
+
+        <div class="f-row">
+          <label class="f-lab" for="fWish">Пожелание по вину <i>обсудим по телефону</i></label>
+          <input class="f-in" id="fWish" name="wish" type="text" maxlength="90" autocomplete="off"
+                 placeholder="например: красное десертное, год моего выпуска" aria-describedby="fWishHint">
+          <p class="f-hint" id="fWishHint">Свободная строка, а не резерв бутылки: наличие менеджер уточнит по телефону, выбор и оплата вина — лично в магазине.</p>
+        </div>
+
+        <div class="f-row">
+          <span class="f-lab" id="termLab">Срок хранения <i>цена услуги</i></span>
+          <div class="terms" role="radiogroup" aria-labelledby="termLab">
+            <label><input type="radio" name="term" value="1" checked data-sum="60 000 ₽">
+              <span class="t-per">1 год</span><span class="t-price">60 000 ₽</span><span class="t-off"></span></label>
+            <label><input type="radio" name="term" value="3" data-sum="162 000 ₽">
+              <span class="t-per">3 года</span><span class="t-price">54 000 ₽/год</span><span class="t-off">−10 %</span></label>
+            <label><input type="radio" name="term" value="5" data-sum="255 000 ₽">
+              <span class="t-per">5 лет</span><span class="t-price">51 000 ₽/год</span><span class="t-off">−15 %</span></label>
+            <label><input type="radio" name="term" value="10" data-sum="450 000 ₽">
+              <span class="t-per">10 лет</span><span class="t-price">45 000 ₽/год</span><span class="t-off">−25 %</span></label>
+          </div>
+          <div class="term__total">
+            <span>К оплате при визите <i style="font-style:normal;color:rgba(251,247,240,.32)">— предоплата услуги не требуется</i></span>
+            <b id="termSum">60 000 ₽</b>
+          </div>
+          <p class="term__note">Цена — за услугу хранения в именной нише и латунную табличку с гравировкой. Стоимость вина в неё не входит: бутылка приобретается отдельно, лично в магазине винодельни.</p>
+        </div>
+
+        <div class="f-row f-two">
+          <div>
+            <label class="f-lab" for="fWho">Вас зовут</label>
+            <input class="f-in" id="fWho" name="who" type="text" autocomplete="name" placeholder="Имя">
+          </div>
+          <div>
+            <label class="f-lab" for="fTel">Телефон</label>
+            <input class="f-in" id="fTel" name="tel" type="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__">
+          </div>
+        </div>
+
+        <p class="form__law"><b>Важно.</b> Заявка не является покупкой и не является офертой на дистанционную продажу алкоголя. Вино выбирается, оплачивается и передаётся исключительно при личном визите в фирменный магазин винодельни, лицам старше 18 лет. Хранение и гравировка оплачиваются на месте.</p>
+
+        <div class="consents">
+          <label class="chk"><input type="checkbox" name="age" required>
+            <span>Мне <b>исполнилось 18 лет</b>. Понимаю, что услуга связана с хранением алкогольной продукции.</span></label>
+          <label class="chk"><input type="checkbox" name="pdn" required>
+            <span>Даю согласие на <b>обработку персональных данных</b> (имя, телефон) для связи по заявке — <a href="../master/index.html#partners" target="_blank" rel="noopener">политика обработки</a>, откроется в новой вкладке.</span></label>
+          <label class="chk"><input type="checkbox" name="news">
+            <span>Хочу получать письма о событиях подвала. <b>Отдельное согласие</b>, отписка в один клик.</span></label>
+        </div>
+
+        <div class="form__send">
+          <button class="btn btn--gold" type="submit">Отправить заявку</button>
+          <p class="mini">Или позвоните: <a href="tel:+79789563322" style="color:var(--gold-hi)">+7 (978) 956-33-22</a>, 10:00–20:00 без выходных</p>
+        </div>
+
+        <div class="receipt" id="receipt" role="status" aria-live="polite">
+          <p class="receipt__k">Заявка принята — оплаты не требуется</p>
+          <h3 id="rcpTitle">Ниша № 07 — запрос наличия отправлен</h3>
+          <p>Менеджер погреба позвонит в рабочее время: подтвердит свободную нишу, согласует срок хранения, гравировку и день визита. Вино вы выберете на месте.</p>
+          <dl>
+            <dt>Заявка</dt><dd id="rcpNo">АРХ-2026-0714</dd>
+            <dt>Ниша</dt><dd id="rcpNiche">—</dd>
+            <dt>Гравировка</dt><dd id="rcpName">—</dd>
+            <dt>Срок</dt><dd id="rcpTerm">—</dd>
+          </dl>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- ============ 04 · СЕРТИФИКАТЫ ============ -->
+  <section class="certs" id="certs">
+    <div class="folio"><span>04 — Подарочные сертификаты</span><span>на визит и дегустацию · прейскурант с 15.03.25</span></div>
+    <div class="certs__h">
+      <h2>Подарить не бутылку,<br>а спуск в 1888 год</h2>
+      <p>Сертификат — не алкоголь, а право на визит: экскурсия по голицынским подвалам и дегустация под руководством сомелье. Действует год, погашается на месте, в дегустационном комплексе в с. Миндальное.</p>
+    </div>
+
+    <div class="certs__grid">
+
+      <article class="cert">
+        <div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#seal"></use></svg></div>
+        <div class="cert__top">
+          <p class="cert__mono">СД</p>
+          <p class="cert__no">серия АРХ · бланк<b>№ 0001–0400</b></p>
+        </div>
+        <p class="cert__k">Сертификат № I</p>
+        <h3>Экскурсия по трём подвалам и 10 марок вин</h3>
+        <p>Три голицынских подвала, обучение навыкам дегустации на примере десяти марок вин, фотографии в исторических местах, связанных с именами Голицына и Горчакова.</p>
+        <div class="cert__hand">
+          <p>Кому · рукой сомелье</p>
+          <svg class="cert__ink" viewBox="0 0 200 30" aria-hidden="true"><path d="M6 22c9-13 14-15 17-9s-2 12 2 12 8-9 12-14 7-3 6 4 2 8 7 2 9-11 13-8-1 9 4 9 9-6 13-11 8-4 7 3 3 7 8 3 9-8 13-9"/></svg>
+        </div>
+        <div class="cert__val"><span class="cert__sum">от 1450 ₽ / гость</span><span class="cert__dur">1 час 20 минут</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#seal"></use></svg></div>
+        <div class="cert__top">
+          <p class="cert__mono">СД</p>
+          <p class="cert__no">серия АРХ · бланк<b>№ 0401–0520</b></p>
+        </div>
+        <p class="cert__k">Сертификат № II</p>
+        <h3>VIP-дегустация в подвале с коллекцией</h3>
+        <p>Четыре подвала, два премиальных вина прямо в подвале с коллекцией, десять марок в гастросопровождении с шестью авторскими сырами в каминном зале.</p>
+        <div class="cert__hand">
+          <p>Кому · рукой сомелье</p>
+          <svg class="cert__ink" viewBox="0 0 200 30" aria-hidden="true"><path d="M8 20c6-11 11-14 14-8s0 13 4 12 7-11 11-15 8-2 6 5 1 9 6 4 8-12 13-10-2 10 3 10 10-7 14-12 7-3 6 4 4 6 9 2 8-7 12-8"/></svg>
+        </div>
+        <div class="cert__val"><span class="cert__sum">от 27 500 ₽ / пять гостей</span><span class="cert__dur">2 часа</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#seal"></use></svg></div>
+        <div class="cert__top">
+          <p class="cert__mono">СД</p>
+          <p class="cert__no">серия АРХ · бланк<b>№ 0521–0600</b></p>
+        </div>
+        <p class="cert__k">Сертификат № III</p>
+        <h3>Ретро-дегустация при свечах</h3>
+        <p>Вечер в старинном подвале, как сто лет назад: камень, свечи и вино. По предварительной заявке — за тишиной, после дневных групп.</p>
+        <div class="cert__hand">
+          <p>Кому · рукой сомелье</p>
+          <svg class="cert__ink" viewBox="0 0 200 30" aria-hidden="true"><path d="M7 21c8-12 13-14 16-8s-1 12 3 12 7-10 11-15 8-3 7 4 2 8 7 3 8-10 12-8-1 9 4 9 10-6 14-11 7-4 6 3 4 7 9 3 8-8 12-9"/></svg>
+        </div>
+        <div class="cert__val"><span class="cert__sum">от 2 750 ₽ / гость</span><span class="cert__dur">до 2 часов</span></div>
+      </article>
+
+      <div class="certform" id="certForm">
+        <h3>Оформить сертификат</h3>
+        <div class="certform__grid">
+          <div>
+            <label class="f-lab" for="cProg">Программа</label>
+            <select class="f-sel" id="cProg">
+              <option>№ I — Экскурсия и 10 марок вин</option>
+              <option>№ II — VIP-дегустация</option>
+              <option>№ III — Ретро-дегустация при свечах</option>
+            </select>
+          </div>
+          <div>
+            <label class="f-lab" for="cGuests">Гостей</label>
+            <select class="f-sel" id="cGuests">
+              <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6 и больше</option>
+            </select>
+          </div>
+          <div>
+            <label class="f-lab" for="cTo">Кому <i>надпись на бланке</i></label>
+            <input class="f-in" id="cTo" type="text" placeholder="Марии — на юбилей">
+          </div>
+          <div>
+            <label class="f-lab" for="cWho">Вас зовут</label>
+            <input class="f-in" id="cWho" type="text" placeholder="Имя">
+          </div>
+          <div>
+            <label class="f-lab" for="cTel">Телефон</label>
+            <input class="f-in" id="cTel" type="tel" placeholder="+7 ___ ___-__-__">
+          </div>
+          <div>
+            <label class="f-lab" for="cDate">Желаемая дата визита <i>необязательно</i></label>
+            <input class="f-in" id="cDate" type="text" placeholder="например, 12 сентября">
+          </div>
+        </div>
+        <div class="consents">
+          <label class="chk"><input type="checkbox" name="cAge" required>
+            <span>Мне <b>исполнилось 18 лет</b>. Дегустация проводится только для совершеннолетних.</span></label>
+          <label class="chk"><input type="checkbox" name="cPdn" required>
+            <span>Даю согласие на <b>обработку персональных данных</b> — своих и, по моему поручению, <b>данных одаряемого</b> (имя на бланке, желаемая дата визита), которые я сообщаю добровольно и с его ведома — <a href="../master/index.html#partners" target="_blank" rel="noopener">политика обработки</a>.</span></label>
+          <label class="chk"><input type="checkbox" name="cNews">
+            <span>Хочу получать письма о дегустациях и релизах. <b>Отдельное согласие</b>, отписка в один клик.</span></label>
+        </div>
+
+        <div class="pay">
+          <button class="btn btn--gold" type="button" id="certPay">Оплатить сертификат онлайн</button>
+          <p class="pay__alt">Бланк придёт на почту сразу после оплаты — успевает к дате дарения.<span class="jur">[ЮРИСТ] — касса и 54-ФЗ</span></p>
+        </div>
+        <p class="pay__law">Оплачивается <b>услуга экскурсии и дегустации</b>, а не алкоголь: онлайн-платёж проходит через кассу с фискальным чеком по 54-ФЗ. Сертификат не обменивается на бутылки и не даёт права на дистанционную покупку вина. Подключение эквайринга и текст оферты — на согласовании у юриста.</p>
+        <p class="f-hint" style="margin-top:1.2em">Не хотите платить онлайн — <button class="lnk" type="button" id="certSend">оставьте заявку</button>: менеджер позвонит, оплата при получении бланка в комплексе или по счёту для юридических лиц.</p>
+        <p class="certform__ok" id="certOk">Заявка принята. Менеджер позвонит в рабочее время и согласует бланк, номинал и дату визита.</p>
+      </div>
+
+    </div>
+
+    <div class="certs__act">
+      <button class="btn btn--ghost" type="button" id="certToggle" aria-expanded="false" aria-controls="certForm">Оформить сертификат</button>
+      <p>Сертификат не даёт права на дистанционное приобретение алкоголя и не обменивается на бутылки без личного визита. Участие в дегустации — строго 18+.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · КОРПОРАТИВНОЕ ============ -->
+  <section class="corp" id="corporate">
+    <div class="folio"><span>05 — Корпоративное</span><span>HoReCa · партнёрам и гостям</span></div>
+    <div class="corp__grid">
+      <div class="corp__text">
+        <p class="kicker">Подарок партнёру</p>
+        <h2>Футляр «Чёрный Доктор»</h2>
+        <p>Деревянный футляр ручной сборки: две бутылки «Чёрного Доктора Солнечной Долины» из автохтонов эким кара, джеват кара и кефессия, паспорт партии и латунная табличка с гравировкой — именем компании или адресатом.</p>
+        <dl class="corp__list">
+          <div><dt>Что входит</dt><dd>Футляр ручной сборки, латунная табличка с гравировкой, паспорт партии и сертификат визита в подвалы</dd></div>
+          <div><dt>Гравировка</dt><dd>Латунь, до 28 знаков; логотип компании — по макету</dd></div>
+          <div><dt>Тираж</dt><dd>От 10 футляров; сроки — 14 рабочих дней</dd></div>
+          <div><dt>Вино</dt><dd>В стоимость футляра не входит. Бутылки выбираются и оплачиваются в фирменном магазине винодельни при получении набора</dd></div>
+        </dl>
+        <p class="mini" style="max-width:46ch;margin-bottom:2em">Мы продаём футляр, гравировку и сертификат визита. Розничная продажа алкоголя дистанционным способом запрещена: вино в набор докладывается офлайн, а отгрузка алкоголя возможна только по договору поставки лицензиату.</p>
+        <a class="btn btn--ghost" href="tel:+79789563322">Запросить смету</a>
+      </div>
+
+      <div class="crate__wrap">
+        <p class="crate__badge">
+          <b>Только для юрлиц с лицензией</b>
+          <span>Наполнение футляра вином — исключительно по договору поставки организации, имеющей лицензию на розничную продажу алкоголя. Частным лицам — футляр и гравировка, бутылки выбираются в магазине.</span>
+        </p>
+        <div class="crate" role="img" aria-label="Макет закрытого деревянного футляра с врезанной латунной табличкой «Чёрный Доктор»">
+          <div class="crate__nails" aria-hidden="true">
+            <i style="left:6%;top:12.4%"></i><i style="left:32%;top:12.4%"></i>
+            <i style="right:32%;top:12.4%"></i><i style="right:6%;top:12.4%"></i>
+            <i style="left:6%;bottom:11.4%"></i><i style="left:32%;bottom:11.4%"></i>
+            <i style="right:32%;bottom:11.4%"></i><i style="right:6%;bottom:11.4%"></i>
+          </div>
+          <p class="crate__stencil">Архадерессе<br>Крым · 1888</p>
+          <div class="plate crate__plate">
+            <i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i><i class="plate__screw"></i>
+            <p class="plate__name plate__name--caps">Чёрный&nbsp;Доктор</p>
+            <div class="plate__rule"></div>
+            <p class="plate__sub">Гравировка по макету</p>
+          </div>
+          <div class="crate__burn"><span>Футляр ручной сборки</span><span>тираж от 10</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 · ПРАКТИЧЕСКОЕ ============ -->
+  <section class="prac2" id="practical">
+    <div class="folio"><span>06 — Практическое</span><span>44°51′ N · 35°02′ E</span></div>
+    <div class="prac2__row">
+      <div>
+        <p class="prac2__t">Где погреб</p>
+        <p>Дегустационный комплекс «Архадерессе», с. Миндальное, ул. Миндальная, 8А, Судак. Ниши — в галерее № 3, глубина 9 м.</p>
+      </div>
+      <div>
+        <p class="prac2__t">Менеджер погреба</p>
+        <p>Ирина Левченко, хранитель галереи № 3. Звонки с 10:00 до 20:00 без выходных.<a class="prac2__tel" href="tel:+79789563322">+7 (978) 956-33-22</a><a class="prac2__mail" href="mailto:cellar@sunvalley-crimea.ru">cellar@sunvalley-crimea.ru</a></p>
+        <a class="prac2__tg" href="https://t.me/sunvalley_cellar" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 12.1l-4.9-1.5c-1-.3-1.1-1 .2-1.5l19.2-7.4c.9-.3 1.6.2 1.4 1.6z"/></svg>
+          Написать в Telegram
+        </a>
+      </div>
+      <div>
+        <p class="prac2__t">Условия хранения</p>
+        <p>Каменный подвал 1888 года, около +14 °C круглый год, естественная влажность, бутылка лежит горизонтально.</p>
+      </div>
+      <div>
+        <p class="prac2__t">Что важно знать</p>
+        <p>Резерв ниши — не покупка вина. Вино приобретается лично, 18+. Ниша закрепляется на 7 дней с момента заявки.</p>
+      </div>
+    </div>
+    <div class="crosslink">
+      <a href="wine-club.html">
+        <b>Клуб Долины</b>
+        <p>Хранителям клуба (третий год подписки) ниша на год достаётся в подарок — вместе с гравировкой и правом спуска в галерею № 3. Клубную ступень можно оформить и как подарок: тогда нишу открываем на имя одаряемого.</p>
+        <em>Клуб и ступени →</em>
+      </a>
+    </div>
+    <div class="stage" style="margin-top:clamp(28px,3.4vw,44px);display:flex;justify-content:center">
+      <p class="datum"><span>заявка без оплаты</span><i></i><span>гравировка за 3 дня</span><i></i><span>18+</span></p>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <p class="ftr__law">Чрезмерное употребление алкоголя вредит вашему здоровью</p>
+  </footer>
+
+</main>
+
+<script>
+/* ============================================================
+   Личный погреб · интерактив стены и бюро гравировки
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* ---------- шапка ---------- */
+  var hdr = document.getElementById('hdr');
+  if (hdr) {
+    var onScroll = function () { hdr.classList.toggle('solid', window.scrollY > 40); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---------- форматы бутылок в нишах ---------- */
+  var FMT = [
+    { s:'#btl-half', c:'niche__bottle--half', vb:'0 0 32 104', v:'0,375 л' },
+    { s:'#btl',      c:'niche__bottle--std',  vb:'0 0 40 130', v:'0,75 л'  },
+    { s:'#btl-burg', c:'niche__bottle--burg', vb:'0 0 46 130', v:'0,75 л'  },
+    { s:'#btl-mag',  c:'niche__bottle--mag',  vb:'0 0 54 150', v:'1,4 л'   }
+  ];
+
+  /* ---------- стена: 24 ниши, часть занята ----------
+     инициалы условны; год не указываем — ниша либо занята, либо свободна */
+  var BUSY = {
+    2:  { ini:'А. К.',        f:1, p:'' },
+    5:  { ini:'М. и Л. С.',   f:2, p:' niche__plate--script' },
+    6:  { ini:'Семья Р.',     f:3, p:' niche__plate--old' },
+    9:  { ini:'В. Н. Т.',     f:0, p:' niche__plate--thin' },
+    12: { ini:'Э. Б.',        f:2, p:' niche__plate--patina' },
+    13: { ini:'Д. и О. П.',   f:1, p:' niche__plate--script' },
+    16: { ini:'Г. М.',        f:3, p:' niche__plate--patina' },
+    19: { ini:'Семья Ш.',     f:0, p:'' },
+    20: { ini:'К. А. Ж.',     f:1, p:' niche__plate--old' },
+    23: { ini:'Т. и Т.',      f:2, p:' niche__plate--thin' }
+  };
+
+  var wall = document.getElementById('niches');
+  var TOTAL = 24;
+  var i, n, busy, fmt, b, html = '';
+  for (i = 1; i <= TOTAL; i++) {
+    n = ('0' + i).slice(-2);
+    busy = BUSY[i];
+    fmt = FMT[busy ? busy.f : 1];
+    b = busy
+      ? '<span class="niche__plate' + busy.p + '"><span>' + busy.ini + '</span><small>ниша ' + n + ' · занята</small></span>'
+      : '<span class="niche__plate"><span>свободна</span></span>';
+    html +=
+      '<button type="button" class="niche ' + (busy ? 'niche--busy' : 'niche--free') + '" data-no="' + n + '"' +
+        (busy ? ' aria-disabled="true" aria-label="Ниша ' + n + ' занята"' : ' aria-label="Ниша ' + n + ' свободна — выбрать"') + '>' +
+        '<span class="niche__hole">' +
+          '<span class="niche__no">' + n + '</span>' +
+          '<svg class="niche__bottle ' + fmt.c + '" viewBox="' + fmt.vb + '" aria-hidden="true"><use href="' + fmt.s + '"></use></svg>' +
+          (busy ? '<span class="niche__vol">' + fmt.v + '</span>' : '') +
+          '<span class="niche__dust"></span>' +
+        '</span>' +
+        b +
+      '</button>';
+  }
+  wall.innerHTML = html;
+
+  /* ---------- бургер (шапка до 640px) ---------- */
+  var burger = document.getElementById('burger');
+  if (burger && hdr) {
+    burger.addEventListener('click', function () {
+      var open = hdr.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#hdrNav a'), function (a) {
+      a.addEventListener('click', function () {
+        hdr.classList.remove('nav-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  /* ---------- бюро ---------- */
+  var plate     = document.getElementById('plate');
+  var plateName = document.getElementById('plateName');
+  var plateSub  = document.getElementById('plateSub');
+  var proofNi   = document.getElementById('proofNiche');
+  var fName     = document.getElementById('fName');
+  var receipt   = document.getElementById('receipt');
+  var selNiche  = null;
+
+  /* ---------- срок хранения: цена услуги ---------- */
+  var termSum = document.getElementById('termSum');
+  function paintTerm() {
+    var t = document.querySelector('input[name="term"]:checked');
+    if (t && termSum) { termSum.textContent = t.getAttribute('data-sum'); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="term"]'), function (r) {
+    r.addEventListener('change', paintTerm);
+  });
+
+  /* гравировка: кегль и трекинг зависят от длины строки */
+  function paintPlate() {
+    var raw = (fName.value || '').replace(/\s+/g, ' ').trim();
+    var txt = raw || 'Ваше имя';
+    var len = txt.length;
+    var size, track;
+    if (len <= 9)       { size = '2.15rem'; track = '.2em'; }
+    else if (len <= 14) { size = '1.78rem'; track = '.17em'; }
+    else if (len <= 20) { size = '1.42rem'; track = '.14em'; }
+    else                { size = '1.14rem'; track = '.11em'; }
+
+    plateName.textContent = txt;
+    plateName.style.fontSize = size;
+    plateName.style.letterSpacing = raw ? track : '.16em';
+    plateName.style.opacity = raw ? '1' : '.42';
+
+    var face = document.querySelector('input[name="face"]:checked');
+    var script = face && face.value === 'script';
+    plateName.classList.toggle('plate__name--caps', !script);
+    plateName.classList.toggle('plate__name--script', script);
+    if (script) { plateName.style.letterSpacing = '.02em'; }
+
+    plateSub.textContent = 'Архадерессе · ниша № ' + (selNiche || '—') + ' · MMXXVI';
+
+    /* проход резца */
+    plate.classList.remove('is-cut');
+    void plate.offsetWidth;
+    plate.classList.add('is-cut');
+  }
+
+  fName.addEventListener('input', paintPlate);
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="face"]'), function (r) {
+    r.addEventListener('change', paintPlate);
+  });
+
+  /* выбор ниши */
+  wall.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.niche') : null;
+    if (!btn) return;
+    if (btn.classList.contains('niche--busy')) return;
+    Array.prototype.forEach.call(wall.querySelectorAll('.niche'), function (el) { el.classList.remove('is-sel'); });
+    btn.classList.add('is-sel');
+    selNiche = btn.getAttribute('data-no');
+    proofNi.textContent = 'ниша № ' + selNiche;
+    paintPlate();
+    receipt.classList.remove('on');
+    /* на узких экранах бюро — ниже стены: подводим к нему */
+    if (window.matchMedia('(max-width: 1180px)').matches) {
+      document.getElementById('bureau').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (!fName.value) { setTimeout(function () { fName.focus({ preventScroll: true }); }, 260); }
+  });
+
+  /* согласия 152-ФЗ: без обязательных галочек заявка не уходит */
+  function requireConsent(scope) {
+    var boxes = scope.querySelectorAll('.consents input[required]');
+    var ok = true, first = null;
+    Array.prototype.forEach.call(boxes, function (b) {
+      var row = b.closest('.chk');
+      if (!b.checked) { ok = false; row.classList.add('chk--err'); if (!first) first = row; }
+      else { row.classList.remove('chk--err'); }
+      if (!b.dataset.bound) {
+        b.dataset.bound = '1';
+        b.addEventListener('change', function () { if (b.checked) row.classList.remove('chk--err'); });
+      }
+    });
+    if (!ok && first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    return ok;
+  }
+
+  /* отправка заявки — макет, ничего не уходит и не оплачивается */
+  document.getElementById('resForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!selNiche) {
+      document.getElementById('wall').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      proofNi.textContent = 'выберите свободную нишу';
+      return;
+    }
+    if (!requireConsent(this)) return;
+    var term = document.querySelector('input[name="term"]:checked');
+    var words = { '1': 'один год', '3': 'три года', '5': 'пять лет', '10': 'десять лет' };
+    document.getElementById('rcpTitle').textContent = 'Ниша № ' + selNiche + ' — запрос наличия отправлен';
+    document.getElementById('rcpNo').textContent = 'АРХ-2026-' + selNiche + Math.floor(10 + Math.random() * 89);
+    document.getElementById('rcpNiche').textContent = '№ ' + selNiche + ' · галерея № 3';
+    document.getElementById('rcpName').textContent = (fName.value || '').trim() || 'уточним по телефону';
+    document.getElementById('rcpTerm').textContent = words[term.value] + ' · ' + term.getAttribute('data-sum') + ' при визите';
+    receipt.classList.add('on');
+    receipt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* сертификаты */
+  var cToggle = document.getElementById('certToggle');
+  var cForm = document.getElementById('certForm');
+  cToggle.addEventListener('click', function () {
+    var on = cForm.classList.toggle('on');
+    cToggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    cToggle.textContent = on ? 'Свернуть' : 'Оформить сертификат';
+    if (on) cForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  var certOk = document.getElementById('certOk');
+  document.getElementById('certSend').addEventListener('click', function () {
+    if (!requireConsent(cForm)) return;
+    certOk.textContent = 'Заявка принята. Менеджер позвонит в рабочее время и согласует бланк, номинал и дату визита. Оплата — при получении бланка.';
+    certOk.classList.add('on');
+  });
+  document.getElementById('certPay').addEventListener('click', function () {
+    if (!requireConsent(cForm)) return;
+    certOk.textContent = 'Макет: здесь откроется платёжная страница кассы с фискальным чеком по 54-ФЗ. Оплачивается услуга экскурсии и дегустации, не алкоголь.';
+    certOk.classList.add('on');
+    certOk.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* reveal */
+  var targets = document.querySelectorAll(
+    '.how__grid > div, .cellar__head, .bureau__left, .bureau__right .f-row, .form__lede,' +
+    '.cert, .corp__text, .crate, .prac2__row > div, .certs__h, .folio'
+  );
+  Array.prototype.forEach.call(targets, function (el, i) {
+    el.classList.add('rv');
+    el.style.transitionDelay = (i % 4) * 90 + 'ms';
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(targets, function (el) { el.classList.add('on'); });
+  }
+
+  /* ниши проявляются волной */
+  var nichesEls = wall.querySelectorAll('.niche');
+  Array.prototype.forEach.call(nichesEls, function (el, i) {
+    el.classList.add('rv');
+    el.style.transitionDelay = (i % 6) * 70 + Math.floor(i / 6) * 110 + 'ms';
+  });
+  if ('IntersectionObserver' in window) {
+    var io2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('on'); io2.unobserve(en.target); }
+      });
+    }, { threshold: 0.1 });
+    Array.prototype.forEach.call(nichesEls, function (el) { io2.observe(el); });
+  } else {
+    Array.prototype.forEach.call(nichesEls, function (el) { el.classList.add('on'); });
+  }
+
+  paintTerm();
+  paintPlate();
+})();
+</script>
+</body>
+</html>

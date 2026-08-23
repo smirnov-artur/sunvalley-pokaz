@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Энотуризм — Солнечная Долина</title>
+<meta name="description" content="Экскурсии и дегустации в старинных голицынских подвалах Архадерессе, основанных в 1888 году. Дегустационный зал в с. Миндальное, Судак. Программы, цены, бронирование.">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ==== страница «Энотуризм» ==== */
+
+/* герой на фото */
+.vhero{
+  min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(110px,14vh,160px) var(--pad) 90px;overflow:hidden;
+}
+.vhero__bg{position:absolute;inset:0;z-index:-1}
+.vhero__bg img{width:100%;height:100%;object-fit:cover;object-position:56% 50%;filter:brightness(.9) saturate(1.05)}
+.vhero__bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(180deg, rgba(22,18,16,.72) 0%, rgba(22,18,16,.45) 40%, rgba(22,18,16,.86) 100%),
+    radial-gradient(900px 600px at 20% 80%, rgba(95,25,48,.25), transparent 65%);
+}
+.vhero__folio{position:absolute;top:clamp(84px,11vh,120px);left:0;right:0;margin-bottom:0}
+.vhero__stage{max-width:1280px;margin:0 auto;width:100%}
+/* кикер: общий .hero__kicker в style.css стал absolute/тёмным под новый hero-split главной — здесь возвращаем в поток и светлым */
+.vhero .hero__kicker{position:static;color:var(--stone-dim);white-space:normal;margin-bottom:min(4vh,40px)}
+.vhero__title{font-size:clamp(3rem,7.6vw,7rem);letter-spacing:.015em;max-width:14ch}
+.vhero__slogan{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.2vw,1.7rem);
+  color:var(--gold-hi);margin-top:1.1em;line-height:1.4;max-width:34ch;
+}
+
+/* параллакс героя: scroll-driven, слои на разных скоростях
+   (фон уходит быстрее, заголовок «отстаёт» и выезжает медленнее) */
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .vhero{view-timeline:--vhero block}
+    .vhero__bg{inset:0 0 -16%}
+    .vhero__bg img{
+      animation:vheroBg linear both;
+      animation-timeline:--vhero;
+      animation-range:exit 0% exit 100%;
+    }
+    .vhero__title{
+      animation:vheroTitle linear both;
+      animation-timeline:--vhero;
+      animation-range:exit 0% exit 100%;
+    }
+    .vhero .hero__kicker,.vhero__slogan,.vhero .datum{
+      animation:vheroFade linear both;
+      animation-timeline:--vhero;
+      animation-range:exit 0% exit 45%;
+    }
+  }
+}
+@keyframes vheroBg{to{transform:translateY(-11%)}}
+@keyframes vheroTitle{to{transform:translateY(20vh);opacity:.25}}
+@keyframes vheroFade{to{opacity:0;transform:translateY(-7vh)}}
+
+/* шаги визита */
+.steps{padding:clamp(90px,12vh,150px) 0 clamp(70px,9vh,110px)}
+.steps__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding:0 var(--pad);max-width:1440px;margin:0 auto;
+}
+.steps__grid>div{padding:0 clamp(18px,3vw,48px);border-left:1px solid var(--hair)}
+.steps__grid>div:first-child{border-left:0;padding-left:0}
+.step__no{
+  font-family:var(--serif);font-size:clamp(3.2rem,6vw,5.4rem);line-height:1;
+  color:var(--gold);margin-bottom:.35em;
+}
+.steps__grid h3{margin-bottom:.5em}
+.steps__grid p:not(.step__no){font-size:.92rem;color:var(--stone-dim);max-width:38ch}
+
+/* программы: билеты */
+.prog{padding:clamp(70px,9vh,120px) 0}
+.prog__h{padding:0 var(--pad);max-width:1440px;margin:0 auto clamp(40px,5vw,72px)}
+.prog__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.8vw,28px);
+  padding:0 var(--pad);max-width:1440px;margin:0 auto;
+}
+.ticket{
+  --pY:112px; /* линия отрыва: отступ перфорации от верха билета */
+  position:relative;border:1px solid var(--hair);
+  background-color:var(--ink-2);
+  background-image:repeating-linear-gradient(90deg, rgba(185,155,99,.45) 0 7px, transparent 7px 15px);
+  background-size:calc(100% - 44px) 1px;
+  background-position:50% var(--pY);
+  background-repeat:no-repeat;
+  padding:0 clamp(24px,2.6vw,40px) clamp(24px,2.6vw,40px);
+  display:flex;flex-direction:column;
+  transition:background-color .4s,border-color .4s;
+}
+.ticket::before{
+  content:'';position:absolute;inset:7px;border:1px dashed rgba(185,155,99,.16);pointer-events:none;
+}
+.ticket:hover{background-color:#261e17;border-color:var(--gold)}
+/* полукруглые вырезы перфорации: две radial-gradient-маски, пересечение */
+@supports (mask-composite: intersect){
+  .ticket{
+    mask:
+      radial-gradient(circle 9px at 0 var(--pY), transparent 8px, #000 9px),
+      radial-gradient(circle 9px at 100% var(--pY), transparent 8px, #000 9px);
+    mask-composite:intersect;
+  }
+}
+.ticket__no{
+  height:var(--pY);display:flex;align-items:center;gap:.16em;
+  font-family:var(--serif);font-size:clamp(3.2rem,3.8vw,4.4rem);line-height:1;color:var(--gold);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
+}
+.ticket__no span{font-size:.44em;opacity:.6;transform:translateY(-.34em)}
+.ticket__name{margin-top:clamp(18px,2vw,26px);font-size:clamp(1.25rem,1.7vw,1.55rem);margin-bottom:.55em;max-width:22ch}
+.ticket__note{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.9em}
+.ticket__desc{font-size:.88rem;color:var(--stone-dim);margin-bottom:1.6em}
+.ticket__meta{
+  margin-top:auto;padding-top:1.1em;border-top:1px solid rgba(185,155,99,.18);
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+.ticket__dur{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone-dim)}
+.ticket__price{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--gold-hi)}
+.prog__fine{
+  padding:0 var(--pad);max-width:1440px;margin:clamp(28px,3.5vw,48px) auto 0;
+  font-size:.8rem;color:var(--stone-dim);
+}
+.prog__fine p+p{margin-top:.4em}
+
+/* галерея 2×2 */
+.gal{padding:clamp(70px,9vh,120px) 0 clamp(60px,8vh,100px)}
+.gal__grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.4vw,36px);
+  padding:0 var(--pad);max-width:1440px;margin:0 auto;
+}
+.gal__grid figure{margin:0}
+.gal__grid img{
+  width:100%;aspect-ratio:3/2;object-fit:cover;
+  filter:sepia(.1) saturate(1.1) contrast(1.03);
+  border:1px solid rgba(185,155,99,.2);
+}
+.gal__grid figcaption{
+  padding-top:12px;font-family:var(--serif);font-style:italic;
+  font-size:.95rem;color:var(--stone-dim);
+}
+.gal__zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.gal__zoom img{transition:filter .5s ease}
+.gal__zoom:hover img,.gal__zoom:focus-visible img{filter:sepia(.04) saturate(1.15) contrast(1.05) brightness(1.07)}
+.gal__zoom:focus-visible{outline:1px solid var(--gold);outline-offset:5px}
+
+/* лайтбокс на <dialog> */
+.lb{
+  border:0;padding:0;background:transparent;max-width:none;max-height:none;overflow:visible;color:var(--stone);
+  position:fixed;inset:0;margin:auto;width:fit-content;height:fit-content; /* глобальный резет * убивает UA margin:auto */
+}
+.lb:focus{outline:none}
+.lb__fig{margin:0}
+.lb__fig img{
+  display:block;max-width:min(92vw,1200px);max-height:78vh;width:auto;height:auto;margin:0 auto;
+  border:1px solid rgba(185,155,99,.45);box-shadow:0 40px 120px rgba(0,0,0,.6);
+}
+.lb__fig figcaption{
+  text-align:center;padding-top:18px;font-family:var(--serif);font-style:italic;
+  font-size:clamp(1rem,1.4vw,1.2rem);color:var(--gold-hi);
+}
+.lb__x{
+  position:fixed;top:20px;right:24px;width:44px;height:44px;
+  border:1px solid var(--hair);background:rgba(22,18,16,.6);color:var(--gold-hi);
+  font-size:1rem;line-height:1;cursor:pointer;
+  transition:border-color .3s,color .3s,background .3s;
+}
+.lb__x:hover{border-color:var(--gold);color:var(--stone);background:rgba(30,25,21,.85)}
+.lb::backdrop{background:rgba(12,9,6,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .lb::backdrop{background:rgba(12,9,6,.94)}
+}
+@media (prefers-reduced-motion: no-preference){
+  .lb[open]{opacity:1;transform:none;transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1)}
+  @starting-style{.lb[open]{opacity:0;transform:translateY(16px) scale(.985)}}
+  .lb[open]::backdrop{transition:opacity .5s ease}
+  @starting-style{.lb[open]::backdrop{opacity:0}}
+}
+
+/* бронирование */
+.book{
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  background:linear-gradient(160deg,var(--ink-2),var(--ink));
+  padding:clamp(90px,12vh,150px) var(--pad);text-align:center;
+}
+.book h2{margin-bottom:.35em}
+.book__lead{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2vw,1.4rem);color:var(--stone-dim);margin:0 auto 1.6em;max-width:44ch}
+.book__tel{
+  display:block;font-family:var(--serif);font-size:clamp(2.2rem,5.6vw,4.4rem);
+  line-height:1.1;color:var(--gold-hi);letter-spacing:.02em;margin-bottom:.55em;
+  transition:color .3s;
+}
+.book__tel:hover{color:var(--stone)}
+.book__note{margin-top:2.2em;font-size:.8rem;color:var(--stone-dim);max-width:52ch;margin-left:auto;margin-right:auto}
+.book__note a{color:var(--gold);border-bottom:1px solid var(--hair)}
+.book__note a:hover{color:var(--gold-hi);border-color:var(--gold)}
+
+/* практическое */
+.prac{padding:clamp(80px,10vh,130px) 0 clamp(70px,9vh,110px)}
+.prac__row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  max-width:1440px;margin:0 auto;
+}
+.prac__row>div{background:var(--ink);padding:clamp(26px,3vw,50px) clamp(22px,2.6vw,44px)}
+.prac__t{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1em}
+.prac__row p{font-size:.92rem;color:var(--stone-dim);max-width:36ch}
+.prac__row a{color:var(--gold);border-bottom:1px solid var(--hair)}
+.prac__row a:hover{color:var(--gold-hi);border-color:var(--gold)}
+.prac__strip{
+  max-width:1440px;margin:clamp(32px,4vw,52px) auto 0;padding:0 var(--pad);
+  display:flex;justify-content:center;
+}
+
+/* «важно»: Popover API с фолбэком на <details> */
+.imp__btn{
+  display:none;margin-top:.2em;
+  font-family:var(--sans);font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-hi);border:1px solid var(--gold);background:transparent;
+  padding:.95em 1.7em;cursor:pointer;transition:background .35s,color .35s;
+}
+.imp__btn:hover{background:var(--gold);color:var(--ink)}
+.imp__det summary{
+  cursor:pointer;list-style:none;display:inline-block;
+  font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  border-bottom:1px dashed var(--gold);padding-bottom:2px;
+}
+.imp__det summary::-webkit-details-marker{display:none}
+.imp__det[open] summary{color:var(--gold-hi)}
+.imp__det p{margin-top:.9em}
+@supports selector(:popover-open){
+  .imp__btn{display:inline-block}
+  .imp__det{display:none}
+}
+.impop{
+  position:fixed;inset:0;margin:auto;width:min(92vw,520px);height:fit-content;
+  border:1px solid var(--gold);background:var(--ink-2);color:var(--stone);
+  padding:clamp(32px,5vw,56px);box-shadow:0 30px 90px rgba(0,0,0,.55);
+}
+.impop::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(185,155,99,.25);pointer-events:none}
+.impop__k{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1em}
+.impop p{font-size:.95rem;color:var(--stone-dim);max-width:40ch}
+.impop__ok{margin-top:1.8em}
+.impop::backdrop{background:rgba(12,9,6,.62);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+@media (prefers-reduced-motion: no-preference){
+  .impop:popover-open{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1)}
+  @starting-style{.impop:popover-open{opacity:0;transform:translateY(12px)}}
+}
+
+/* адаптив */
+@media (max-width:1100px){
+  .prog__grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:820px){
+  .steps__grid{grid-template-columns:1fr;row-gap:40px}
+  .steps__grid>div{border-left:0;padding:0}
+  .prac__row{grid-template-columns:1fr}
+  .vhero__folio{position:static;margin-bottom:clamp(28px,5vh,48px);padding:0}
+  .vhero{padding-top:clamp(120px,15vh,150px)}
+}
+@media (max-width:520px){
+  .ticket{--pY:96px}
+  .ticket__no{font-size:3rem}
+  .step__no{font-size:2.8rem}
+}
+@media (max-width:640px){
+  .prog__grid{grid-template-columns:1fr}
+  .gal__grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr solid" id="hdr">
+  <a class="hdr__brand" href="index.html">
+    <span class="hdr__name">Солнечная&nbsp;Долина</span>
+    <span class="hdr__est">Крым · 1888</span>
+  </a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="catalog.html">Вина</a>
+    <a href="index.html#valley">Долина</a>
+    <a href="visit.html">Визит</a>
+    <a href="index.html#trust">Где купить</a>
+    <a href="index.html#contacts">Контакты</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 01 · ГЕРОЙ -->
+  <section class="vhero" id="top">
+    <div class="vhero__bg" aria-hidden="true">
+      <picture><source type="image/avif" srcset="../../assets/img/degzal-800.avif 800w, ../../assets/img/degzal-1200.avif 1200w, ../../assets/img/degzal-1600.avif 1600w, ../../assets/img/degzal.avif 2000w" sizes="100vw"><source type="image/webp" srcset="../../assets/img/degzal-800.webp 800w, ../../assets/img/degzal-1200.webp 1200w, ../../assets/img/degzal-1600.webp 1600w, ../../assets/img/degzal.webp 2000w" sizes="100vw"><img src="../../assets/img/degzal.jpg" alt="" fetchpriority="high" decoding="async"></picture>
+    </div>
+    <div class="folio vhero__folio"><span>Визит — Архадерессе</span><span>основаны в 1888 году</span></div>
+    <div class="vhero__stage">
+      <p class="hero__kicker">Экскурсии и дегустации · подвалы Голицына</p>
+      <h1 class="vhero__title">Спуститься<br>в 1888 год</h1>
+      <p class="vhero__slogan">Галереи дубовых бутов и бочек, вырубленные в горе, — и вино при свечах</p>
+      <p class="datum"><span>ежедневно</span><i></i><span>с. Миндальное, Судак</span></p>
+    </div>
+    <a class="hero__descend" href="#steps">
+      <span class="hero__line"></span>
+      <span class="hero__descend-t">Как проходит визит</span>
+    </a>
+  </section>
+
+  <!-- 02 · КАК ПРОХОДИТ ВИЗИТ -->
+  <section class="steps" id="steps">
+    <div class="folio"><span>01 — Как проходит визит</span><span>Архадерессе · Завод первичного виноделия</span></div>
+    <div class="steps__grid">
+      <div>
+        <p class="step__no">01</p>
+        <h3>Подвалы Голицына</h3>
+        <p>Старинные винные подвалы «Архадерессе», основанные в 1888 году мэтром отечественного виноделия Л.С.&nbsp;Голицыным. Длинные галереи дубовых бутов и бочек, где выдерживаются легендарные марочные вина; круглый год здесь около +14&nbsp;°C.</p>
+      </div>
+      <div>
+        <p class="step__no">02</p>
+        <h3>Дегустация при свечах</h3>
+        <p>В старинном дегустационном зале — в прошлом барской усадьбе и доме виноделов — сомелье научат разбирать и раскрывать вкус вин: «Чёрный Доктор», «Чёрный Полковник», «Солнечная Долина марочное», «Меганом», новинки и бестселлеры.</p>
+      </div>
+      <div>
+        <p class="step__no">03</p>
+        <h3>Фирменный магазин</h3>
+        <p>Понравившиеся вина можно попробовать в винном баре и увезти с собой — в стекле, упаковке bag&amp;box или в сувенирном исполнении. Рядом — выставка наград и медалей, завоёванных винами долины.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · ПРОГРАММЫ -->
+  <section class="prog" id="programs">
+    <div class="folio"><span>02 — Программы</span><span>прейскурант с 15.03.25</span></div>
+    <h2 class="prog__h">Семь способов<br>попасть в подвал</h2>
+    <div class="prog__grid">
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 1</p>
+        <h3 class="ticket__name">Экскурсия по голицынским подвалам и дегустация 10 марок вин</h3>
+        <p class="ticket__desc">Экскурсия по трём голицынским подвалам, обучение навыкам дегустации на примере 10 марок вин. Фотографии в исторических местах, связанных с именами Голицына и Горчакова.</p>
+        <div class="ticket__meta"><span class="ticket__dur">1 час 20 минут</span><span class="ticket__price">от 1450 рублей за одного гостя</span></div>
+      </article>
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 2</p>
+        <h3 class="ticket__name">VIP-дегустация и экскурсия</h3>
+        <p class="ticket__desc">Четыре голицынских подвала, дегустация двух премиальных вин в подвале с коллекцией, 10 марок вин в гастросопровождении с шестью образцами авторских сыров в каминном зале дегустационного комплекса.</p>
+        <div class="ticket__meta"><span class="ticket__dur">2 часа</span><span class="ticket__price">от 27 500 рублей за пять гостей</span></div>
+      </article>
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 3</p>
+        <h3 class="ticket__name">Индивидуальная экскурсия с дегустацией 10 марок вин</h3>
+        <p class="ticket__note">не в группе</p>
+        <p class="ticket__desc">Персональный маршрут по подвалам и дегустация без посторонних — только вы и сомелье.</p>
+        <div class="ticket__meta"><span class="ticket__dur">до 2 часов</span><span class="ticket__price">от 2 750 рублей за одного гостя</span></div>
+      </article>
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 4</p>
+        <h3 class="ticket__name">Ретро-дегустация при свечах в старинном подвале</h3>
+        <p class="ticket__note">по предварительной заявке</p>
+        <p class="ticket__desc">Вечер в голицынском подвале, как сто лет назад: камень, свечи и вино.</p>
+        <div class="ticket__meta"><span class="ticket__dur">до 2 часов</span><span class="ticket__price">от 2 750 рублей за одного гостя</span></div>
+      </article>
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 5</p>
+        <h3 class="ticket__name">Вечерняя дегустация с посещением подвалов</h3>
+        <p class="ticket__note">по предварительной заявке · начало в 20:00</p>
+        <p class="ticket__desc">Поздний спуск в подвалы после дневных групп — для тех, кто хочет тишины.</p>
+        <div class="ticket__meta"><span class="ticket__dur">до 2 часов</span><span class="ticket__price">от 2 750 рублей за одного гостя</span></div>
+      </article>
+
+      <article class="ticket">
+        <p class="ticket__no"><span>№</span> 6</p>
+        <h3 class="ticket__name">Авторская экскурсия: 9 марок вина и игристое в подвале</h3>
+        <p class="ticket__note">группа от 15 посетителей</p>
+        <p class="ticket__desc">Групповая программа с дегустацией игристого прямо в подвале.</p>
+        <div class="ticket__meta"><span class="ticket__dur">до 2 часов</span><span class="ticket__price">от 1900 рублей за одного гостя</span></div>
+      </article>
+
+    </div>
+    <div class="prog__fine">
+      <p>К любой программе — ассорти дегустационное из 6 сыров, 400 р.</p>
+      <p class="mini">Администрация предприятия оставляет за собой право изменять время, маршруты и место проведения дегустаций и винных туров. Участие в дегустации — строго 18+.</p>
+    </div>
+  </section>
+
+  <!-- 04 · ГАЛЕРЕЯ -->
+  <section class="gal" id="gallery">
+    <div class="folio"><span>03 — Галерея</span><span>дегустационный зал · подвалы</span></div>
+    <div class="gal__grid">
+      <figure>
+        <button class="gal__zoom" type="button" aria-haspopup="dialog">
+          <picture><source type="image/avif" srcset="../../assets/img/deg1-800.avif 800w, ../../assets/img/deg1-1200.avif 1200w, ../../assets/img/deg1-1600.avif 1600w, ../../assets/img/deg1.avif 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><source type="image/webp" srcset="../../assets/img/deg1-800.webp 800w, ../../assets/img/deg1-1200.webp 1200w, ../../assets/img/deg1-1600.webp 1600w, ../../assets/img/deg1.webp 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><img src="../../assets/img/deg1.jpg" alt="Кованые ворота с виноградной лозой у входа в дегустационный зал" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Кованые ворота дегустационнаго зала</figcaption>
+      </figure>
+      <figure>
+        <button class="gal__zoom" type="button" aria-haspopup="dialog">
+          <picture><source type="image/avif" srcset="../../assets/img/deg2-800.avif 800w, ../../assets/img/deg2-1200.avif 1200w, ../../assets/img/deg2-1600.avif 1600w, ../../assets/img/deg2.avif 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><source type="image/webp" srcset="../../assets/img/deg2-800.webp 800w, ../../assets/img/deg2-1200.webp 1200w, ../../assets/img/deg2-1600.webp 1600w, ../../assets/img/deg2.webp 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><img src="../../assets/img/deg2.jpg" alt="Коллекционные бутылки конца XIX века в каменной нише подвала" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Коллекцiя бутылок конца XIX века</figcaption>
+      </figure>
+      <figure>
+        <button class="gal__zoom" type="button" aria-haspopup="dialog">
+          <picture><source type="image/avif" srcset="../../assets/img/deg4-800.avif 800w, ../../assets/img/deg4-1200.avif 1200w, ../../assets/img/deg4-1600.avif 1600w, ../../assets/img/deg4.avif 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><source type="image/webp" srcset="../../assets/img/deg4-800.webp 800w, ../../assets/img/deg4-1200.webp 1200w, ../../assets/img/deg4-1600.webp 1600w, ../../assets/img/deg4.webp 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><img src="../../assets/img/deg4.jpg" alt="Каменный дегустационный зал со столами и фонарями" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Зал в бывшей барской усадьбе</figcaption>
+      </figure>
+      <figure>
+        <button class="gal__zoom" type="button" aria-haspopup="dialog">
+          <picture><source type="image/avif" srcset="../../assets/img/deg6-800.avif 800w, ../../assets/img/deg6-1200.avif 1200w, ../../assets/img/deg6-1600.avif 1600w, ../../assets/img/deg6.avif 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><source type="image/webp" srcset="../../assets/img/deg6-800.webp 800w, ../../assets/img/deg6-1200.webp 1200w, ../../assets/img/deg6-1600.webp 1600w, ../../assets/img/deg6.webp 1920w" sizes="(max-width: 640px) 100vw, min(50vw, 700px)"><img src="../../assets/img/deg6.jpg" alt="Галерея дубовых бочек в подвалах Архадерессе" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Галереи дубовых бочек Архадерессе</figcaption>
+      </figure>
+    </div>
+
+    <dialog class="lb" id="lb" aria-label="Просмотр фотографии">
+      <button class="lb__x" type="button" aria-label="Закрыть">✕</button>
+      <figure class="lb__fig">
+        <img alt="">
+        <figcaption></figcaption>
+      </figure>
+    </dialog>
+  </section>
+
+  <!-- 05 · БРОНИРОВАНИЕ -->
+  <section class="book" id="booking">
+    <div class="folio folio--bare" style="justify-content:center"><span>04 — Бронирование</span></div>
+    <h2>Забронировать визит</h2>
+    <p class="book__lead">Дегустации начинаются ежедневно в 10:00, 11:00, 13:00, 14:00, 15:00 и 16:00</p>
+    <a class="book__tel" href="tel:+79789563322">+7 (978) 956-33-22</a>
+    <a class="btn btn--gold" href="tel:+79789563322">Позвонить</a>
+    <p class="book__note">Звонки принимаются с 10:00 до 20:00 без выходных. Билеты онлайн — на <a href="https://bronirui.online/solnechnaya-dolina-vinodelnya/uslugi" rel="nofollow">bronirui.online</a>; вечерняя и ретро-дегустации — по предварительной заявке.</p>
+  </section>
+
+  <!-- 06 · ПРАКТИЧЕСКОЕ -->
+  <section class="prac" id="practical">
+    <div class="folio"><span>05 — Практическое</span><span>44°51′ N · 35°02′ E</span></div>
+    <div class="prac__row">
+      <div>
+        <p class="prac__t">Как добраться</p>
+        <p>Из Судака — в с. Миндальное, ул. Миндальная, 8А, дегустационный зал «Архадерессе». <a href="https://yandex.ru/maps/-/CDWye-Nq" rel="nofollow">Построить маршрут в навигаторе</a></p>
+      </div>
+      <div>
+        <p class="prac__t">Часы</p>
+        <p>Дегустации ежедневно: 10:00, 11:00, 13:00, 14:00, 15:00, 16:00. В 20:00 — вечерняя дегустация при свечах, по предварительной заявке.</p>
+      </div>
+      <div>
+        <p class="prac__t">Важно</p>
+        <button type="button" class="imp__btn" popovertarget="impPop">Важно знать</button>
+        <div id="impPop" popover class="impop" aria-label="Важно знать">
+          <p class="impop__k">Перед визитом</p>
+          <p>Участие в дегустации — строго 18+. В подвалах около +14&nbsp;°C: возьмите тёплые вещи и удобную обувь.</p>
+          <button type="button" class="btn btn--ghost impop__ok" popovertarget="impPop" popovertargetaction="hide">Понятно</button>
+        </div>
+        <details class="imp__det">
+          <summary>Важно знать</summary>
+          <p>Участие в дегустации — строго 18+. В подвалах около +14&nbsp;°C: возьмите тёплые вещи и удобную обувь.</p>
+        </details>
+      </div>
+    </div>
+    <div class="prac__strip">
+      <p class="datum"><span>ежедневно</span><i></i><span>с. Миндальное, Судак</span><i></i><span>+14 °C в подвалах</span><i></i><span>18+</span></p>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <p class="ftr__law">Чрезмерное употребление алкоголя вредит вашему здоровью</p>
+  </footer>
+
+</main>
+
+<script>
+// Страница «Энотуризм»: локальный скрипт (общий app.js рассчитан на гейт главной)
+(function () {
+  'use strict';
+
+  // Шапка при скролле
+  var hdr = document.getElementById('hdr');
+  if (hdr) {
+    var onScroll = function () {
+      hdr.classList.toggle('solid', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Reveal-анимации
+  var targets = document.querySelectorAll(
+    '.steps__grid > div, .ticket, .gal__grid figure, .prog__h, .prog__fine,' +
+    '.book h2, .book__lead, .book__tel, .book .btn, .book__note, .prac__row > div, .folio'
+  );
+  targets.forEach(function (el, i) {
+    el.classList.add('rv');
+    el.style.transitionDelay = (i % 4) * 90 + 'ms';
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  } else {
+    targets.forEach(function (el) { el.classList.add('on'); });
+  }
+
+  // Лайтбокс галереи на <dialog>
+  var lb = document.getElementById('lb');
+  var zooms = document.querySelectorAll('.gal__zoom');
+  if (lb && typeof lb.showModal === 'function') {
+    var lbImg = lb.querySelector('img');
+    var lbCap = lb.querySelector('figcaption');
+    zooms.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var img = btn.querySelector('img');
+        var fig = btn.closest('figure');
+        var cap = fig ? fig.querySelector('figcaption') : null;
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt || '';
+        lbCap.textContent = cap ? cap.textContent : '';
+        lb.showModal();
+      });
+    });
+    // клик по фону (::backdrop) закрывает; Esc закрывает нативно
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+    lb.querySelector('.lb__x').addEventListener('click', function () { lb.close(); });
+  } else {
+    // фолбэк без <dialog>: открываем фото как страницу
+    zooms.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var img = btn.querySelector('img');
+        window.location.href = img.currentSrc || img.src;
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

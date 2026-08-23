@@ -1,0 +1,17 @@
+{
+  "src": "assets/img/gen/inbox/2026-08-22/Wine_bottle_on_black_4K_202608220854.jpeg",
+  "tex": {
+    "w": 2048,
+    "h": 2916
+  },
+  "label": {
+    "wrapDeg": 108,
+    "arcPx": 1198.8,
+    "heightPx": 1706.6,
+    "mm": [
+      485.5,
+      691.2
+    ]
+  },
+  "paperHex": "#110e12"
+}

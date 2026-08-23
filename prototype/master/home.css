@@ -1,0 +1,527 @@
+/* ══════════════════════════════════════════════════════════════════════
+   HOME — «СПУСК: ОТ НЕБА К БОКАЛУ».
+   Единица страницы — кадр 100svh, а не врезка среди текста.
+   Дисциплина SUNVALLEY-DESIGN.md соблюдена буквально: радиус 0 везде,
+   ни одного box-shadow, чистых #000/#fff нет, золотая ЗАЛИВКА ровно одна
+   (кнопка «Забронировать дегустацию»), бордо не в UI.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#161210; --stone:#fbf7f0; --gold:#b99b63; --gold-hi:#d9bd8a; --bordo:#5f1930;
+  --hair:rgba(185,155,99,.35);
+  --serif:'Cormorant',Georgia,serif; --sans:'Golos Text',Arial,sans-serif;
+  --pad:clamp(20px,5vw,72px);
+  --ease:cubic-bezier(.16,1,.3,1);
+  /* кегль героя: cap-height Cormorant ≈ 0,66em → 6,4 % высоты вьюпорта */
+  --hero-fs:min(9.98svh,8.6vw);   /* замерено: cap-height = 6,4 % высоты вьюпорта */
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+/* clip, а НЕ hidden: hidden на предке убивает position:sticky и все пины */
+html,body{overflow-x:clip}
+html{scroll-behavior:auto}
+html.lenis{height:auto} .lenis.lenis-smooth{scroll-behavior:auto}
+
+body.hm{
+  font-family:var(--sans); line-height:1.6; color:var(--stone);
+  background:var(--ink); -webkit-font-smoothing:antialiased;
+  font-feature-settings:"lnum" 1;
+}
+body.hm *,body.hm *::before,body.hm *::after{border-radius:0;box-shadow:none}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.01em}
+::selection{background:var(--gold);color:var(--ink)}
+
+/* капитель — единственный служебный регистр (Golos, 0.14em, UPPERCASE) */
+.cap{
+  font:500 clamp(10px,.72rem,12px)/1.5 var(--sans);
+  letter-spacing:.14em; text-transform:uppercase; color:var(--gold);
+}
+
+/* ── контурная кнопка и единственная золотая заливка ────────────────── */
+.ghost{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:168px;height:46px;
+  border:1px solid rgba(251,247,240,.55);
+  font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--stone);transition:background .45s var(--ease),color .45s var(--ease),border-color .45s var(--ease);
+}
+.ghost:hover{background:var(--stone);color:var(--ink);border-color:var(--stone)}
+.gold{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:52px;padding:0 34px;background:var(--gold);color:var(--ink);
+  font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  transition:background .4s var(--ease);
+}
+.gold:hover{background:var(--gold-hi)}
+
+/* ══ 0 · ПРЕЛОАДЕР ═════════════════════════════════════════════════════ */
+.pre{
+  position:fixed;inset:0;z-index:900;background:#0d0b09;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .5s var(--ease),visibility .5s;
+}
+.pre.off{opacity:0;visibility:hidden;pointer-events:none}
+.pre__em{width:96px;height:auto;opacity:.92}
+.pre__rule{display:block;width:min(38vw,320px);height:1px;background:var(--hair);position:relative;overflow:hidden}
+.pre__rule::after{content:'';position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease)}
+.pre.is-full .pre__rule::after{transform:scaleX(1)}
+.pre__t{font:400 .82rem/1 var(--serif);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+
+/* ══ ШАПКА ═════════════════════════════════════════════════════════════ */
+.hdr{
+  position:fixed;top:0;left:0;right:0;z-index:120;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:14px var(--pad);color:var(--stone);
+  background:transparent;border-bottom:1px solid transparent;
+  transition:background .5s var(--ease),border-color .5s var(--ease),padding .5s var(--ease);
+}
+.hdr.is-solid{background:rgba(13,11,9,.88);border-bottom-color:var(--hair);padding:10px var(--pad)}
+.hdr__brand{display:flex;flex-direction:column;gap:3px}
+.hdr__logo{height:38px;width:auto;transition:height .5s var(--ease)}
+.hdr.is-solid .hdr__logo{height:30px}
+.hdr__est{font:500 9px/1 var(--sans);letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.hdr__nav{display:flex;gap:clamp(14px,2.2vw,34px)}
+.hdr__nav a{
+  font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(251,247,240,.72);padding:8px 0;border-bottom:1px solid transparent;transition:.3s;
+}
+.hdr__nav a:hover{color:var(--stone);border-bottom-color:var(--gold)}
+.hdr__act{display:flex;align-items:center;gap:18px}
+.hdr__tel{font-size:.82rem;letter-spacing:.04em;color:var(--stone);white-space:nowrap}
+.hdr__cta{
+  font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold-hi);border:1px solid var(--hair);padding:11px 18px;transition:.35s;white-space:nowrap;
+}
+.hdr__cta:hover{border-color:var(--gold);color:var(--stone)}
+
+/* ══ ПАУЗА У АВТОПЛЕЯ (признак 14) ═════════════════════════════════════ */
+.pausebtn{
+  position:fixed;right:calc(var(--pad) - 4px);bottom:22px;z-index:115;
+  width:26px;height:26px;border:1px solid rgba(251,247,240,.42);
+  background:rgba(13,11,9,.32);cursor:pointer;display:grid;place-items:center;
+  transition:border-color .3s,background .3s;
+}
+.pausebtn:hover{border-color:var(--stone)}
+.pausebtn i{width:7px;height:9px;border-left:2px solid var(--stone);border-right:2px solid var(--stone)}
+.pausebtn[aria-pressed="true"] i{
+  width:0;height:0;border:0;border-left:8px solid var(--stone);
+  border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px;
+}
+
+/* ══ ВИДЕО-СЛОТ ════════════════════════════════════════════════════════
+   Статичный кадр лежит в вёрстке и работает без JS. <video> монтируется
+   только тем именем, которое назвал manifest.json: ни одной пробы файла. */
+/* фон слота — прозрачный: пустой слот (ролика ещё нет) обязан быть
+   невидимым, иначе грейд-слой закрывает кадр непрозрачной плашкой */
+.vslot{position:absolute;inset:0;overflow:hidden;background:transparent}
+.vslot__still,.vslot__v{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.vslot__v{opacity:0;transition:opacity .6s var(--ease)}
+.vslot__v.is-live{opacity:1}
+.vslot--contain .vslot__still,.vslot--contain .vslot__v{object-fit:contain}
+/* Слот, который пока живёт фотографией, всё равно обязан жить: медленный
+   наезд. CSS-анимация transform идёт на композиторе и не стоит ничего —
+   в отличие от того же масштаба, выставляемого из обработчика скролла. */
+/* Анимация заведена ТОЛЬКО пока слот в кадре: два постоянно живущих
+   полноэкранных слоя composited-анимации роняют весь документ до 32 fps. */
+.vslot--drift .vslot__still{animation:kb 34s ease-in-out infinite alternate;animation-play-state:paused}
+.vslot--drift.is-drifting .vslot__still{animation-play-state:running}
+@keyframes kb{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.09) translate3d(-1.1%,-1.4%,0)}}
+@media (prefers-reduced-motion:reduce){.vslot--drift .vslot__still{animation:none}}
+
+/* ══ ОБЩЕЕ ДЛЯ СЦЕН ════════════════════════════════════════════════════ */
+.sc{position:relative}
+.sc__pin,.sky__pin,.vine__pin,.turn__pin,.worlds__pin,.years__pin,.glass__pin,.pop__pin{
+  position:sticky;top:0;height:100svh;overflow:hidden;
+}
+.scrollhint{
+  position:absolute;left:50%;bottom:20px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:6;
+}
+.scrollhint .cap{color:rgba(251,247,240,.72);font-size:11px}
+.scrollhint i{display:block;width:1px;height:26px;background:linear-gradient(var(--gold),transparent);animation:hint 2.4s var(--ease) infinite}
+@keyframes hint{0%{transform:translateY(-6px);opacity:0}30%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+
+/* ══ 1 · НЕБО ══════════════════════════════════════════════════════════ */
+.sky{height:220svh}
+.sky__media{position:absolute;inset:0}
+/* Наезд кадра ведёт САМ СКРОЛЛ через scroll-driven animation: она живёт
+   на композиторе и просто масштабирует уже готовую текстуру видео.
+   Тот же наезд, выставляемый из JS, заставляет перерисовывать видеокадр
+   и роняет герой до 28 fps на быстрой прокрутке. Диапазон в пикселях
+   выставляет home.js (высота сцены), фолбэк для старых браузеров — там же. */
+@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+.sky__media>.vslot>.zoomed{
+  animation:heroZoom both cubic-bezier(.42,0,.58,1);
+  animation-timeline:scroll(root block);
+}
+/* Слои героя вынесены в собственные слои композитора. Без этого градиенты
+   поверх видео «схлопывают» видеослой в общий растр, и наезд кадра
+   пересчитывается на CPU каждый кадр: 18 fps против 60. */
+.sky__media>.vslot>*{will-change:transform;transform:translateZ(0)}
+.sky__grade,.sky__vign{will-change:opacity;transform:translateZ(0)}
+.sky__grade{position:absolute;inset:0;opacity:0}
+/* пока новых таймлапсов нет, день в вечер переводит грейд поверх того же
+   кадра. Без mix-blend-mode: полноэкранный blend стоит дороже, чем весь
+   остальной герой вместе взятый. */
+.sky__grade--noon::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(196,152,74,.26),rgba(122,74,30,.20) 58%,rgba(11,9,6,.34));
+}
+/* вечер, а не темнота: кадр обязан остаться читаемым и в момент, когда
+   герой уходит вверх — иначе на стыке сцен виден чёрный провал */
+.sky__grade--dusk::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(24,17,30,.50),rgba(95,25,48,.26) 52%,rgba(11,9,6,.62));
+}
+/* Тихая зона снята не в кадре, а сделана светом: нижний левый угол
+   уводится в тон фона — заголовок читается на всех 10 с петли (признак 4). */
+.sky__vign{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(76% 64% at 0% 96%,rgba(11,9,6,.80) 0%,rgba(11,9,6,.40) 44%,transparent 76%),
+    radial-gradient(120% 92% at 50% 34%,transparent 42%,rgba(11,9,6,.52) 100%),
+    linear-gradient(180deg,rgba(11,9,6,.46),transparent 26%);
+}
+.sky__txt{position:absolute;left:8%;right:8%;bottom:clamp(56px,10.6svh,120px);z-index:5;will-change:transform}
+.sky__eyebrow{margin-bottom:clamp(14px,2.2svh,22px)}
+.sky__h{font-size:var(--hero-fs);color:#F5EDE0;line-height:1.02}
+.sky__h .ln{display:block;overflow:hidden}
+.sky__h .ln>span{display:block}
+.sky__cta{margin-top:32px}
+
+/* ══ 2 · ЛОЗА ══════════════════════════════════════════════════════════ */
+.vine{height:260svh}
+/* скрим-поле для текста (aesop): читаемость гарантирована на всех 10 с петли */
+.vine__scrim{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(11,9,6,.88) 0%,rgba(11,9,6,.66) 24%,rgba(11,9,6,.18) 48%,transparent 62%),
+    linear-gradient(0deg,rgba(11,9,6,.42),transparent 34%);
+}
+.vine__tag{position:absolute;left:8%;top:clamp(96px,16svh,150px);z-index:4}
+.vine__list{
+  position:absolute;left:8%;bottom:clamp(56px,11svh,120px);z-index:4;
+  list-style:none;max-width:min(38ch,44vw);
+}
+.vine__i{
+  padding:clamp(10px,1.5svh,18px) 0;border-top:1px solid rgba(185,155,99,.22);
+  opacity:0;transform:translateY(16px);
+}
+.vine__i:first-child{border-top:0}
+.vine__i b{display:block;color:rgba(251,247,240,.6);font-size:12px;margin-bottom:.35em;transition:color .5s var(--ease)}
+.vine__i span{
+  display:block;font:400 clamp(17px,2.1svh,25px)/1.3 var(--serif);
+  color:rgba(251,247,240,.44);transition:color .6s var(--ease);
+}
+.vine__i.is-on b{color:var(--gold-hi)}
+.vine__i.is-on span{color:#F5EDE0}
+
+/* ══ 3 · БУТЫЛКА ═══════════════════════════════════════════════════════ */
+.turn{height:320svh;background:#0B0906}
+/* isolate: screen у канваса обязан смешиваться с тёплым фоном сцены,
+   а не с тем, что случайно окажется под всей страницей */
+.turn__pin{background:#0B0906;isolation:isolate}
+/* Фон сцены течёт из ночи подвала в закат (П3), но не плоской заливкой:
+   тёплый свет копится ЗА бутылкой, края остаются тёмными — иначе screen
+   у канваса вымывает кадр и бутылка перестаёт читаться (приём huly). */
+.turn__warm{position:absolute;inset:0;background:#0B0906}
+/* чёрный фон ролика уходит в screen — сквозь бутылку видно тёплый фон */
+.turn__cv,.turn__still{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  mix-blend-mode:screen;will-change:transform;
+}
+.turn__cv{display:none}
+.turn__cv.is-on{display:block}
+.turn__cv.is-on+.turn__still{opacity:0}
+/* Живая 3D-бутылка. Модуль рендерит её на ЧЁРНОМ (backdrop выключен),
+   поэтому слой смешивается тем же screen, что и кадры: чёрное поле
+   пропадает, и сквозь стекло течёт тёплый фон сцены (П3). Пока сцена
+   не собралась — слой прозрачен, на пине стоит статичный кадр. */
+.turn__3d{
+  position:absolute;inset:0;z-index:2;
+  mix-blend-mode:screen;opacity:0;transition:opacity .5s var(--ease);
+}
+.turn__3d.is-on{opacity:1}
+/* 3D встала — чужой постер и канвас секвенции убираются совсем */
+.turn__pin.b3d-on .turn__cv,
+.turn__pin.b3d-on .turn__still{display:none}
+/* Макро тиснения на выходе сцены: обычный кадр, БЕЗ screen — это уже
+   не «бутылка на чёрном», а бумага во весь экран. */
+.turn__emb{z-index:2;opacity:0;will-change:opacity}
+/* Поле под строку выхода: макро тиснения бликует, и строка «Четыре линейки»
+   иначе ложится прямо на золото (признак 4 — текст на сюжетном центре).
+   Тень уведена в правый нижний угол, где строка и стоит. */
+.turn__emb::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(62% 46% at 84% 84%,rgba(11,9,6,.80) 0%,rgba(11,9,6,.34) 52%,transparent 78%);
+}
+/* Пока 3D собирается: канвас секвенции скрыт, на пине наша вырезка
+   целиком (contain), а не чужой постер, обрезанный по cover. */
+.turn__pin.b3d-wait .turn__cv{display:none}
+.turn__pin.b3d-wait .turn__still{object-fit:contain;padding:6svh 0}
+/* prefers-reduced-motion: ни 3D, ни секвенции — на пине наша вырезка */
+.turn__pin.b3d-still .turn__cv,
+.turn__pin.b3d-still .turn__still{display:none}
+.turn__pin.b3d-still .turn__cut{opacity:1;left:50%;transform:translateX(-50%)}
+/* НАША вырезка ×4 — ею сцена заканчивается вместо чужого кадра */
+.turn__cut{
+  position:absolute;left:10%;bottom:8%;height:62svh;width:auto;z-index:3;
+  opacity:0;transform-origin:50% 100%;will-change:transform,opacity;
+}
+.turn__caps{
+  position:absolute;left:8%;top:0;bottom:0;z-index:4;
+  width:min(34vw,440px);display:grid;align-content:center;
+}
+.turn__c{
+  grid-area:1/1;text-wrap:balance;
+  font:400 clamp(18px,2.8svh,30px)/1.25 var(--serif);color:#F5EDE0;
+  opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.turn__c.is-on{opacity:1;transform:none}
+.turn__out{
+  position:absolute;right:8%;bottom:14%;z-index:4;text-align:right;
+  font:400 clamp(22px,3.6svh,44px)/1.15 var(--serif);color:#F5EDE0;
+  opacity:0;transform:translateY(18px);
+}
+/* свечение по краю вьюпорта в кульминации — градиент, не тень (П15б) */
+.edge{
+  position:absolute;inset:0;pointer-events:none;opacity:0;z-index:5;
+  background:radial-gradient(126% 104% at 50% 50%,transparent 52%,rgba(185,155,99,.52) 100%);
+}
+
+/* ══ 4 · ЧЕТЫРЕ МИРА ═══════════════════════════════════════════════════ */
+.worlds{height:360svh;background:#0B0906}
+.worlds__pin{background:#0B0906}
+.wsl{position:absolute;inset:0;overflow:hidden;will-change:transform}
+/* поле под подпись: мягкая полоса на 55 % высоты + виньетка по краям —
+   строка читается на любом кадре любого из четырёх роликов */
+.wsl::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,transparent 30%,rgba(11,9,6,.52) 55%,transparent 80%),
+    radial-gradient(96% 76% at 50% 56%,rgba(11,9,6,.28) 0%,rgba(11,9,6,.80) 100%);
+}
+.wsl__b{
+  position:absolute;right:9%;bottom:0;height:56svh;width:auto;z-index:3;
+  filter:contrast(1.04);
+}
+.wsl__txt{position:absolute;left:0;right:0;top:55%;transform:translateY(-50%);z-index:4;text-align:center;padding:0 var(--pad)}
+.wsl__h{font-size:clamp(34px,7.4svh,84px);color:#F5EDE0}
+.wsl__tag{margin-top:14px;color:rgba(251,247,240,.66)}
+.wsl__go{
+  display:inline-block;margin-top:26px;
+  font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-hi);border-bottom:1px solid var(--hair);padding-bottom:6px;transition:.35s;
+}
+.wsl__go:hover{border-bottom-color:var(--gold);color:var(--stone)}
+/* z-index 20: слайды сидят на 10–13, без этого точки уезжают под кадр */
+.dots{position:absolute;right:calc(var(--pad) - 6px);top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:14px}
+.dots button{
+  width:6px;height:6px;padding:0;border:1px solid rgba(251,247,240,.5);
+  background:transparent;cursor:pointer;transition:.35s;
+}
+.dots button.is-on{background:var(--gold);border-color:var(--gold);transform:scale(1.4)}
+
+/* оверлей «вход в этикетку» — фолбэк, пока страницы миров не объявят VT */
+.vtover{position:fixed;inset:0;z-index:800;pointer-events:none;background:#0B0906;opacity:0}
+.vtover img{position:absolute;width:auto;will-change:transform,opacity}
+
+/* ══ 5 · ПОДВАЛ ════════════════════════════════════════════════════════ */
+.years{height:440svh;background:#0B0906}
+.years__drop{opacity:0}
+.years__scrim{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(0deg,rgba(11,9,6,.80) 0%,rgba(11,9,6,.30) 34%,transparent 52%),
+    radial-gradient(88% 70% at 50% 46%,rgba(11,9,6,.30) 0%,rgba(11,9,6,.84) 100%);
+}
+.years__n{
+  position:absolute;left:0;right:0;top:41%;transform:translateY(-50%);z-index:4;
+  text-align:center;font:400 min(12.4svh,17vw)/1 var(--serif);
+  color:#F5EDE0;letter-spacing:.02em;
+}
+.years__caps{position:absolute;left:50%;transform:translateX(-50%);top:71%;z-index:4;width:min(56ch,80vw);text-align:center}
+.years__caps p{
+  position:absolute;left:0;right:0;top:0;
+  font:400 clamp(17px,2.4svh,27px)/1.4 var(--serif);color:rgba(251,247,240,.86);
+  opacity:0;transform:translateY(12px);transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.years__caps p.is-on{opacity:1;transform:none}
+
+/* ══ 5а · ПАУЗА ════════════════════════════════════════════════════════ */
+.pause{
+  min-height:100svh;background:var(--stone);color:var(--ink);
+  display:grid;place-items:center;padding:14svh var(--pad);
+}
+.pause__p{
+  max-width:26ch;font:400 clamp(24px,4.4svh,46px)/1.2 var(--serif);
+  color:rgba(22,18,16,.22);text-wrap:pretty;
+}
+.pause__p .w{color:inherit;transition:color .2s linear}
+
+/* ══ 6 · БОКАЛ ═════════════════════════════════════════════════════════ */
+.glass{height:220svh;background:var(--ink)}
+.glass__cut{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+#glassT{font-family:var(--serif);font-weight:400;font-size:26vw;letter-spacing:-.02em}
+.glass__txt{position:absolute;left:8%;bottom:12%;z-index:4;opacity:0;transform:translateY(16px)}
+.glass__l{margin-top:10px;font:400 clamp(22px,4svh,46px)/1.15 var(--serif);color:#F5EDE0;max-width:18ch}
+
+/* ══ 6а · БРЮТ — полноэкранное событие ═════════════════════════════════
+   Кадр 100 svh на пине. Секция длиннее кадра на 70 svh — это и есть
+   «страница докручивается»: хлопок длится 4,3 с, и без задержки кадра
+   зритель проскочил бы событие за один оборот колеса. Дальше ролик
+   держит последний кадр сам (data-v-once), так что удлинять больше
+   нечего. */
+.pop{height:170svh;background:var(--ink)}
+.pop__pin{background:#0B0906}
+/* КЛИН-СКРИМ. Числа не на глаз: по 26 кадрам ролика (4,3 с, 24 к/с)
+   яркость под строкой доходит до L=233 — это нижняя часть бутылки,
+   которая проходит через левую треть. При α=0,62 она падает до L≈94,
+   контраст с #F5EDE0 — 5,6:1. Пар начинается правее 50 % ширины и к
+   62 % скрим уже прозрачен: событие не притушено ни на кадр. */
+.pop__scrim{
+  position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(90deg,
+    rgba(11,9,6,.90) 0%,rgba(11,9,6,.80) 20%,rgba(11,9,6,.52) 34%,
+    rgba(11,9,6,.18) 46%,transparent 56%);
+}
+/* Строка стоит на 55 % высоты — как в «Четырёх мирах», — но у левого
+   поля 8 % (признак 5), а не по центру: центр кадра занят паром. Подъём
+   идёт через --rise, чтобы JS не перезаписывал transform и не убивал
+   центровку translateY(-50%). */
+.pop__txt{
+  position:absolute;left:8%;top:55%;z-index:4;
+  max-width:min(430px,40vw);opacity:0;
+  transform:translateY(calc(-50% + var(--rise,18px)));
+}
+.pop__h{font-size:clamp(34px,7.4svh,84px);color:#F5EDE0}
+/* тег держим уже заголовка: правее 30 % ширины клин уже прозрачен, и
+   строка ушла бы на светлое стекло бутылки */
+.pop__tag{margin-top:14px;max-width:min(320px,30vw);color:rgba(251,247,240,.66)}
+.pop__go{
+  display:inline-block;margin-top:26px;
+  font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-hi);border-bottom:1px solid var(--hair);padding-bottom:6px;transition:.35s;
+}
+.pop__go:hover{border-bottom-color:var(--gold);color:var(--stone)}
+
+/* ══ 7 · ВИЗИТ ═════════════════════════════════════════════════════════ */
+.visit{position:relative;min-height:100svh;display:flex;align-items:flex-end;background:#2A1B10;overflow:hidden}
+.visit__pano{position:absolute;inset:0;overflow:hidden}
+/* центрируем координатами, а НЕ transform: иначе GSAP прочитает
+   translate(-50%,-50%) как стартовые xPercent/yPercent и слой прыгнет */
+.pl{
+  position:absolute;left:-6%;top:-6%;width:112%;height:112%;
+  object-fit:cover;will-change:transform;
+}
+/* Дрейф идёт ОТДЕЛЬНЫМИ свойствами translate/rotate, а параллакс по
+   скроллу — через transform. Иначе CSS-анимация (она сильнее инлайна)
+   молча съедает весь параллакс, и слои стоят. Заведён дрейф только пока
+   панно в кадре: пять вечно живущих слоёв роняют конец страницы. */
+.pl{animation:drift 23s ease-in-out infinite;animation-play-state:paused}
+.pl--1{animation-duration:19s}
+.pl--2{animation-duration:17s;animation-direction:reverse}
+.pl--3{animation-duration:13s}
+.pl--4{animation-duration:29s;animation-direction:reverse}
+.visit.is-drifting .pl{animation-play-state:running}
+@keyframes drift{50%{translate:7px -9px;rotate:.25deg}}
+.visit__dusk{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(20,14,26,.26) 0%,rgba(95,25,48,.12) 38%,rgba(13,11,9,.86) 100%),
+    radial-gradient(112% 78% at 22% 86%,rgba(13,11,9,.78),transparent 66%);
+}
+.visit__txt{position:relative;z-index:3;padding:0 var(--pad) clamp(56px,9svh,110px);max-width:64ch}
+.visit__h{margin-top:14px;font-size:clamp(34px,6.6svh,76px);color:#F5EDE0}
+.visit__l{margin:18px 0 30px;max-width:44ch;color:rgba(251,247,240,.76);font-size:1rem}
+.visit__d{display:flex;flex-wrap:wrap;gap:0 clamp(20px,3vw,48px);margin-top:34px;padding-top:22px;border-top:1px solid var(--hair)}
+.visit__d>div{padding:8px 0}
+.visit__d dt{font:500 10px/1.6 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.visit__d dd{font-size:.92rem;color:rgba(251,247,240,.86)}
+.visit__d a:hover{color:var(--gold-hi)}
+
+/* ══ ФУТЕР ═════════════════════════════════════════════════════════════ */
+.ftr{position:relative;z-index:3;background:#0d0b09;border-top:1px solid var(--hair);padding:clamp(40px,6svh,72px) var(--pad) 32px}
+.ftr__g{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px);max-width:1200px}
+.ftr__g p:not(.cap){margin-top:12px;font-size:.9rem;color:rgba(251,247,240,.66);max-width:38ch}
+.ftr__g a{border-bottom:1px solid var(--hair);transition:border-color .3s,color .3s}
+.ftr__g a:hover{color:var(--gold-hi);border-bottom-color:var(--gold)}
+.ftr__law{margin-top:clamp(28px,4svh,52px);padding-top:20px;border-top:1px solid var(--hair);font-size:.78rem;color:rgba(251,247,240,.5)}
+.ftr__law b{color:rgba(251,247,240,.8);font-weight:500}
+
+/* ══ VIEW TRANSITIONS ══════════════════════════════════════════════════
+   Имена vt-bottle-chd|sd|meganom|tokluk уже стоят на вырезках бутылок.
+   Кросс-документный переход включается ТОЛЬКО когда обе страницы объявили
+   правило ниже. Пока страницы миров (chd/arhaderesse/meganom/tokluk) его
+   не объявили, включение здесь даёт в консоли «Transition was skipped» —
+   поэтому правило ждёт своего часа закомментированным, а переход
+   «вход в этикетку» играет JS-оверлеем (home.js, .vtover).
+
+   КАК ВКЛЮЧИТЬ, когда миры будут готовы:
+   1) раскомментировать строку ниже и добавить её же на страницы миров;
+   2) поставить на <html> атрибут data-vt-live="1" — тогда home.js
+      уступит переход браузеру и не станет играть свой оверлей.
+   @view-transition{navigation:auto}                                    */
+
+/* ══ МОБИЛЬНЫЙ 390×844 ═════════════════════════════════════════════════ */
+@media (max-width:900px){
+  /* кегль подобран так, чтобы обе строки заголовка остались строками */
+  :root{--hero-fs:clamp(28px,9.4vw,46px)}
+  .hdr__nav,.hdr__tel{display:none}
+  .hdr{padding:12px var(--pad)}
+  .sky{height:240svh}
+  .sky__txt{left:6%;right:5%}
+  .sky__vign{background:
+    linear-gradient(0deg,rgba(11,9,6,.88) 0%,rgba(11,9,6,.52) 34%,transparent 64%),
+    linear-gradient(180deg,rgba(11,9,6,.52),transparent 22%)}
+  .vine{height:300svh}
+  .vine__list{left:7%;max-width:80vw}
+  .vine__scrim{background:linear-gradient(4deg,rgba(11,9,6,.90) 0%,rgba(11,9,6,.62) 38%,transparent 72%)}
+  .turn{height:250svh}
+  .turn__caps{left:7%;right:7%;top:auto;bottom:14%;width:auto;align-content:end}
+  .turn__pin::after{content:'';position:absolute;inset:auto 0 0;height:38%;z-index:2;
+    background:linear-gradient(0deg,rgba(11,9,6,.86),transparent);pointer-events:none}
+  .turn__out{left:7%;right:7%;text-align:left;bottom:14%}
+  .wsl__b{right:auto;left:50%;transform:translateX(-50%);height:42svh;opacity:.9}
+  .wsl__txt{top:44%}
+  .years{height:520svh}
+  .years__caps{top:64%;width:86vw}
+  .pause__p{max-width:100%}
+  .glass{height:230svh}
+  #glassT{font-size:44vw}
+  .glass__txt{left:7%;right:7%;bottom:10%}
+  /* Портрет режет 16:9 до центральных 26 % ширины — по центру там пар,
+     он к концу ролика светится до L=238. Поэтому: кадр сдвинут к
+     бутылке (42 %), строка уходит вниз, скрим — донный. На высоте
+     блока (7–33 % снизу) α держится 0,94→0,65, худшая яркость под
+     строкой падает до L≈90, контраст 5,9:1. */
+  .pop{height:150svh}
+  .pop__v .vslot__still,.pop__v .vslot__v{object-position:42% 50%}
+  .pop__scrim{background:linear-gradient(0deg,
+    rgba(11,9,6,.94) 0%,rgba(11,9,6,.86) 22%,rgba(11,9,6,.55) 38%,
+    rgba(11,9,6,.16) 52%,transparent 64%)}
+  .pop__txt{left:7%;right:7%;top:auto;bottom:7%;max-width:none;
+    transform:translateY(var(--rise,18px))}
+  /* 30vw от 390 px — это 117 px, тег рассыпался бы на четыре строки */
+  .pop__tag{max-width:none}
+  .ftr__g{grid-template-columns:1fr;gap:26px}
+  /* blur на мобиле выключен целиком (плейбук П4) */
+  .sky__grade,.wsl,.vslot__v{filter:none!important}
+}
+
+/* ══ ДОСТУПНОСТЬ ═══════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  .pl{animation:none}
+  .scrollhint i{animation:none}
+  .vine__i{opacity:1;transform:none}
+  .turn__c,.turn__out,.glass__txt,.years__caps p{opacity:1;transform:none}
+  .pop__txt{opacity:1;--rise:0px}
+  .turn__c{position:static;margin-bottom:1em}
+  .turn__caps{position:absolute;top:auto;bottom:12%;transform:none}
+}
+:focus-visible{outline:1px solid var(--gold);outline-offset:3px}

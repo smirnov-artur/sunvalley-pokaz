@@ -1,0 +1,583 @@
+[
+ {
+  "slug": "chernyij-doktor-suvenirnyij-(xeops)-2013",
+  "file": "wines/chernyij-doktor-suvenirnyij-xeops-2013.html",
+  "name": "Чёрный Доктор Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "chernyij-polkovnik-suvenirnyij-2019",
+  "file": "wines/chernyij-polkovnik-suvenirnyij-2019.html",
+  "name": "Чёрный Полковник",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "chernyij-polkovnik-suvenirnyij-(xeops)-2013",
+  "file": "wines/chernyij-polkovnik-suvenirnyij-xeops-2013.html",
+  "name": "Чёрный Полковник",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "chernyj-doktor-solnechnoj-doliny",
+  "file": "wines/chernyj-doktor-solnechnoj-doliny.html",
+  "name": "Чёрный Доктор Солнечной Долины",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "chernyj-polkovnik",
+  "file": "wines/chernyj-polkovnik.html",
+  "name": "Чёрный Полковник",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "kaberne-solnechnoj-doliny",
+  "file": "wines/kaberne-solnechnoj-doliny.html",
+  "name": "Каберне Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "kaberne-tm-sun-valley",
+  "file": "wines/kaberne-tm-sun-valley.html",
+  "name": "Каберне ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "kagor-solnechnoj-doliny",
+  "file": "wines/kagor-solnechnoj-doliny.html",
+  "name": "Кагор Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "karinyan-reserve",
+  "file": "wines/karinyan-reserve.html",
+  "name": "Кариньян Reserve",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "karinyan",
+  "file": "wines/karinyan.html",
+  "name": "Кариньян",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "kokur-bryut",
+  "file": "wines/kokur-bryut.html",
+  "name": "Меганом Кокур",
+  "bottle": true,
+  "legend": false
+ },
+ {
+  "slug": "kokur",
+  "file": "wines/kokur.html",
+  "name": "Кокур Солнечной Долины",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "kollekczionnoe-vino",
+  "file": "wines/kollekczionnoe-vino.html",
+  "name": "Коллекционное вино",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-beloe-madera-kryimskaya-1993",
+  "file": "wines/likernoe-vino-beloe-madera-kryimskaya-1993.html",
+  "name": "Мадера Крымская, год урожая 1993",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-krasnoe-kagor-solnechnoj-dolinyi-2003",
+  "file": "wines/likernoe-vino-krasnoe-kagor-solnechnoj-dolinyi-2003.html",
+  "name": "Кагор Солнечной Долины, год урожая 2003",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-krasnoe-privat-2001",
+  "file": "wines/likernoe-vino-krasnoe-privat-2001.html",
+  "name": "Приват, год урожая 2001",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-rozovoe-muskatnoe-festivalnoe-2001-collection",
+  "file": "wines/likernoe-vino-rozovoe-muskatnoe-festivalnoe-2001-collection.html",
+  "name": "Мускатное Фестивальное, год урожая 2001",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-vyiderzhannoe-beloe-solnechnaya-dolina-1991",
+  "file": "wines/likernoe-vino-vyiderzhannoe-beloe-solnechnaya-dolina-1991.html",
+  "name": "Солнечная Долина, год урожая 1991",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-vyiderzhannoe-beloe-zolotaya-fortuna-arxaderesse-1996",
+  "file": "wines/likernoe-vino-vyiderzhannoe-beloe-zolotaya-fortuna-arxaderesse-1996.html",
+  "name": "Золотая Фортуна Архадерессе, год урожая 1996",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-vyiderzhannoe-krasnoe-chernyij-doktor-solnechnoj-dolinyi-2000",
+  "file": "wines/likernoe-vino-vyiderzhannoe-krasnoe-chernyij-doktor-solnechnoj-dolinyi-2000.html",
+  "name": "Чёрный Доктор Солнечной Долины, год урожая 2000",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-vyiderzhannoe-krasnoe-chernyij-doktor-solnechnoj-dolinyi-2001",
+  "file": "wines/likernoe-vino-vyiderzhannoe-krasnoe-chernyij-doktor-solnechnoj-dolinyi-2001.html",
+  "name": "Чёрный Доктор Солнечной Долины, год урожая 2001",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vino-vyiderzhannoe-krasnoe-chernyij-polkovnik-1996",
+  "file": "wines/likernoe-vino-vyiderzhannoe-krasnoe-chernyij-polkovnik-1996.html",
+  "name": "Чёрный Полковник, год урожая 1996",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vyiderzhannoe-beloe-portvejn-belyij-kryimskij-1990",
+  "file": "wines/likernoe-vyiderzhannoe-beloe-portvejn-belyij-kryimskij-1990.html",
+  "name": "Портвейн Белый Крымский, год урожая 1990",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "likernoe-vyiderzhannoe-beloe-portvejn-belyij-kryimskij-1997",
+  "file": "wines/likernoe-vyiderzhannoe-beloe-portvejn-belyij-kryimskij-1997.html",
+  "name": "Портвейн Белый Крымский, год урожая 1997",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "marselan-reserve",
+  "file": "wines/marselan-reserve.html",
+  "name": "Марселан Reserve",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "marselan",
+  "file": "wines/marselan.html",
+  "name": "Марселан",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-blanc-de-bancs-bryut",
+  "file": "wines/meganom-blanc-de-bancs-bryut.html",
+  "name": "Меганом Blanc de Blancs",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-krasnoe-magnum-1,5-l.-2021",
+  "file": "wines/meganom-krasnoe-magnum-1-5-l-2021.html",
+  "name": "Меганом красное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-kyuve",
+  "file": "wines/meganom-kyuve.html",
+  "name": "Меганом Кюве",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-marochnoe",
+  "file": "wines/meganom-marochnoe.html",
+  "name": "Меганом Reserve",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-ordinarnoe",
+  "file": "wines/meganom-ordinarnoe.html",
+  "name": "Меганом белое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom-selekt",
+  "file": "wines/meganom-selekt.html",
+  "name": "Меганом Select",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "meganom",
+  "file": "wines/meganom.html",
+  "name": "Меганом красное",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "merlo-solnechnoj-dolinyi",
+  "file": "wines/merlo-solnechnoj-dolinyi.html",
+  "name": "Мерло Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "merlo-tm-sun-valley",
+  "file": "wines/merlo-tm-sun-valley.html",
+  "name": "Мерло ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "merlo",
+  "file": "wines/merlo.html",
+  "name": "Мерло",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "muskat-beloe",
+  "file": "wines/muskat-beloe.html",
+  "name": "Мускат",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "muskatnoe-festivalnoe",
+  "file": "wines/muskatnoe-festivalnoe.html",
+  "name": "Мускатное Фестивальное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "polusladkoe-beloe-sun-valley",
+  "file": "wines/polusladkoe-beloe-sun-valley.html",
+  "name": "Полусладкое белое ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "polusladkoe-krasnoe-sun-valley",
+  "file": "wines/polusladkoe-krasnoe-sun-valley.html",
+  "name": "Полусладкое красное ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "porto-solnechnoj-doliny-krasnoe",
+  "file": "wines/porto-solnechnoj-doliny-krasnoe.html",
+  "name": "Порто Солнечной Долины красное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "porto-solnechnoj-doliny",
+  "file": "wines/porto-solnechnoj-doliny.html",
+  "name": "Порто Солнечной Долины белое",
+  "bottle": true,
+  "legend": false
+ },
+ {
+  "slug": "portvej-krymskij-solnechnoj-doliny",
+  "file": "wines/portvej-krymskij-solnechnoj-doliny.html",
+  "name": "Портвейн Крымский Солнечной Долины",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "portvejn-kryimskij-1991-suvenirnyij",
+  "file": "wines/portvejn-kryimskij-1991-suvenirnyij.html",
+  "name": "Портвейн Крымский Солнечной Долины, год урожая 1991",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "portvejn-kryimskij-solnechnoj-dolinyi-suvenirnyij-(xeops)-1991",
+  "file": "wines/portvejn-kryimskij-solnechnoj-dolinyi-suvenirnyij-xeops-1991.html",
+  "name": "Портвейн Крымский Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "privat",
+  "file": "wines/privat.html",
+  "name": "Приват",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "pti-verdo-(v3)",
+  "file": "wines/pti-verdo-v3.html",
+  "name": "Пти Вердо (v3)",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "pti-verdo-reserve",
+  "file": "wines/pti-verdo-reserve.html",
+  "name": "Пти Вердо Reserve",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "pti-verdo",
+  "file": "wines/pti-verdo.html",
+  "name": "Пти Вердо",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "risling-tm-sun-valley",
+  "file": "wines/risling-tm-sun-valley.html",
+  "name": "Рислинг ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "risling",
+  "file": "wines/risling.html",
+  "name": "Рислинг",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "roze-bryut",
+  "file": "wines/roze-bryut.html",
+  "name": "Меганом Розе",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "roze",
+  "file": "wines/roze.html",
+  "name": "Rose",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "saperavi",
+  "file": "wines/saperavi.html",
+  "name": "Саперави",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "shardone-solnechnoj-doliny",
+  "file": "wines/shardone-solnechnoj-doliny.html",
+  "name": "Шардоне Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "shiraz",
+  "file": "wines/shiraz.html",
+  "name": "Шираз",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "soldaja",
+  "file": "wines/soldaja.html",
+  "name": "Солдайя",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaja-dolina-beloe-desertnoe",
+  "file": "wines/solnechnaja-dolina-beloe-desertnoe.html",
+  "name": "Солнечная Долина",
+  "bottle": true,
+  "legend": true
+ },
+ {
+  "slug": "solnechnaja-dolina-beloe",
+  "file": "wines/solnechnaja-dolina-beloe.html",
+  "name": "«Солнечная Долина» полусладкое белое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaja-dolina-krasnoe",
+  "file": "wines/solnechnaja-dolina-krasnoe.html",
+  "name": "«Солнечная Долина» полусладкое красное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaja-dolina-rozovoe",
+  "file": "wines/solnechnaja-dolina-rozovoe.html",
+  "name": "Солнечная Долина полусладкое розовое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-polusuxoe-beloe",
+  "file": "wines/solnechnaya-dolina-polusuxoe-beloe.html",
+  "name": "Солнечная Долина полусухое белое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-polusuxoe-krasnoe",
+  "file": "wines/solnechnaya-dolina-polusuxoe-krasnoe.html",
+  "name": "Солнечная Долина полусухое красное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-suvenirnaya-2002",
+  "file": "wines/solnechnaya-dolina-suvenirnaya-2002.html",
+  "name": "Солнечная Долина, год урожая 2002",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-suvernirnoe-(xeops)-2002",
+  "file": "wines/solnechnaya-dolina-suvernirnoe-xeops-2002.html",
+  "name": "Солнечная Долина",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-suxoe-beloe",
+  "file": "wines/solnechnaya-dolina-suxoe-beloe.html",
+  "name": "Солнечная Долина сухое белое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-suxoe-krasnoe",
+  "file": "wines/solnechnaya-dolina-suxoe-krasnoe.html",
+  "name": "Солнечная Долина сухое красное",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-test",
+  "file": "wines/solnechnaya-dolina-test.html",
+  "name": "солнечная долина тест / Чёрный Доктор Солнечной Долины (тестовая страница)",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "solnechnaya-dolina-v-bochenke-2002",
+  "file": "wines/solnechnaya-dolina-v-bochenke-2002.html",
+  "name": "Солнечная Долина",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "sovinion",
+  "file": "wines/sovinion.html",
+  "name": "Совиньон Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "suxoe-beloe-solnechnoj-dolinyi",
+  "file": "wines/suxoe-beloe-solnechnoj-dolinyi.html",
+  "name": "Сухое белое Солнечной Долины",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "suxoe-beloe-sun-valley",
+  "file": "wines/suxoe-beloe-sun-valley.html",
+  "name": "Сухое белое ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "suxoe-krasnoe-solnechnaya-dolina",
+  "file": "wines/suxoe-krasnoe-solnechnaya-dolina.html",
+  "name": "Сухое красное Солнечная Долина",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "suxoe-krasnoe-sun-valley",
+  "file": "wines/suxoe-krasnoe-sun-valley.html",
+  "name": "Сухое красное ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "suxoe-rozovoe-tm-«sun-valley»",
+  "file": "wines/suxoe-rozovoe-tm-sun-valley.html",
+  "name": "Сухое Розовое ТМ «Sun Valley»",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "test",
+  "file": "wines/test.html",
+  "name": "Пти Вердо",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-beloe",
+  "file": "wines/tokluk-beloe.html",
+  "name": "Токлук Белое",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-kaberne-fran",
+  "file": "wines/tokluk-kaberne-fran.html",
+  "name": "Токлук Каберне Фран",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-merlo-pti-verdo-shiraz",
+  "file": "wines/tokluk-merlo-pti-verdo-shiraz.html",
+  "name": "Токлук Мерло Пти Вердо Шираз",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-montepulchano",
+  "file": "wines/tokluk-montepulchano.html",
+  "name": "Токлук Монтепульчано",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-saperavi-kefesiya",
+  "file": "wines/tokluk-saperavi-kefesiya.html",
+  "name": "Токлук Саперави Кефесия",
+  "bottle": true,
+  "legend": false
+ },
+ {
+  "slug": "tokluk-vermentino",
+  "file": "wines/tokluk-vermentino.html",
+  "name": "Токлук Верментино",
+  "bottle": false,
+  "legend": false
+ },
+ {
+  "slug": "tokluk",
+  "file": "wines/tokluk.html",
+  "name": "Токлук Резерв",
+  "bottle": false,
+  "legend": false
+ }
+]

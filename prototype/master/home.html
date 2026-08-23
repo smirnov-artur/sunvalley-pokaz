@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Солнечная Долина — спуск от неба к бокалу</title>
+<meta name="description" content="Крымская винодельня с 1888 года. Архадерессе, Судак. Автохтоны Эким Кара, Джеват Кара, Кефесия, Кокур. Голицынские подвалы, экскурсии и дегустации от 1 450 ₽.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="home.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
+<link rel="preload" as="image" href="../assets/img/gen/ai/video/poster/sun-rise-valley.webp" fetchpriority="high">
+<!-- Карта модулей для живой 3D-бутылки сцены 3 (assets/js/bottle3d-module.js).
+     Объявлена ЗДЕСЬ, а не рядом со скриптом: importmap обязан лежать в документе
+     раньше первого разрешения модуля, а модуль тянет home.js динамическим import().
+     Сама карта ничего не грузит — если сцена останется на кадрах, ни three, ни
+     аддоны в сеть не уйдут. -->
+<script type="importmap">
+{"imports":{"three":"../assets/vendor/three/three.module.min.js","three/addons/":"../assets/vendor/three/addons/"}}
+</script>
+</head>
+<body class="hm">
+
+<!-- ═══ 0 · ПРЕЛОАДЕР — эмблема и одна золотая линия, ≤1,2 с ═══════════ -->
+<div class="pre" id="pre" aria-hidden="true">
+  <img class="pre__em" src="../assets/img/gen/logo-emblem-1000.webp" alt="" width="140" height="140" decoding="async">
+  <i class="pre__rule" id="preRule"></i>
+  <p class="pre__t">Солнечная Долина · осн. 1888</p>
+</div>
+
+<!-- ═══ ШАПКА — прозрачная поверх героя, плотная после первого экрана ══ -->
+<header class="hdr" id="hdr">
+  <a class="hdr__brand" href="#top" aria-label="Солнечная Долина, на главную">
+    <img class="hdr__logo" src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина" width="120" height="40">
+    <span class="hdr__est">осн. 1888</span>
+  </a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="wines.html">Вина</a>
+    <a href="#worlds">Долина</a>
+    <a href="visit.html">Визит</a>
+    <a href="#partners">Партнёрам</a>
+    <a href="#buy">Где купить</a>
+  </nav>
+  <div class="hdr__act">
+    <a class="hdr__tel" href="tel:+79789563322">+7 978 956-33-22</a>
+    <a class="hdr__cta" href="visit.html">Забронировать</a>
+  </div>
+</header>
+
+<!-- Кнопка паузы у автоплея (признак 14) -->
+<button class="pausebtn" id="pauseBtn" aria-pressed="false" aria-label="Пауза видео" title="Пауза видео"><i></i></button>
+
+<main id="top">
+
+<!-- ═══ 1 · НЕБО ═══════════════════════════════════════════════════════
+     Вариант A плейбука: полноэкранное видео долины, день переходит
+     в вечер по прогрессу скролла. Слоты valley-noon / valley-dusk ждут
+     новых таймлапсов владельца; пока их нет — тот же кадр перекрашивают
+     два грейд-слоя, поэтому декодер всегда занят ровно одним роликом. -->
+<section class="sc sky" id="sky" data-bg="#161210">
+  <div class="sky__pin">
+    <div class="sky__media" id="skyMedia">
+      <div class="vslot vslot--cover" data-v="valley-timelapse-1280|valley-timelapse|valley-dawn|sun-rise-valley" data-v-m="valley-timelapse-960|valley-dawn-720|sun-rise-valley" data-poster="sun-rise-valley" data-eager>
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/sun-rise-valley.webp" alt="Виноградники Солнечной Долины на рассвете" width="1920" height="1080" fetchpriority="high">
+      </div>
+      <div class="sky__grade sky__grade--noon" id="gradeNoon">
+        <div class="vslot vslot--cover" data-v="valley-noon" data-poster="sun-rise-valley"></div>
+      </div>
+      <div class="sky__grade sky__grade--dusk" id="gradeDusk">
+        <div class="vslot vslot--cover" data-v="valley-dusk" data-poster="sun-rise-valley"></div>
+      </div>
+      <div class="sky__vign" aria-hidden="true"></div>
+    </div>
+
+    <div class="sky__txt" id="skyTxt">
+      <p class="cap sky__eyebrow">Архадерессе · Судак · 44°50′N</p>
+      <h1 class="sky__h"><span class="ln">Солнце сушит камень.</span><span class="ln">Камень держит лозу.</span></h1>
+      <a class="ghost sky__cta" href="#vine">Спуститься</a>
+    </div>
+
+    <a class="scrollhint" href="#vine" id="scrollHint"><span class="cap">Прокрутите</span><i></i></a>
+  </div>
+</section>
+
+<!-- ═══ 2 · ЛОЗА ═══════════════════════════════════════════════════════
+     Четыре имени автохтонов проявляются по одному в тёмной левой трети
+     кадра. Слот aerial-vineyard-sea ждёт нового облёта; сейчас harvest-dawn. -->
+<section class="sc vine" id="vine" data-bg="#161210">
+  <div class="vine__pin">
+    <div class="vslot vslot--cover" data-v="aerial-vineyard-sea|harvest-dawn" data-v-m="aerial-vineyard-sea-720|harvest-dawn-1280" data-poster="harvest-dawn">
+      <img class="vslot__still" src="../assets/img/gen/ai/video/poster/harvest-dawn.webp" alt="Сбор урожая на рассвете" width="1920" height="1080" loading="lazy" decoding="async">
+    </div>
+    <div class="vine__scrim" aria-hidden="true"></div>
+    <p class="cap vine__tag">Четыре сорта, которых нет больше нигде</p>
+    <ol class="vine__list" id="vineList">
+      <li class="vine__i"><b class="cap">Эким Кара</b><span>Ягода почти чернильная. Имя перешло вину — «Чёрный доктор».</span></li>
+      <li class="vine__i"><b class="cap">Джеват Кара</b><span>Тёмная ягода «Чёрного полковника». Долгая выдержка в дубе.</span></li>
+      <li class="vine__i"><b class="cap">Кефесия</b><span>Сланцы Токлука. Чернослив, кожа и пряность во вкусе.</span></li>
+      <li class="vine__i"><b class="cap">Кокур белый</b><span>Белый автохтон Судака. Возраст лоз — более тридцати пяти лет.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══ 3 · БУТЫЛКА — П2, турнтейбл на пине ════════════════════════════
+     ЖИВАЯ 3D-БУТЫЛКА (data-bottle="3d"). Скролл крутит настоящую модель
+     «Чёрного Доктора»: геометрия снята с силуэта нашей вырезки, этикетка
+     развёрнута с фотографии — кириллица наша, ни латиницы, ни штрих-кода.
+     Оборот отдаётся модулю через setProgress(), наезд в этикетку — через
+     setZoom(), а из наезда сцена переходит встык в макро тиснения
+     (label-emboss) и уводит зрителя в «четыре мира».
+
+     ФОЛБЭК (data-bottle="frames" или отказ WebGL/модуля). Тогда работает
+     секвенция кадров bottle-turn. В ИСХОДНОМ ролике снята ЧУЖАЯ бутылка:
+     на контрэтикетке латиница и штрих-код. Поэтому скраб ограничен окном
+     кадров, где этикетка развёрнута от камеры и не читается ни одна буква
+     (RANGE в home.js, проверено покадрово), а выход растворяется в НАШУ
+     вырезку ×4. Чёрный фон кадров уходит в screen — сквозь него течёт фон
+     страницы #0B0906 → #2A1B10 → #7A4A1E. -->
+<section class="sc turn" id="turn" data-bg="#0B0906">
+  <div class="turn__pin" data-bottle="3d">
+    <div class="turn__warm" id="turnWarm" aria-hidden="true"></div>
+    <div class="turn__3d" id="bottle3d" aria-hidden="true"></div>
+    <canvas class="turn__cv" id="turnCv" aria-hidden="true"></canvas>
+    <img class="turn__still" id="turnStill" src="../assets/img/gen/home/bottle-turn-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async">
+    <!-- Макро тиснения нашей этикетки: сюда сцена въезжает ИЗ наезда 3D —
+         3D-этикетка на весь кадр встык переходит в снятую бумагу. Ролик
+         label-emboss (7,9 с, верная кириллица) — рендишн 1280 вместо
+         исходных 1920: 1,2 МБ против 5,2 МБ при том же кадре на 1440.
+         Фолбэк — label-light, он уже лежит в реестре. -->
+    <div class="vslot vslot--cover turn__emb" id="turnEmb" data-v="label-emboss-1280|label-emboss|label-light" data-v-m="label-emboss-720|label-emboss-960|label-light-720" data-poster="label-emboss" data-gate aria-hidden="true">
+      <img class="vslot__still" src="../assets/img/gen/ai/video/poster/label-emboss.webp" alt="" width="1920" height="1080" loading="lazy" decoding="async">
+    </div>
+    <img class="turn__cut" id="turnCut" src="../assets/img/cut/x4/cherniy_doctor2017.webp" srcset="../assets/img/gen/home/bottle-cherniy_doctor2017-1000.webp 1000w, ../assets/img/cut/x4/cherniy_doctor2017.webp 2000w" sizes="420px" alt="Чёрный Доктор Солнечной Долины" width="2000" height="3000" loading="lazy" decoding="async">
+    <div class="turn__caps" id="turnCaps">
+      <p class="turn__c is-on" data-at="0.10">Чёрный Доктор. Эким Кара со старых лоз</p>
+      <p class="turn__c" data-at="0.32">Не менее трёх лет в дубовых бочках</p>
+      <p class="turn__c" data-at="0.54">16 % об. · 160 г/дм³</p>
+    </div>
+    <p class="turn__out" id="turnOut">Четыре линейки — четыре мира</p>
+    <div class="edge" id="turnEdge" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ═══ 4 · ЧЕТЫРЕ МИРА — П7, слайд-фильм с push-переходом ═════════════ -->
+<section class="sc worlds" id="worlds" data-bg="#0B0906">
+  <div class="worlds__pin">
+
+    <article class="wsl" data-i="0">
+      <div class="vslot vslot--cover" data-v="cellar-candles-1280|cellar-candles|cellar-glide|candle-cellar" data-v-m="cellar-candles-960|cellar-glide-720|candle-cellar-720" data-poster="candle-cellar" data-gate>
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/candle-cellar.webp" alt="Голицынский подвал при свечах" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <img class="wsl__b" src="../assets/img/cut/x4/cherniy_doctor2017.webp" srcset="../assets/img/gen/home/bottle-cherniy_doctor2017-1000.webp 1000w, ../assets/img/cut/x4/cherniy_doctor2017.webp 2000w" sizes="340px" alt="Чёрный Доктор Солнечной Долины" width="2000" height="3000" loading="lazy" decoding="async" style="view-transition-name:vt-bottle-chd">
+      <div class="wsl__txt">
+        <h2 class="wsl__h">Чёрный Доктор</h2>
+        <p class="cap wsl__tag">Подвал 1888 · +14 °C круглый год</p>
+        <a class="wsl__go" href="chd.html" data-vt="vt-bottle-chd">Войти →</a>
+      </div>
+    </article>
+
+    <article class="wsl" data-i="1">
+      <div class="vslot vslot--cover" data-v="swirl-glass" data-v-m="swirl-glass-960" data-poster="swirl-glass" data-gate>
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/swirl-glass.webp" alt="Вино в бокале" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <img class="wsl__b" src="../assets/img/cut/x4/solnechnaya_dolina_marochnoe2004.webp" srcset="../assets/img/gen/home/bottle-solnechnaya_dolina_marochnoe2004-1000.webp 1000w, ../assets/img/cut/x4/solnechnaya_dolina_marochnoe2004.webp 2000w" sizes="340px" alt="Солнечная Долина, ликёрное выдержанное" width="2000" height="3000" loading="lazy" decoding="async" style="view-transition-name:vt-bottle-sd">
+      <div class="wsl__txt">
+        <h2 class="wsl__h">Солнечная Долина</h2>
+        <p class="cap wsl__tag">Ликёрные выдержанные · 16 % об. · 160 г/дм³</p>
+        <a class="wsl__go" href="arhaderesse.html" data-vt="vt-bottle-sd">Войти →</a>
+      </div>
+    </article>
+
+    <article class="wsl" data-i="2">
+      <!-- drone-sea — пролёт над террасами к морю, 8 с. Это СОБЫТИЕ, а не
+           петля: data-v-once снимает loop, ролик доигрывает и держит
+           последний кадр; вернулись к слайду — пролёт идёт сначала.
+           Под роликом (и вместо него, если реестр пуст) — своя фотография:
+           старые лозы и мыс Меганом на закате (5504×3072). -->
+      <div class="vslot vslot--cover vslot--drift" data-v="drone-sea-1280|drone-sea|sea-meganom" data-v-m="drone-sea-960|sea-meganom-720" data-v-once data-gate>
+        <img class="vslot__still" src="../assets/img/gen/home/meganom-dusk-2560.webp"
+             srcset="../assets/img/gen/home/meganom-dusk-1280.webp 1280w, ../assets/img/gen/home/meganom-dusk-2560.webp 2560w"
+             sizes="100vw" alt="Старые лозы и мыс Меганом на закате" width="2560" height="1429" loading="lazy" decoding="async">
+      </div>
+      <img class="wsl__b" src="../assets/img/cut/x4/meganom_krasnoe2023.webp" srcset="../assets/img/gen/home/bottle-meganom_krasnoe2023-1000.webp 1000w, ../assets/img/cut/x4/meganom_krasnoe2023.webp 2000w" sizes="340px" alt="Меганом красное" width="2000" height="3000" loading="lazy" decoding="async" style="view-transition-name:vt-bottle-meganom">
+      <div class="wsl__txt">
+        <h2 class="wsl__h">Меганом</h2>
+        <p class="cap wsl__tag">Сухие · лозы 30–35 лет · Бастардо и Кефесия</p>
+        <a class="wsl__go" href="meganom.html" data-vt="vt-bottle-meganom">Войти →</a>
+      </div>
+    </article>
+
+    <article class="wsl" data-i="3">
+      <!-- Здесь стояло макро этикетки (label-light). Убрано: оно почти
+           неотличимо от label-emboss, который теперь работает на выходе
+           сцены «Бутылка», — два одинаковых кадра на одной странице читаются
+           как нехватка материала. И по смыслу Токлук — это террасы, а не
+           бумага. Пока нет ролика tokluk-terraces, здесь фотография
+           сланцевых террас над морем с медленным наездом, как у «Меганома».
+           Грейд подогнан по числу, а не на глаз: яркость 0,56 / насыщенность
+           0,88 дают L=40,9 при L=38,5 у соседнего «Чёрного Доктора»
+           (было L=57,6 — кадр выбивался из ряда, признак 8). -->
+      <div class="vslot vslot--cover vslot--drift" data-v="tokluk-terraces" data-gate>
+        <img class="vslot__still" src="../assets/img/gen/home/tokluk-terraces-2560.webp"
+             srcset="../assets/img/gen/home/tokluk-terraces-1280.webp 1280w, ../assets/img/gen/home/tokluk-terraces-2560.webp 2560w"
+             sizes="100vw" alt="Сланцевые террасы Токлука над морем" width="2560" height="1098" loading="lazy" decoding="async">
+      </div>
+      <img class="wsl__b" src="../assets/img/cut/x4/kefessia.webp" srcset="../assets/img/gen/home/bottle-kefessia-1000.webp 1000w, ../assets/img/cut/x4/kefessia.webp 2000w" sizes="340px" alt="Кефесия" width="2000" height="3000" loading="lazy" decoding="async" style="view-transition-name:vt-bottle-tokluk">
+      <div class="wsl__txt">
+        <h2 class="wsl__h">Токлук</h2>
+        <p class="cap wsl__tag">Сланцевые террасы · ныне Богатовка</p>
+        <a class="wsl__go" href="tokluk.html" data-vt="vt-bottle-tokluk">Войти →</a>
+      </div>
+    </article>
+
+    <nav class="dots" id="worldDots" aria-label="Четыре линейки">
+      <button type="button" data-i="0" aria-label="Чёрный Доктор"></button>
+      <button type="button" data-i="1" aria-label="Солнечная Долина"></button>
+      <button type="button" data-i="2" aria-label="Меганом"></button>
+      <button type="button" data-i="3" aria-label="Токлук"></button>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══ 5 · ПОДВАЛ — 1888 → 2026 бегут по скроллу ══════════════════════ -->
+<section class="sc years" id="cellar" data-bg="#0B0906">
+  <div class="years__pin">
+    <!-- Голицынская галерея с бутылками — своя фотография, а не второй показ
+         candle-cellar, который уже отработал в сцене «Четыре мира». -->
+    <div class="vslot vslot--cover vslot--drift years__v" data-v="barrel-gallery-1280|barrel-gallery|cellar-glide" data-v-m="barrel-gallery-960|cellar-glide-720">
+      <img class="vslot__still" src="../assets/img/gen/home/cellar-gallery-2560.webp"
+           srcset="../assets/img/gen/home/cellar-gallery-1280.webp 1280w, ../assets/img/gen/home/cellar-gallery-2560.webp 2560w"
+           sizes="100vw" alt="Галерея выдержки: ряды бутылок в голицынском подвале" width="2560" height="1429" loading="lazy" decoding="async">
+    </div>
+    <div class="vslot vslot--cover years__drop" id="yearsDrop" data-v="barrel-drop" data-poster="barrel-drop" data-gate>
+      <img class="vslot__still" src="../assets/img/gen/ai/video/poster/barrel-drop.webp" alt="Капля вина у бочки" width="1920" height="1080" loading="lazy" decoding="async">
+    </div>
+    <div class="years__scrim" aria-hidden="true"></div>
+    <p class="years__n" id="yearsN">1888</p>
+    <div class="years__caps" id="yearsCaps">
+      <p data-y="1888">Горчаков покупает Токлукское имение. Голицын строит винодельню и подвал №1.</p>
+      <p data-y="1899">Заложен винподвал №4 — общая ёмкость выдержки двести тысяч декалитров.</p>
+      <p data-y="1936">Виноградники, запущенные к 1929-му, начинают восстанавливать.</p>
+      <p data-y="1956">«Архадерессе» входит в совхоз «Солнечная Долина». Имя остаётся навсегда.</p>
+      <p data-y="2001">Долина начинает выпуск сухих вин.</p>
+      <p data-y="2026">Сто тридцать восьмой урожай.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5а · ПАУЗА — плоский камень, один абзац, пословная подсветка ═══ -->
+<section class="sc pause" id="manifest" data-bg="#fbf7f0">
+  <p class="pause__p" id="pauseP">Здесь солнце сушит камень, а камень держит лозу. Эким Кара, Джеват Кара, Кефесия, Кокур — сорта, которые не прижились больше нигде на земле. Сто тридцать восемь лет одна долина делает вино, которое невозможно повторить в другой.</p>
+</section>
+
+<!-- ═══ 6 · БОКАЛ — П5, видео внутри «1888» ═══════════════════════════
+     Слот ждёт pour-crown (налив ЧД с короной брызг, событие: в конце бокал
+     налит на треть и стоп). Поэтому data-v-once — снимает loop: ролик
+     доигрывает и держит последний кадр, а при повторном входе в кадр
+     play() перематывает на нуль и налив идёт сначала. Зациклить его нельзя:
+     петля погнала бы вино обратно вверх. Пока файла нет, в цепочке играет
+     pour-glass — он же постер и статичный кадр. -->
+<section class="sc glass" id="glass" data-bg="#161210">
+  <div class="glass__pin">
+    <div class="vslot vslot--cover" data-v="pour-crown-1280|pour-crown|pour-glass" data-v-m="pour-crown-960|pour-crown-720|pour-glass-720" data-v-once data-poster="pour-glass">
+      <img class="vslot__still" src="../assets/img/gen/ai/video/poster/pour-glass.webp" alt="Вино наливают в бокал" width="1920" height="1080" loading="lazy" decoding="async">
+    </div>
+    <svg class="glass__cut" id="glassCut" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <mask id="cut1888" maskUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="100%" height="100%" fill="#fff"></rect>
+          <text id="glassT" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000">1888</text>
+        </mask>
+      </defs>
+      <rect x="0" y="0" width="100%" height="100%" fill="#161210" mask="url(#cut1888)"></rect>
+    </svg>
+    <div class="glass__txt" id="glassTxt">
+      <p class="cap">Цвет вина</p>
+      <p class="glass__l">Гранатовый с рубиновыми бликами</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6а · БРЮТ — ПОЛНОЭКРАННОЕ СОБЫТИЕ (эталон — Ferrari) ═══════════
+     Страница докручивается, пробка вылетает ОДИН раз, ролик замирает на
+     стоп-кадре с паром. data-v-once снимает loop; вернулись сюда снизу —
+     play() перематывает на нуль и хлопок идёт заново.
+
+     ПОЧЕМУ ЗДЕСЬ, а не между «Четырьмя мирами» и «Подвалом». (1) Ритм:
+     перед этим идёт самая медленная пара страницы — камень-манифест и
+     бокал в маске «1888»; 4,3-секундный взрыв сразу после них — самый
+     сильный контраст, который на странице вообще возможен. (2) Смысл:
+     спуск кончился вином в бокале, хлопок пробки — тост, и он стоит ровно
+     перед приглашением «Забронировать дегустацию»; ГЕНЕРАЦИЯ-ВИДЕО-2 даёт
+     этому ролику вторую роль как раз на «Визите». (3) Между мирами и
+     подвалом он бы стал ЧЕТВЁРТЫМ медиа-экраном подряд до паузы-манифеста
+     (признак 13) и разорвал прямую связку «четыре мира → подвал 1888».
+     Фон сцены тот же #161210, что у «Бокала», — число смен фона остаётся
+     пять (признак 12).
+
+     ТЕКСТ — В ИЗМЕРЕННОЙ ТИХОЙ ЗОНЕ (признак 4). Строка стоит на 55 %
+     высоты, как в «Четырёх мирах», но прижата к левому полю 8 %, а не
+     центрирована: по 26 кадрам ролика центр кадра — это пар, он занимает
+     всю правую половину и к концу светится до L=230–254. Слева пар не
+     появляется ни на одном кадре. Клин-скрим добирает контраст на нижней
+     части бутылки, пар не трогает. -->
+<section class="sc pop" id="brut" data-bg="#161210">
+  <div class="pop__pin">
+    <!-- Постер = кадр 0 самого ролика (1920×1080), поэтому подмены при
+         старте видео не видно. Слот со шторкой: заводит его сцена, когда
+         кадр реально занял экран, — иначе IO успел бы отыграть хлопок
+         за 200 px до входа. -->
+    <div class="vslot vslot--cover pop__v" id="popV" data-v="cork-pop-1280|cork-pop" data-v-m="cork-pop-960|cork-pop-720" data-v-once data-gate>
+      <img class="vslot__still" src="../assets/img/gen/home/cork-pop-poster-2560.webp"
+           srcset="../assets/img/gen/home/cork-pop-poster-1280.webp 1280w, ../assets/img/gen/home/cork-pop-poster-2560.webp 2560w"
+           sizes="100vw" alt="«Меганом Кокур»: бутылка брюта в контровом золотом свете за миг до хлопка" width="2560" height="1440" loading="lazy" decoding="async">
+    </div>
+    <div class="pop__scrim" aria-hidden="true"></div>
+    <div class="pop__txt" id="popTxt">
+      <h2 class="pop__h">Брют Кокур</h2>
+      <!-- Факты дословно из knowledge-base/data/wines.json, карточка
+           kokur-bryut («Меганом Кокур»): тип «Игристое вино выдержанное
+           белое брют», сорт «Кокур белый», в описании — «классический
+           метод производства». Ничего не добавлено. -->
+      <!-- неразрывный пробел перед «·»: точка обязана оставаться при
+           предыдущем слове, иначе перенос выносит её в начало строки -->
+      <p class="cap pop__tag">Игристое выдержанное&nbsp;· Кокур белый&nbsp;· классический метод</p>
+      <a class="pop__go" href="wines.html">Все вина →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 · ВИЗИТ — П14, слоёное панно Архадерессе, вечер ══════════════ -->
+<section class="sc visit" id="visit" data-bg="#2A1B10">
+  <div class="visit__pano" id="pano" aria-label="Имение Архадерессе">
+    <img class="pl pl--0" src="../assets/img/gen/layers/arh-l0-sky-1600.webp" alt="" width="1600" height="893" loading="lazy" decoding="async">
+    <img class="pl pl--1" src="../assets/img/gen/layers/arh-l1-mountains-1600.webp" alt="" width="1600" height="893" loading="lazy" decoding="async">
+    <img class="pl pl--2" src="../assets/img/gen/layers/arh-l2-manor-1600.webp" alt="" width="1600" height="893" loading="lazy" decoding="async">
+    <img class="pl pl--3" src="../assets/img/gen/layers/arh-l3-vines-1600.webp" alt="" width="1600" height="893" loading="lazy" decoding="async">
+    <img class="pl pl--4" src="../assets/img/gen/layers/arh-l4-front-1600.webp" alt="" width="1600" height="893" loading="lazy" decoding="async">
+    <div class="visit__dusk" aria-hidden="true"></div>
+  </div>
+  <div class="visit__txt">
+    <p class="cap">Дегустационный комплекс «Архадерессе»</p>
+    <h2 class="visit__h">Спуститься в подвалы<br>1888 года</h2>
+    <p class="visit__l">Экскурсия по трём голицынским подвалам и дегустация десяти марок вин — один час двадцать минут.</p>
+    <a class="gold" href="visit.html">Забронировать дегустацию</a>
+    <dl class="visit__d">
+      <div><dt>Цена</dt><dd>от 1 450 ₽ за гостя</dd></div>
+      <div><dt>Приём</dt><dd>ежедневно 10:00–17:00</dd></div>
+      <div><dt>Адрес</dt><dd>Судак, с. Миндальное, ул. Миндальная, 8А</dd></div>
+      <div><dt>Телефон</dt><dd><a href="tel:+79789563322">+7 978 956-33-22</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+<footer class="ftr" id="partners">
+  <div class="ftr__g">
+    <div>
+      <p class="cap">Где купить</p>
+      <p><a href="index.html#buy">Тридцать семь фирменных магазинов и баров Крыма</a>, федеральные сети и винотеки по всей России.</p>
+    </div>
+    <div id="buy">
+      <p class="cap">Партнёрам</p>
+      <p><a href="../ecosystem/sommelier-kit.html">Кабинет сомелье</a> — техкарты вин и конструктор винной карты. Отдел продаж: <a href="tel:+74954115333">+7 495 411-53-33</a>.</p>
+    </div>
+    <div>
+      <p class="cap">Винодельня</p>
+      <p>Республика Крым, г. Судак, с. Миндальное, ул. Миндальная, 8 · <a href="tel:+79789563322">+7 978 956-33-22</a> · <a href="https://vk.com/sunvalleywinery" rel="noopener">ВКонтакте</a> · <a href="https://t.me/sunvalleywinery" rel="noopener">Telegram</a></p>
+    </div>
+  </div>
+  <p class="ftr__law">АО «Солнечная Долина» · основано в 1888 году · <b>18+</b> · Чрезмерное употребление алкоголя вредит вашему здоровью</p>
+</footer>
+
+</main>
+
+<script src="../assets/vendor/gsap.min.js"></script>
+<script src="../assets/vendor/ScrollTrigger.min.js"></script>
+<script src="../assets/vendor/lenis.min.js"></script>
+<script defer src="home.js"></script>
+</body>
+</html>

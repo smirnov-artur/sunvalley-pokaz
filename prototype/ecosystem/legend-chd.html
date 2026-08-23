@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Легенда «Чёрного Доктора» — Солнечная Долина</title>
+<meta name="description" content="Эким Кара — «чёрный доктор». История сорта, подвалов Архадерессе 1888 года и вина, которое выдерживают в дубе не менее трёх лет. Вертикаль коллекционных лет, как пить, как отличить подлинник, запись на вертикальную дегустацию.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../variants/a-podval/style.css">
+<style>
+/* ============================================================
+   ЭКОСИСТЕМА · ЛЕГЕНДА «ЧЁРНОГО ДОКТОРА»
+   Лонгрид-драма: полноэкранные главы, буквицы, поля-примечания
+   ============================================================ */
+
+/* ---------- общие ---------- */
+.stage{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+.sec{padding:clamp(80px,11vh,140px) 0}
+section[id]{scroll-margin-top:96px}
+
+/* ---------- прогресс чтения ---------- */
+.prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:9995;background:rgba(251,247,240,.07)}
+.prog__bar{height:100%;width:0;background:linear-gradient(90deg,var(--bordo),var(--red),var(--gold));transition:width .12s linear}
+
+/* ---------- рейка глав ---------- */
+.rail{position:fixed;right:clamp(14px,1.8vw,26px);top:50%;transform:translateY(-50%);z-index:60;display:none}
+@media (min-width:1100px){.rail{display:block}}
+.rail ol{list-style:none;display:flex;flex-direction:column;gap:14px}
+.rail a{display:flex;align-items:center;gap:10px;justify-content:flex-end;
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,240,.32);transition:color .35s}
+.rail a span{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .45s cubic-bezier(.16,1,.3,1),opacity .35s;opacity:0}
+.rail a i{width:22px;height:1px;background:currentColor;flex:none;transition:width .45s,background .35s}
+.rail a:hover,.rail a.on{color:var(--gold)}
+.rail.light a{color:rgba(22,18,16,.34)}
+.rail.light a:hover,.rail.light a.on{color:var(--bordo)}
+.rail a:hover span,.rail a.on span{max-width:190px;opacity:1}
+.rail a.on i{width:34px}
+
+/* ---------- герой ---------- */
+.chero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(120px,15vh,168px) var(--pad) clamp(56px,8vh,96px);overflow:hidden}
+.chero__bg{position:absolute;inset:0;z-index:-2}
+.chero__bg img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;filter:brightness(.34) saturate(.72) contrast(1.16) blur(1.5px)}
+/* eyebrow: латунь, а не бордо — читается на тёмном фото */
+.chero .kicker{color:var(--gold-hi);opacity:.94}
+/* собственный кадр легенды: подсвеченная витрина с бутылкой коллекции */
+.chero__vitrine{position:absolute;right:0;top:0;bottom:0;z-index:-1;pointer-events:none;
+  width:clamp(300px,27vw,430px);
+  background:linear-gradient(180deg,#f1e8da 0%,#e7dcc9 52%,#c9b99f 100%);
+  box-shadow:inset 0 0 110px rgba(88,58,28,.34), -46px 0 110px rgba(22,18,16,.72);
+  border-left:1px solid rgba(185,155,99,.55);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.chero__vitrine::before{content:'';position:absolute;left:0;top:0;bottom:0;width:120px;
+  background:linear-gradient(90deg,rgba(22,18,16,.9),transparent)}
+/* тёмная вуаль под шапкой: меню и телефон читаются поверх светлой витрины */
+.chero__vitrine::after{content:'';position:absolute;left:0;right:0;top:0;height:150px;
+  background:linear-gradient(180deg,rgba(22,18,16,.94) 0%,rgba(22,18,16,.66) 46%,transparent 100%)}
+.chero__bottle{mix-blend-mode:multiply;height:min(62vh,600px);width:auto;
+  margin-bottom:clamp(48px,7vh,80px)}
+.chero__botcap{position:absolute;bottom:clamp(18px,3vh,30px);left:0;right:0;text-align:center;
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(60,40,26,.68)}
+@media (max-width:1099px){.chero__vitrine{display:none}}
+/* текст героя не заезжает под витрину */
+@media (min-width:1100px){.chero__stage,.chero__folio{padding-right:clamp(316px,28vw,450px)}}
+.chero__bg::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(120% 80% at 50% 40%, rgba(95,25,48,.28) 0%, transparent 62%),
+    linear-gradient(180deg, rgba(22,18,16,.86) 0%, rgba(22,18,16,.34) 38%, rgba(22,18,16,.97) 100%)}
+.chero__folio{position:absolute;top:clamp(88px,11vh,124px);left:0;right:0;margin-bottom:0}
+.chero__stage{max-width:1280px;margin:0 auto;width:100%;position:relative}
+.chero__title{font-size:clamp(3.2rem,11vw,9.5rem);line-height:.92;letter-spacing:.005em;margin-bottom:.22em}
+.chero__title em{display:block;font-style:normal;color:var(--gold-hi)}
+.chero__lead{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.3vw,1.9rem);
+  color:var(--stone-dim);line-height:1.4;max-width:34ch}
+.chero__scroll{margin-top:clamp(22px,3.4vh,38px);display:flex;align-items:center;gap:14px;
+  font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(251,247,240,.42)}
+.chero__scroll i{display:block;width:52px;height:1px;background:var(--gold);opacity:.7}
+/* правовая ремарка в герое */
+.chero__law{margin-top:1.1em;max-width:44ch;font-size:.76rem;line-height:1.6;
+  color:rgba(251,247,240,.62);border-left:1px solid rgba(185,155,99,.5);padding-left:13px}
+/* вторичные действия в герое */
+.chero__acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(22px,3.4vh,34px);align-items:center}
+.chero__acts .btn{font-size:.68rem}
+.chero__tel{font-family:var(--serif);font-size:1.02rem;color:var(--gold-hi);white-space:nowrap;
+  border-bottom:1px solid rgba(185,155,99,.4);padding-bottom:2px}
+.chero__tel:hover{color:var(--stone)}
+
+/* телефон в шапке */
+.hdr__tel{font-size:.75rem;letter-spacing:.14em;color:var(--gold-hi);white-space:nowrap}
+.hdr__tel:hover{color:var(--stone)}
+
+/* ---------- липкая строка действий (только телефон) ---------- */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:120;display:none;
+  gap:1px;background:var(--hair);border-top:1px solid var(--hair);
+  transform:translateY(110%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sticky.on{transform:translateY(0)}
+.sticky a{flex:1 1 0;background:rgba(22,18,16,.96);backdrop-filter:blur(10px);
+  text-align:center;padding:13px 4px;font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--stone-dim);line-height:1.3}
+.sticky a b{display:block;font-weight:400;color:var(--gold-hi);letter-spacing:.1em}
+.sticky a.acc{color:var(--ink);background:var(--gold)}
+.sticky a.acc b{color:var(--ink)}
+
+/* ---------- глава ---------- */
+.chap{position:relative;padding:clamp(58px,7vh,88px) 0}
+.chap__head{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+.chap__num{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:1.2em}
+.chap__title{font-size:clamp(2.4rem,6vw,5.2rem);max-width:16ch;margin-bottom:.28em}
+.chap__title em{font-style:italic;color:var(--gold-hi)}
+.chap__sub{font-family:var(--serif);font-style:italic;color:var(--stone-dim);
+  font-size:clamp(1.05rem,1.9vw,1.4rem);max-width:44ch}
+
+/* текстовая колонка с полями-примечаниями */
+.col{max-width:1280px;margin:clamp(26px,3.6vh,44px) auto 0;padding:0 var(--pad);
+  display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(26px,4vw,56px)}
+@media (min-width:1000px){
+  .col{grid-template-columns:minmax(0,60ch) minmax(200px,300px);justify-content:space-between}
+  .col--flip{grid-template-columns:minmax(200px,300px) minmax(0,60ch)}
+  .col--flip .col__body{order:2}
+  .col--flip .col__side{order:1}
+  .col__side{padding-top:.55em}
+}
+.col__body p{font-size:clamp(1rem,1.15vw,1.09rem);line-height:1.78;margin-bottom:1.15em;color:rgba(251,247,240,.86)}
+.col__body p+p{text-indent:1.6em}
+.col__body p.noind+p{text-indent:0}
+.col__body b{font-weight:500;color:var(--stone)}
+.drop::first-letter{
+  font-family:var(--serif);float:left;font-size:4.6em;line-height:.78;
+  padding:.06em .12em 0 0;margin:.02em .06em 0 0;color:var(--gold);font-weight:400}
+.col__side{display:flex;flex-direction:column;gap:clamp(20px,3vh,34px)}
+
+/* поле-примечание */
+.note{border-left:1px solid var(--hair);padding-left:16px;font-size:.82rem;line-height:1.65;color:rgba(251,247,240,.55)}
+.note b{display:block;font-family:var(--sans);font-weight:400;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.7em}
+.note--red{border-color:rgba(168,50,62,.5)}
+.note--red b{color:var(--red)}
+.note em{font-family:var(--serif);font-style:italic;color:var(--stone-dim)}
+
+/* сноски */
+sup.fnr{font-size:.62em;letter-spacing:.02em;vertical-align:super;line-height:0}
+sup.fnr a{color:var(--gold);border-bottom:0;padding:0 .1em}
+sup.fnr a:hover{color:var(--gold-hi)}
+
+/* врезка-цитата */
+.pull{margin:clamp(30px,5vh,52px) 0;padding-left:clamp(16px,2vw,28px);border-left:2px solid var(--red);max-width:32em}
+.note .nl{display:block;margin-bottom:.6em}
+.note .nl:last-child{margin-bottom:0}
+.pull p{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.4vw,1.85rem);
+  line-height:1.35;color:var(--stone);text-indent:0!important}
+.pull cite{display:block;margin-top:.9em;font-family:var(--sans);font-style:normal;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+/* ---------- полноэкранный разделитель ---------- */
+.plate-full{position:relative;min-height:86svh;display:flex;align-items:flex-end;overflow:hidden}
+.plate-full__bg{position:absolute;inset:0;z-index:-1}
+.plate-full__bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.66) saturate(.95);
+  transform:scale(1.06);transition:transform 1.6s cubic-bezier(.16,1,.3,1)}
+.plate-full.seen .plate-full__bg img{transform:scale(1)}
+.plate-full__bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(22,18,16,.72) 0%,transparent 30%,rgba(22,18,16,.9) 100%)}
+.plate-full__cap{max-width:1280px;margin:0 auto;width:100%;padding:0 var(--pad) clamp(40px,6vh,72px)}
+.plate-full__cap p{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.2vw,1.7rem);
+  color:var(--stone);max-width:36ch;line-height:1.4}
+.plate-full__cap span{display:block;margin-top:1em;font-family:var(--sans);font-style:normal;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.plate-full__rule{position:absolute;left:var(--pad);right:var(--pad);top:0;height:1px;background:var(--hair)}
+
+/* ---------- вертикаль ---------- */
+.vert{background:var(--ink-2);position:relative}
+.vert__grid{max-width:1280px;margin:0 auto;padding:0 var(--pad);
+  display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(30px,5vw,64px);align-items:start}
+@media (min-width:960px){.vert__grid{grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr)}}
+.vert__case{--case-tint:var(--red);min-height:clamp(380px,52vh,560px);padding-bottom:38px;position:relative;
+  transition:background 1.1s ease}
+.vert__case img{position:absolute;bottom:38px;left:50%;transform:translateX(-50%) translateY(6px);
+  width:min(56%,250px);opacity:0;transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1)}
+.vert__case img.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.vert__plate{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);
+  background:var(--ink);border:1px solid var(--hair);border-bottom:0;padding:.55em 1.4em;
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.vert__caselab{margin-top:16px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--stone-dim);text-align:center}
+.vert__panel{padding-top:clamp(6px,1vh,14px)}
+.vert__year{font-family:var(--serif);font-size:clamp(4rem,10vw,7.4rem);line-height:.9;color:var(--gold-hi);
+  letter-spacing:.01em;transition:color .6s}
+.vert__name{font-family:var(--serif);font-size:clamp(1.3rem,2.4vw,1.9rem);color:var(--stone);margin:.35em 0 .1em}
+.vert__meta{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.9em}
+.vert__age{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--stone-dim);margin-bottom:1.3em}
+.vert__desc{font-size:.98rem;line-height:1.75;color:rgba(251,247,240,.78);max-width:52ch;min-height:6.5em}
+.vert__notes{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5em}
+.vert__notes span{border:1px solid var(--hair);padding:.5em 1em;font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--stone-dim)}
+.vert__swatch{display:flex;align-items:center;gap:14px;margin-top:1.7em;font-size:.78rem;color:var(--stone-dim)}
+.vert__swatch i{width:44px;height:44px;border-radius:50%;border:1px solid var(--hair);transition:background 1s ease}
+
+/* слайдер */
+.slider{margin-top:clamp(30px,5vh,50px)}
+.slider__track{position:relative;height:44px}
+.slider__line{position:absolute;top:21px;left:0;right:0;height:1px;background:var(--hair)}
+.slider input[type=range]{position:relative;width:100%;height:44px;background:transparent;
+  -webkit-appearance:none;appearance:none;cursor:pointer;margin:0}
+.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--ink-2);box-shadow:0 0 0 1px var(--gold);margin-top:0}
+.slider input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--ink-2);box-shadow:0 0 0 1px var(--gold)}
+.slider input[type=range]::-webkit-slider-runnable-track{height:18px;background:transparent}
+.slider input[type=range]::-moz-range-track{height:18px;background:transparent}
+.slider__ticks{display:flex;justify-content:space-between;margin-top:6px}
+.slider__ticks button{background:none;border:0;cursor:pointer;font-family:var(--sans);
+  font-size:.74rem;letter-spacing:.12em;color:rgba(251,247,240,.4);padding:6px 2px;transition:color .3s}
+.slider__ticks button.on{color:var(--gold)}
+.slider__ticks button:hover{color:var(--stone)}
+
+/* таблица коллекции */
+.tbl-wrap{overflow-x:auto;margin-top:clamp(44px,7vh,80px)}
+.tbl{width:100%;border-collapse:collapse;min-width:840px;font-size:.86rem}
+.tbl caption{text-align:left;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);padding-bottom:1.4em}
+.tbl th{text-align:left;font-weight:400;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--stone-dim);padding:0 18px 12px 0;border-bottom:1px solid var(--hair)}
+.tbl td{padding:16px 18px 16px 0;border-bottom:1px solid rgba(185,155,99,.12);color:rgba(251,247,240,.8);vertical-align:top}
+.tbl tr.on td{background:rgba(168,50,62,.09)}
+.tbl td:nth-child(4),.tbl th:nth-child(4),.tbl td:nth-child(5),.tbl th:nth-child(5),
+.tbl td:first-child{white-space:nowrap}
+.tbl td b{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--gold-hi)}
+.tbl td b.av{display:block;font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.5em}
+.tbl th:last-child,.tbl td:last-child{min-width:150px}
+
+/* ---------- как пить ---------- */
+.serve{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--hair);
+  margin-top:clamp(40px,6vh,70px);border:1px solid var(--hair)}
+.serve__cell{background:var(--ink);padding:clamp(26px,3.4vw,42px)}
+.serve__cell h3{color:var(--gold-hi);margin-bottom:.55em}
+.serve__cell .big{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.2rem);color:var(--stone);line-height:1}
+.serve__cell p{font-size:.9rem;line-height:1.7;color:rgba(251,247,240,.68);margin-top:.9em}
+
+/* ---------- подлинность ---------- */
+.truth{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(24px,3vw,44px);
+  margin-top:clamp(40px,6vh,70px)}
+.truth__item{border-top:1px solid var(--hair);padding-top:22px}
+.truth__item h3{font-size:1.15rem;margin-bottom:.5em}
+.truth__item p{font-size:.88rem;line-height:1.7;color:rgba(251,247,240,.68)}
+.truth__item p.truth__n{font-family:var(--serif);font-size:2.6rem;color:var(--red);line-height:1;margin-bottom:.2em}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(34px,5vh,54px)}
+
+/* ---------- запись ---------- */
+.book{background:var(--stone);color:var(--ink)}
+.book .folio span{color:rgba(22,18,16,.55)}
+.book h2{color:var(--ink)}
+.book__grid{max-width:1280px;margin:0 auto;padding:0 var(--pad);
+  display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(34px,5vw,70px)}
+@media (min-width:900px){.book__grid{grid-template-columns:1.05fr .95fr}}
+.book__lead{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2vw,1.5rem);
+  color:rgba(22,18,16,.72);max-width:40ch;margin-top:.8em}
+.book__facts{margin-top:clamp(26px,4vh,44px);display:flex;flex-direction:column;gap:14px}
+.book__facts div{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(22,18,16,.14);
+  padding-bottom:12px;font-size:.9rem;color:rgba(22,18,16,.72)}
+.book__facts b{font-weight:500;color:var(--ink)}
+.form{display:flex;flex-direction:column;gap:18px}
+.form label{display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(22,18,16,.55);margin-bottom:.7em}
+.form input[type=text],.form input[type=tel],.form input[type=email],.form select,.form textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid rgba(22,18,16,.28);
+  font-family:var(--sans);font-size:1rem;color:var(--ink);padding:.55em 0;transition:border-color .3s}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--bordo)}
+.form textarea{resize:vertical;min-height:70px}
+.form__consent{display:flex;gap:12px;align-items:flex-start;font-size:.78rem;line-height:1.6;
+  color:rgba(22,18,16,.62);letter-spacing:0;text-transform:none;margin-bottom:0}
+.form__consent span{font-size:.78rem;letter-spacing:0;text-transform:none;color:rgba(22,18,16,.62)}
+.form__consent input{margin-top:.25em;width:16px;height:16px;accent-color:var(--bordo);flex:none}
+.form__consent b{font-weight:500;color:var(--ink)}
+.form__consent .pl{color:var(--bordo);border-bottom:1px solid rgba(95,25,48,.4)}
+.form__consent .pl:hover{color:var(--ink);border-color:var(--ink)}
+.form .btn{align-self:flex-start;border-color:var(--ink);color:var(--ink)}
+.form .btn:hover{background:var(--ink);color:var(--stone)}
+.form__ok{display:none;border:1px solid rgba(22,18,16,.2);padding:22px;font-size:.9rem;line-height:1.7;color:rgba(22,18,16,.75)}
+.form__ok.on{display:block}
+.form__note{font-size:.74rem;line-height:1.6;color:rgba(22,18,16,.5)}
+/* бланк заявки */
+.form{border:1px solid rgba(22,18,16,.16);padding:clamp(24px,3vw,38px);position:relative}
+.form::before{content:'';position:absolute;inset:7px;border:1px solid rgba(22,18,16,.07);pointer-events:none}
+.form__t{font-family:var(--serif);font-size:1.5rem;color:var(--ink);margin-bottom:.2em}
+.form__t+p{font-size:.8rem;color:rgba(22,18,16,.55);margin-bottom:.6em}
+/* программа вертикали */
+.prog-list{list-style:none;counter-reset:pg;margin-top:clamp(26px,4vh,40px);display:grid;gap:14px}
+.prog-list li{counter-increment:pg;position:relative;padding-left:38px;font-size:.9rem;line-height:1.6;color:rgba(22,18,16,.72)}
+.prog-list li::before{content:counter(pg,decimal-leading-zero);position:absolute;left:0;top:.05em;
+  font-family:var(--serif);font-size:.95rem;color:var(--bordo);letter-spacing:.08em}
+.prog-list b{font-weight:500;color:var(--ink)}
+
+/* ---------- сноски ---------- */
+.fnotes{border-top:1px solid var(--hair);padding-top:clamp(30px,4vh,50px)}
+.fnotes ol{list-style:none;counter-reset:fn;display:grid;gap:16px;max-width:78ch}
+.fnotes li{counter-increment:fn;position:relative;padding-left:34px;
+  font-size:.82rem;line-height:1.7;color:rgba(251,247,240,.55)}
+.fnotes li::before{content:counter(fn);position:absolute;left:0;top:0;
+  font-family:var(--serif);color:var(--gold);font-size:.95rem}
+.fnotes li:target{color:var(--stone)}
+/* выдержка из политики */
+.policy{margin-top:clamp(34px,5vh,56px);border:1px solid var(--hair);padding:clamp(22px,3vw,34px);max-width:78ch}
+.policy h3{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1em;font-family:var(--sans);font-weight:400}
+.policy p{font-size:.82rem;line-height:1.75;color:rgba(251,247,240,.6)}
+.policy p+p{margin-top:1em}
+.policy b{font-weight:400;color:var(--stone-dim)}
+.policy:target{border-color:var(--gold)}
+
+/* футер по сетке страницы */
+.ftr__cols,.ftr__law{max-width:1136px}
+
+/* ---------- мобильные ---------- */
+@media (max-width:820px){
+  /* меню не режется по правому краю: переносим в две строки вместо скролла */
+  .hdr__nav{flex-wrap:wrap;overflow-x:visible;justify-content:center;row-gap:0}
+  .hdr__tel{width:100%;text-align:center;padding:2px 0 6px;font-size:.72rem}
+  .sticky{display:flex}
+  body{padding-bottom:52px}
+}
+@media (max-width:760px){
+  /* таблица коллекции → карточки */
+  .tbl-wrap{overflow-x:visible}
+  .tbl{min-width:0;display:block}
+  .tbl caption{display:block}
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .tbl tbody,.tbl tr,.tbl td{display:block;width:auto}
+  .tbl tr{border:1px solid var(--hair);padding:18px 20px;margin-bottom:14px;transition:border-color .4s}
+  .tbl tr.on{border-color:var(--red);background:rgba(168,50,62,.09)}
+  .tbl tr.on td{background:none}
+  .tbl td{border:0;padding:7px 0;white-space:normal!important}
+  .tbl td::before{content:attr(data-l);display:block;font-size:.6rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:.35em}
+  .tbl td:first-child{padding-top:0}
+  .tbl td:first-child::before{display:none}
+  .tbl td:last-child{border-top:1px solid rgba(185,155,99,.16);margin-top:6px;padding-top:12px}
+}
+@media (max-width:700px){
+  .col__body p+p{text-indent:1.2em}
+  .drop::first-letter{font-size:3.6em}
+  .chero__acts .btn{flex:1 1 100%;text-align:center}
+  .chero__tel{width:100%}
+}
+</style>
+
+<!-- ============ МОСТ В МАСТЕР-САЙТ: герб + телефон + запись ============ -->
+<style>
+/* Герб вырезан из общего логотипа: окно 20×34 показывает корону и щит,
+   clip-path отсекает горизонтальные линейки лоскута с надписью. */
+.hdr__logo{display:block;position:relative;flex:0 0 auto;width:20px;height:34px;overflow:hidden}
+.hdr__logo img{position:absolute;left:-49.6px;top:0;width:119px;height:auto;max-width:none;display:block;clip-path:polygon(41.67% 0,58.33% 0,58.33% 60.98%,55.83% 60.98%,55.83% 69.52%,44.17% 69.52%,44.17% 60.98%,41.67% 60.98%)}
+.hdr__brand{flex-direction:row;align-items:center;gap:11px;flex:0 0 auto}
+.hdr__wm{display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}
+
+/* шапка может переносить мост на свою строку, меню при этом не сжимается */
+.hdr{flex-wrap:wrap;row-gap:7px}
+.hdr__nav{flex:0 0 auto}
+.hdr__nav a{white-space:nowrap}
+/* свободное место делится поровну: бренд слева, меню посередине, мост справа */
+@media (min-width:821px){.hdr__nav{margin-left:auto}.hdr__brand{margin-right:clamp(20px,2vw,34px)}}
+
+.brg{display:flex;align-items:center;flex:0 0 auto;
+  gap:clamp(10px,1.2vw,16px);margin-left:auto;padding-left:clamp(14px,1.6vw,24px)}
+.hdr .brg__tel{
+  font-size:.72rem;letter-spacing:.05em;white-space:nowrap;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1,"onum" 0;
+  border-bottom:1px solid transparent;padding:6px 0;transition:color .3s,border-color .3s;
+}
+.hdr .brg__tel:hover{color:var(--stone);border-color:var(--gold)}
+.hdr .brg__cta{
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  border:1px solid var(--gold);color:var(--gold-hi);padding:7px 12px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.hdr .brg__cta:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+@media (max-width:820px){
+  .hdr{row-gap:0}
+  .hdr__brand{gap:9px;justify-content:center}
+  .hdr__logo{width:16.5px;height:28px}
+  .hdr__logo img{left:-40.85px;width:98px}
+  .brg{width:100%;margin:0;padding:0 0 8px;justify-content:center;gap:14px}
+  .hdr .brg__tel{font-size:.64rem;letter-spacing:.04em;padding:0}
+  .hdr .brg__cta{font-size:.58rem;letter-spacing:.09em;padding:5px 10px}
+}
+/* меню в одну прокручиваемую строку — иначе шапка вырастает на четыре ряда */
+@media (max-width:820px){
+  .hdr__nav{flex-wrap:nowrap;justify-content:safe center;overflow-x:auto;scrollbar-width:none}
+  .hdr__nav::-webkit-scrollbar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="prog" aria-hidden="true"><div class="prog__bar" id="prog"></div></div>
+
+<header class="hdr" id="hdr">
+  <a class="hdr__brand" href="../master/index.html">
+    <span class="hdr__logo"><img src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина" decoding="async"></span>
+    <span class="hdr__wm">
+      <span class="hdr__name">Солнечная&nbsp;Долина</span>
+      <span class="hdr__est">Крым · 1888</span>
+    </span>
+  </a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="../variants/a-podval/catalog.html">Вина</a>
+    <a href="#vertical">Вертикаль</a>
+    <a href="#serve">Как пить</a>
+    <a href="#truth">Подлинность</a>
+    <a href="#book">Запись</a>
+  </nav>
+  <div class="brg">
+    <a class="brg__tel" href="tel:+79789563322">+7&nbsp;978&nbsp;956-33-22</a>
+    <a class="brg__cta" href="../master/index.html#visit">Забронировать дегустацию</a>
+  </div>
+</header>
+
+<nav class="sticky" id="sticky" aria-label="Быстрые действия">
+  <a href="../variants/a-podval/index.html#trust">Где<b>купить</b></a>
+  <a href="#book" class="acc">Вертикаль<b>25 000 ₽</b></a>
+  <a href="tel:+79789563322">Позвонить<b>978 956-33-22</b></a>
+</nav>
+
+<nav class="rail" id="rail" aria-label="Главы">
+  <ol>
+    <li><a href="#ch1"><span>Эким Кара: имя старше винодельни</span><i></i></a></li>
+    <li><a href="#ch2"><span>1888: Голицын и подвалы</span><i></i></a></li>
+    <li><a href="#ch3"><span>Забвение и возвращение</span><i></i></a></li>
+    <li><a href="#ch4"><span>Урожай: одна бутылка</span><i></i></a></li>
+    <li><a href="#vertical"><span>Вертикаль</span><i></i></a></li>
+    <li><a href="#serve"><span>Как пить</span><i></i></a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <!-- ============ ГЕРОЙ ============ -->
+  <section class="chero" id="top">
+    <div class="chero__bg" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="../assets/img/deg2-800.avif 800w, ../assets/img/deg2-1200.avif 1200w, ../assets/img/deg2-1600.avif 1600w" sizes="100vw">
+        <source type="image/webp" srcset="../assets/img/deg2-800.webp 800w, ../assets/img/deg2-1200.webp 1200w, ../assets/img/deg2-1600.webp 1600w" sizes="100vw">
+        <img src="../assets/img/deg2.jpg" alt="" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+    <div class="chero__vitrine" aria-hidden="true">
+      <img class="chero__bottle" src="../assets/img/cherniy_doctor2017.webp" alt="" decoding="async">
+      <p class="chero__botcap">Коллекционный релиз · 0,75 л</p>
+    </div>
+    <div class="folio chero__folio"><span>Легенда · Чёрный Доктор</span><span>Эким Кара · Судакская долина</span></div>
+
+    <div class="chero__stage">
+      <p class="kicker">Лонгрид · шесть глав · 12 минут</p>
+      <h1 class="chero__title">Чёрный<em>Доктор</em></h1>
+      <p class="chero__lead">История сорта, подвала, построенного в 1888 году, и вина, которое три года не выходит из дуба.</p>
+      <p class="chero__law">«Чёрный Доктор» — устоявшееся название сорта Эким Кара и крымский топоним. Лечебных свойств вину не приписывается: это алкогольная продукция.</p>
+
+      <div class="chero__acts">
+        <a class="btn btn--ghost" href="../variants/a-podval/index.html#trust">Где купить</a>
+        <a class="btn btn--gold" href="#book">Вертикаль · 25 000 ₽</a>
+        <a class="btn btn--mute" href="../variants/a-podval/visit.html">Приехать</a>
+        <a class="chero__tel" href="tel:+79789563322">+7 (978) 956-33-22</a>
+      </div>
+
+      <p class="chero__scroll"><i></i> Листайте вниз</p>
+    </div>
+  </section>
+
+  <!-- ============ ГЛАВА I ============ -->
+  <section class="chap" id="ch1">
+    <div class="chap__head">
+      <p class="chap__num">Глава I</p>
+      <h2 class="chap__title">Эким Кара: <em>имя старше винодельни</em></h2>
+      <p class="chap__sub">Автохтон юго-восточного Крыма, чьё имя долина носит дольше, чем существует здешнее промышленное виноделие.</p>
+    </div>
+
+    <div class="col">
+      <div class="col__body">
+        <p class="drop noind">Эким Кара растёт в юго-восточном Крыму дольше, чем существует здешнее промышленное виноделие. Это автохтон — сорт, который никто сюда не привозил: он был найден на месте, среди лоз, доставшихся долине от генуэзского времени. В крымскотатарском «эким» — лекарь, «кара» — чёрный. Отсюда и русское имя: Чёрный Доктор.</p>
+        <p>Само имя и породило крымское предание о «чёрном лекаре» — мы пересказываем его как фольклор и не более того: вино не является лекарством и не обладает лечебными свойствами.<sup class="fnr"><a href="#fn1" id="fnr1">1</a></sup></p>
+        <p>Ягода у Эким Кара мелкая, кожица толстая, сок почти не окрашен — цвет приходит только от долгой мацерации. Урожайность низкая: сорт отдаёт мало, но отдаёт концентрированно. Именно поэтому он веками оставался местным, домашним — и почти исчез в XX веке.</p>
+        <p>В купаже «Чёрного Доктора» Эким Кара занимает <b>75 %</b>. Остальное — два соседних автохтона: <b>Джеват Кара</b> (10 %) и <b>Кефесия</b> (15 %). Возраст лоз — свыше 35 лет.<sup class="fnr"><a href="#fn2" id="fnr2">2</a></sup></p>
+      </div>
+      <div class="col__side">
+        <aside class="note">
+          <b>Три автохтона</b>
+          Эким Кара — 75 %<br>Джеват Кара — 10 %<br>Кефесия — 15 %<br>
+          <em>Возраст лоз — свыше 35 лет, сбор ручной.</em>
+        </aside>
+        <aside class="note note--red">
+          <b>Правовая ремарка</b>
+          Название сорта — часть крымской топонимики и фольклора. Никаких лечебных, целебных или медицинских свойств вину не приписывается.
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ РАЗДЕЛИТЕЛЬ · ДОЛИНА ============ -->
+  <section class="plate-full plate-fix" aria-label="Судакская долина">
+    <div class="plate-full__bg" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="../assets/img/valley_pano-1200.avif 1200w, ../assets/img/valley_pano-1600.avif 1600w" sizes="100vw">
+        <source type="image/webp" srcset="../assets/img/valley_pano-1200.webp 1200w, ../assets/img/valley_pano-1600.webp 1600w" sizes="100vw">
+        <img src="../assets/img/valley_pano.jpg" alt="Судакская долина: виноградники на каменистых склонах" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="plate-full__cap">
+      <p>«Там, где рос шиповник, виноградник будет давать хорошие урожаи, а вино будет высокого качества».</p>
+      <span>Лев Голицын о капсельских землях</span>
+    </div>
+  </section>
+
+  <!-- ============ ГЛАВА II ============ -->
+  <section class="chap" id="ch2">
+    <div class="chap__head">
+      <p class="chap__num">Глава II</p>
+      <h2 class="chap__title">1888: <em>Голицын и подвалы</em></h2>
+      <p class="chap__sub">Имение «Архадерессе» и первый в Российской империи завод по выдержке марочных десертных вин.</p>
+    </div>
+
+    <div class="col col--flip">
+      <div class="col__body">
+        <p class="drop noind">В 1888 году Лев Голицын убедил светлейшего князя Константина Александровича Горчакова — сына последнего канцлера России — купить Токлукское имение за 100 тысяч рублей. Сделку оформили заочно, в Петербурге. Так появилось имение «Архадерессе».</p>
+        <p>Формальный хозяин передал Голицыну полное управление. Тот воспользовался полномочиями с размахом: за годы работы имение обошлось Горчакову в 1 миллион 500 тысяч рублей золотом. Взамен долина получила более 100 гектаров промышленных виноградников с ветрозащитными полосами из дикого миндаля.</p>
+        <p>Главное, что Голицын здесь построил, — <b>первый в тогдашней Российской империи завод по выдержке марочных десертных и крепких вин</b>. Спустя девять лет он заложит первый подвал Массандры; в Судакской долине подвалы «Архадерессе» появились раньше.</p>
+        <p>Партии шампанских виноматериалов здесь не удались. Зато появился опыт, из которого выросли высококачественные белые и красные десертные вина — <b>прототипы будущих марок «Солнечная Долина» и «Чёрный Доктор»</b>.</p>
+        <p>История закончилась ссорой. Горчаков одиннадцать лет исправно посылал деньги, ни разу не побывав в имении. В октябре 1899 года он приехал впервые, был ошеломлён пустынным пейзажем, отстранил Голицына от управления и велел новому управляющему не пускать князя на территорию его бывших владений.</p>
+      </div>
+      <div class="col__side">
+        <aside class="note">
+          <b>Хроника</b>
+          <span class="nl"><em>1878</em> — Голицын строит «Новый Свет» и ищет сырьё в Капселе.</span>
+          <span class="nl"><em>1888</em> — покупка Токлукского имения, рождение «Архадерессе».</span>
+          <span class="nl"><em>1899</em> — приезд Горчакова и разрыв с Голицыным.</span>
+          <span class="nl"><em>1920</em> — Горчаков продаёт имение и уезжает в Италию.</span>
+        </aside>
+        <aside class="note">
+          <b>Счёт имения<sup class="fnr"><a href="#fn5" id="fnr5">5</a></sup></b>
+          <span class="nl"><em>100 000 ₽</em> — цена Токлукского имения в 1888 году.</span>
+          <span class="nl"><em>1 500 000 ₽ золотом</em> — во столько обошлось Горчакову управление Голицына.</span>
+          <span class="nl"><em>100+ га</em> — промышленные виноградники с полосами дикого миндаля.</span>
+          <span class="nl"><em>112 десятин</em> — всё, что осталось к 1908 году.</span>
+        </aside>
+        <aside class="note">
+          <b>Что было посажено</b>
+          Рислинг, фурминт, семильон, совиньон, вердельо, серсиаль, мускаты, пино-гри; из красных — саперави, мурведер, каберне-совиньон. Автохтоны долины Голицын нашёл здесь уже растущими.
+        </aside>
+      </div>
+    </div>
+
+    <div class="stage">
+      <blockquote class="pull">
+        <p>Именно Л. С. Голицын впервые на капсельских землях произвёл закладку промышленных виноградников с использованием имеющегося древнего генуэзского фонда аборигенных сортов юго-восточного Крыма.</p>
+        <cite>Из истории предприятия</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============ РАЗДЕЛИТЕЛЬ · ПОДВАЛ ============ -->
+  <section class="plate-full plate-fix" aria-label="Подвалы Архадерессе">
+    <div class="plate-full__bg" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="../assets/img/deg1-1200.avif 1200w, ../assets/img/deg1-1600.avif 1600w" sizes="100vw">
+        <source type="image/webp" srcset="../assets/img/deg1-1200.webp 1200w, ../assets/img/deg1-1600.webp 1600w" sizes="100vw">
+        <img src="../assets/img/deg1.jpg" alt="Подвалы Архадерессе" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="plate-full__cap">
+      <p>Подвалы, построенные для выдержки, пережили и владельцев, и страну, в которой были построены.</p>
+      <span>Архадерессе · с 1888 года</span>
+    </div>
+  </section>
+
+  <!-- ============ ГЛАВА III ============ -->
+  <section class="chap" id="ch3">
+    <div class="chap__head">
+      <p class="chap__num">Глава III</p>
+      <h2 class="chap__title">Забвение <em>и возвращение</em></h2>
+      <p class="chap__sub">К 1929 году виноградники были абсолютно запущены. Сорт вернули в производство только во второй половине века.</p>
+    </div>
+
+    <div class="col">
+      <div class="col__body">
+        <p class="drop noind">После революции имения Голицына и Горчакова объединили в один совхоз в ведении Южсовхоза. К 1929 году виноградники были абсолютно запущены; восстанавливать их начали только в 1936-м. Затем война — крымское виноделие фактически перестало существовать.</p>
+        <p>Перелом наступил в 1956 году, когда «Архадерессе» вошло в совхоз «Солнечная Долина» вместе с колхозом им. Калинина (Токлук, ныне Богатовка). Тогда же началась работа, ради которой стоит помнить эти скучные административные даты: <b>восстановление аборигенных сортов</b>.</p>
+        <p>В списке восстановленных — Сары Пандас («рыжий пандас»), <b>Эким Кара («чёрный доктор»)</b>, Капитан Кара, Полковник Кара, Кефесия, Сале Аганым Карасы («чёрный дядюшка Сале»). Одновременно строились мощности по переработке и выдержке марочных виноматериалов — без них десертное вино из Эким Кара просто не существует.</p>
+        <p>В 1963 году село Лагерное официально переименовали в Солнечную Долину. В 1974-м совхоз объединили с заводом шампанских вин «Новый Свет», в 1981-м снова разделили. Сорт всё это время оставался на склонах.</p>
+      </div>
+      <div class="col__side">
+        <aside class="note">
+          <b>Шесть возвращённых имён</b>
+          Сары Пандас · Эким Кара · Капитан Кара · Полковник Кара · Кефесия · Сале Аганым Карасы
+        </aside>
+        <aside class="note">
+          <b>Энотека</b>
+          Сегодня в коллекции винодельни — вина урожаев <em>1990–2003</em> годов. Именно они делают возможной вертикальную дегустацию: одно вино, разные годы.
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ГЛАВА IV ============ -->
+  <section class="chap" id="ch4">
+    <div class="chap__head">
+      <p class="chap__num">Глава IV</p>
+      <h2 class="chap__title">Урожай: <em>одна бутылка</em></h2>
+      <p class="chap__sub">Что происходит с виноградом от ручного сбора до момента, когда бутылку кладут в энотеку.</p>
+    </div>
+
+    <div class="col col--flip">
+      <div class="col__body">
+        <p class="drop noind">Сбор ручной — иначе на старых лозах нельзя. Эким Кара собирают поздно, когда сахаронакопление доходит до значений, при которых будущее вино удержит 160 граммов сахара на дециметр кубический и 16 % спирта. Ягод мало: сорт малоурожайный, тираж ограничен по определению.</p>
+        <p>Дальше — мацерация: цвет «Чёрного Доктора» весь приходит из кожицы. Потом спиртование, остановка брожения на нужном сахаре — и дуб. <b>Выдержка в дубовых бочках — не менее трёх лет</b>, у коллекционных релизов затем следует многолетнее созревание в бутылке.<sup class="fnr"><a href="#fn2">2</a></sup></p>
+        <p>Из бочки вино выходит гранатовым с рубиновыми бликами. Через пятнадцать-двадцать лет в бутылке рубин уходит в тёмный янтарь по краю бокала — это и есть та разница, ради которой существует вертикальная дегустация.</p>
+        <p>Базовый релиз выпускается в пяти форматах — от 0,25 до 1,4 литра, самая широкая линейка объёмов в каталоге. Коллекционные и сувенирные релизы — только 0,75.</p>
+      </div>
+      <div class="col__side">
+        <aside class="note">
+          <b>Паспорт вина</b>
+          <em>Тип</em> — российское креплёное (ликёрное) вино с ЗГУ «Крым», выдержанное красное<br>
+          <em>Спирт</em> — 16 % об.<br>
+          <em>Сахар</em> — 160 г/дм³<br>
+          <em>Выдержка</em> — в дубовых бочках не менее 3 лет
+        </aside>
+        <aside class="note">
+          <b>Форматы</b>
+          0,25 · 0,375 · 0,7 · 0,75 · 1,4 л — базовый релиз.<br>0,75 л — коллекция и сувенирные издания.
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ РАЗДЕЛИТЕЛЬ · ЭНОТЕКА ============ -->
+  <section class="plate-full" aria-label="Энотека винодельни">
+    <div class="plate-full__bg" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="../assets/img/degzal-1200.avif 1200w, ../assets/img/degzal-1600.avif 1600w" sizes="100vw">
+        <source type="image/webp" srcset="../assets/img/degzal-1200.webp 1200w, ../assets/img/degzal-1600.webp 1600w" sizes="100vw">
+        <img src="../assets/img/degzal.jpg" alt="Дегустационный зал в подвалах «Архадерессе»" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="plate-full__cap">
+      <p>Каменный зал, длинный стол и пять бокалов одного вина. Урожаи 1990–2003 годов открывают только здесь.</p>
+      <span>Дегустационный зал · Миндальное</span>
+    </div>
+  </section>
+
+  <!-- ============ ВЕРТИКАЛЬ ============ -->
+  <section class="chap vert sec" id="vertical">
+    <div class="chap__head">
+      <p class="chap__num">Глава V</p>
+      <h2 class="chap__title">Вертикаль</h2>
+      <p class="chap__sub">Одно вино в разных годах. Двигайте год — меняются цвет, аромат и бутылка.</p>
+    </div>
+
+    <div class="vert__grid" style="margin-top:clamp(40px,6vh,72px)">
+      <div>
+        <div class="case case--wine vert__case" id="vCase">
+          <span class="case__shelf"></span>
+          <picture><img src="../assets/img/cherniy_polkovnik2019-500.webp" alt="Чёрный Полковник, коллекционный релиз" data-b="1996" loading="lazy"></picture>
+          <picture><img src="../assets/img/cherniy_doctor2017-500.webp" alt="Чёрный Доктор Солнечной Долины" data-b="2000" class="on" loading="lazy"></picture>
+          <span class="vert__plate" id="vPlate">Урожай 2000</span>
+        </div>
+        <p class="vert__caselab">Свет витрины меняется вместе с годом</p>
+      </div>
+
+      <div class="vert__panel">
+        <p class="vert__year" id="vYear">2000</p>
+        <p class="vert__name" id="vName">Чёрный Доктор Солнечной Долины</p>
+        <p class="vert__meta" id="vMeta">Коллекция · 16 % об. · 160 г/дм³ · 0,75 л</p>
+        <p class="vert__age" id="vAge"></p>
+        <p class="vert__desc" id="vDesc">Насыщенный рубиновый с тёмными янтарными бликами, соответствующими продолжительной выдержке.</p>
+        <div class="vert__notes" id="vNotes"></div>
+        <p class="vert__swatch"><i id="vSwatch"></i><span id="vSwatchTxt">Цвет в бокале</span></p>
+
+        <div class="slider">
+          <div class="slider__track">
+            <div class="slider__line"></div>
+            <input type="range" id="vRange" min="0" max="4" step="1" value="1" aria-label="Год урожая">
+          </div>
+          <div class="slider__ticks" id="vTicks"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage tbl-wrap">
+      <table class="tbl" id="vTable">
+        <caption>Реальные позиции коллекции и релизы «Чёрного Доктора»</caption>
+        <thead>
+          <tr><th>Год</th><th>Вино</th><th>Сорта</th><th>Спирт / сахар</th><th>Объём</th><th>Вертикаль 2027 · энотека<sup class="fnr"><a href="#fn6" id="fnr6">6</a></sup></th></tr>
+        </thead>
+        <tbody>
+          <tr data-y="1996"><td data-l="Год"><b>1996</b></td><td data-l="Вино">Чёрный Полковник, коллекция<sup class="fnr"><a href="#fn3">3</a></sup></td><td data-l="Сорта">Одесский чёрный, бастардо магарачский, каберне совиньон, джеват кара, кефессия</td><td data-l="Спирт / сахар">17,5 % · 110 г/дм³</td><td data-l="Объём">0,75 л</td><td data-l="Вертикаль 2027 · энотека"><b class="av">В вертикали</b> остаток энотеки — 9 бут.</td></tr>
+          <tr data-y="2000"><td data-l="Год"><b>2000</b></td><td data-l="Вино">Чёрный Доктор Солнечной Долины, коллекция</td><td data-l="Сорта">Эким кара, джеват кара, кефессия</td><td data-l="Спирт / сахар">16 % · 160 г/дм³</td><td data-l="Объём">0,75 л</td><td data-l="Вертикаль 2027 · энотека"><b class="av">В вертикали</b> остаток энотеки — 14 бут.</td></tr>
+          <tr data-y="2001"><td data-l="Год"><b>2001</b></td><td data-l="Вино">Чёрный Доктор Солнечной Долины, коллекция</td><td data-l="Сорта">Эким кара, джеват кара, кефессия</td><td data-l="Спирт / сахар">16 % · 160 г/дм³</td><td data-l="Объём">0,75 л</td><td data-l="Вертикаль 2027 · энотека"><b class="av">В вертикали</b> остаток энотеки — 22 бут.</td></tr>
+          <tr data-y="2013"><td data-l="Год"><b>2013</b></td><td data-l="Вино">Чёрный Доктор, сувенирный «Хеопс»</td><td data-l="Сорта">Эким кара, кефессия, джеват кара</td><td data-l="Спирт / сахар">16 % · 160 г/дм³</td><td data-l="Объём">0,75 л</td><td data-l="Вертикаль 2027 · энотека"><b class="av">В вертикали</b> остаток энотеки — 31 бут.</td></tr>
+          <tr data-y="2017"><td data-l="Год"><b>2017</b></td><td data-l="Вино">Чёрный Доктор Солнечной Долины, базовый релиз<sup class="fnr"><a href="#fn4">4</a></sup></td><td data-l="Сорта">Эким кара, кефессия, джеват кара</td><td data-l="Спирт / сахар">16 % · 160 г/дм³</td><td data-l="Объём">0,25–1,4 л</td><td data-l="Вертикаль 2027 · энотека"><b class="av">В вертикали</b> есть в фирменном магазине</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:26px;max-width:64ch">
+        <b>Ближайшая вертикаль</b>
+        12 октября 2026 · свободно 4 места из 10. Следующая — 9 ноября 2026, свободно 10 из 10.
+        Остатки энотеки и свободные места — демонстрационные, подтверждаются учётом энотеки при обработке заявки.<sup class="fnr"><a href="#fn6">6</a></sup>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ КАК ПИТЬ ============ -->
+  <section class="chap" id="serve">
+    <div class="chap__head">
+      <p class="chap__num">Глава VI</p>
+      <h2 class="chap__title">Как <em>пить</em></h2>
+      <p class="chap__sub">Вино не требует гастрономического сопровождения. Всё остальное — по желанию.</p>
+    </div>
+
+    <div class="stage">
+      <div class="serve">
+        <div class="serve__cell">
+          <h3>Температура</h3>
+          <p class="big">16–18°</p>
+          <p>Холоднее — закроется аромат, теплее — вперёд выйдет спирт.</p>
+        </div>
+        <div class="serve__cell">
+          <h3>Бокал</h3>
+          <p class="big">Тюльпан</p>
+          <p>Небольшой тюльпанообразный бокал для креплёных вин. Наливать на треть.</p>
+        </div>
+        <div class="serve__cell">
+          <h3>Аэрация</h3>
+          <p class="big">15 мин</p>
+          <p>Букет коллекционных лет развивается при аэрации: чернослив и шоколад уступают место ванили, кизилу и тёрну.</p>
+        </div>
+        <div class="serve__cell">
+          <h3>К чему</h3>
+          <p class="big">Ни к чему</p>
+          <p>Самодостаточно. При желании — чёрный шоколад и десерты на его основе, сладковатые орешки (фундук, кешью), сыры с голубой плесенью.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ПОДЛИННОСТЬ ============ -->
+  <section class="chap sec" id="truth">
+    <div class="chap__head">
+      <p class="chap__num">Приложение</p>
+      <h2 class="chap__title">Как отличить <em>подлинник</em></h2>
+      <p class="chap__sub">«Чёрный Доктор Солнечной Долины» — вино одного производителя и одной долины. Три проверки перед покупкой: одна из них делается за десять секунд.</p>
+    </div>
+
+    <div class="stage">
+      <div class="truth">
+        <div class="truth__item">
+          <p class="truth__n">1</p>
+          <h3>QR на контрэтикетке</h3>
+          <p>Отсканируйте QR — откроется <a href="wine-passport.html" style="color:var(--gold-hi);border-bottom:1px solid rgba(185,155,99,.5)">цифровой паспорт бутылки</a>: партия, год розлива, ЗГУ, сорта, спирт и сахар. Если паспорт не открывается или расходится с этикеткой — это не наша бутылка.</p>
+        </div>
+        <div class="truth__item">
+          <p class="truth__n">2</p>
+          <h3>Полное имя</h3>
+          <p>На этикетке — «Чёрный Доктор <b>Солнечной Долины</b>». Производитель — АО «Солнечная Долина», с. Миндальное, Судак. Всё остальное — ЗГУ «Крым», сорта и цифры — сверяется по паспорту, дублировать их здесь незачем.</p>
+        </div>
+        <div class="truth__item">
+          <p class="truth__n">3</p>
+          <h3>Где покупать</h3>
+          <p>Фирменные магазины винодельни, дегустационный зал в Миндальном и авторизованная розница. Коллекционные годы — только на винодельне, лично и офлайн.</p>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn--gold" href="../variants/a-podval/index.html#trust">Где купить</a>
+        <a class="btn btn--ghost" href="wine-passport.html">Паспорт бутылки</a>
+        <a class="btn btn--ghost" href="../variants/a-podval/wine.html">Карточка вина</a>
+        <a class="btn btn--mute" href="#book">Записаться на вертикаль</a>
+      </div>
+      <p class="note" style="margin-top:clamp(30px,4vh,48px);max-width:60ch">
+        <b>Служебная ремарка</b>
+        Перечень защитных признаков (капсула, акцизная марка, номер партии) финализируется по данным производства и проходит юридическую вычитку до публикации.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ ЗАПИСЬ НА ВЕРТИКАЛЬ ============ -->
+  <section class="sec book" id="book">
+    <div class="folio folio--ink" style="padding-left:var(--pad);padding-right:var(--pad)">
+      <span>Вертикаль Чёрного Доктора</span><span>дегустация · услуга винодельни</span>
+    </div>
+    <div class="book__grid">
+      <div>
+        <h2>Вертикальная<br>дегустация</h2>
+        <p class="book__lead">Пять лет одного вина в подвале, где его выдерживали. Ведёт винодел. Группа 6–10 гостей, продолжительность около двух часов.</p>
+        <div class="book__facts">
+          <div><span>Стоимость дегустационной программы</span><b>25 000 ₽ с гостя</b></div>
+          <div><span>Группа</span><b>6–10 человек</b></div>
+          <div><span>Ближайшая дата</span><b>12 октября 2026 · 4 места</b></div>
+          <div><span>Место</span><b>с. Миндальное, Судак</b></div>
+          <div><span>Возраст</span><b>18+</b></div>
+          <div><span>Телефон</span><b><a href="tel:+79789563322" style="color:var(--ink);border-bottom:1px solid rgba(22,18,16,.3)">+7 (978) 956-33-22</a></b></div>
+        </div>
+        <ol class="prog-list">
+          <li><b>Подвал.</b> Спуск в выдержку «Архадерессе»: бочки, буты, температура, которая не менялась с 1888 года.</li>
+          <li><b>Пять бокалов.</b> От базового релиза к коллекционным годам — в обратном порядке, от молодого к старшему.</li>
+          <li><b>Разбор.</b> Винодел объясняет, что делает с вином дуб, а что — бутылка; что уходит из цвета и что приходит в букет.</li>
+          <li><b>Энотека.</b> Ряды, где лежат урожаи 1990–2003 годов. Здесь же — покупка коллекционных бутылок, лично и офлайн.</li>
+        </ol>
+        <p class="form__note" style="margin-top:26px">Мы принимаем заявку и связываемся с вами по телефону <a href="tel:+79789563322" style="color:var(--bordo)">+7 (978) 956-33-22</a>. 25 000 ₽ — стоимость дегустационной программы с гостя, а не цена вина. Оплата дегустации — на месте или по счёту. Вино продаётся только офлайн, в фирменном магазине винодельни.</p>
+      </div>
+
+      <form class="form" id="bookForm" novalidate>
+        <p class="form__t">Заявка на вертикаль</p>
+        <p>Мы перезвоним в рабочее время и согласуем дату.</p>
+        <div>
+          <label for="fName">Имя</label>
+          <input type="text" id="fName" name="name" required autocomplete="name">
+        </div>
+        <div>
+          <label for="fPhone">Телефон</label>
+          <input type="tel" id="fPhone" name="phone" required autocomplete="tel" placeholder="+7">
+        </div>
+        <div>
+          <label for="fGuests">Гостей</label>
+          <select id="fGuests" name="guests">
+            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+          </select>
+        </div>
+        <div>
+          <label for="fWhen">Желаемый период</label>
+          <input type="text" id="fWhen" name="when" placeholder="например, вторая половина сентября">
+        </div>
+        <label class="form__consent">
+          <input type="checkbox" id="fAge" required>
+          <span>Мне <b>исполнилось 18 лет</b>. Понимаю, что программа связана с дегустацией алкогольной продукции.</span>
+        </label>
+        <label class="form__consent">
+          <input type="checkbox" id="fConsent" required>
+          <span>Я даю согласие на обработку моих имени и телефона для обработки заявки на дегустацию — в соответствии с Федеральным законом № 152-ФЗ и <a href="#policy" class="pl">политикой конфиденциальности</a>. Согласие отзывается по письму на указанный в политике адрес.</span>
+        </label>
+        <label class="form__consent">
+          <input type="checkbox" id="fNews">
+          <span>Хочу получать письма о датах вертикалей и открытии энотеки. <b>Отдельное необязательное согласие</b>, отписка в один клик из любого письма.</span>
+        </label>
+        <button type="submit" class="btn">Отправить заявку</button>
+        <p class="form__ok" id="formOk">Заявка принята. Менеджер винодельни свяжется с вами в рабочее время, чтобы согласовать дату и состав вертикали.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ СНОСКИ ============ -->
+  <section class="sec" id="notes">
+    <div class="stage fnotes">
+      <div class="folio folio--bare"><span>Примечания</span><span>источники и оговорки</span></div>
+      <ol>
+        <li id="fn1">Историческое предание приводится как элемент крымского фольклора. Вино не является лекарственным средством; чрезмерное употребление алкоголя вредит вашему здоровью. <a href="#fnr1" style="color:var(--gold)">↩</a></li>
+        <li id="fn2">Доли сортов (75 / 10 / 15 %), возраст лоз свыше 35 лет и срок выдержки «в дубовых бочках не менее 3 лет» приведены по карточке вина на действующем сайте производителя. Эти данные подлежат подтверждению технологической службой перед публикацией. <a href="#fnr2" style="color:var(--gold)">↩</a></li>
+        <li id="fn3">1996 год в вертикали представлен «Чёрным Полковником» — соседним креплёным вином той же энотеки: коллекционного «Чёрного Доктора» этого урожая в действующем каталоге нет. Год оставлен в вертикали как точка отсчёта бутылочной выдержки и обозначен явно.</li>
+        <li id="fn4">Базовый релиз выпускается без указания года урожая на этикетке; 2017 приведён по данным карточки каталога. Для публикации год уточняется у производства.</li>
+        <li id="fn5">Суммы «100 000 ₽ за Токлукское имение (1888)» и «1 500 000 ₽ золотом за годы управления Л. С. Голицына», а также 100+ га виноградников и 112 десятин к 1908 году приведены по разделу «История» официального сайта АО «Солнечная Долина» (sunvalley1888.ru) — оттуда же формулировка «первый в тогдашней Российской империи завод по выдержке марочных десертных и крепких вин» и сведения о восстановлении аборигенных сортов после 1956 года. Архивная сверка (ГА РК, фонд имения «Архадерессе») запрошена; до её завершения цифры цитируются как данные производителя. <a href="#fnr5" style="color:var(--gold)">↩</a></li>
+        <li id="fn6">Остатки энотеки по годам и число свободных мест на ближайших вертикалях — демонстрационные значения для макета. На рабочем сайте колонка подключается к учёту энотеки и календарю дегустационного зала; при обработке заявки наличие подтверждается менеджером. <a href="#fnr6" style="color:var(--gold)">↩</a></li>
+      </ol>
+
+      <div id="policy" class="policy">
+        <h3>Политика конфиденциальности — выдержка для этой формы</h3>
+        <p><b>Оператор:</b> АО «Солнечная Долина», 298031, Республика Крым, г. Судак, с. Миндальное. <b>Состав данных:</b> имя и номер телефона, по желанию — адрес электронной почты и комментарий к заявке. <b>Цель:</b> обработка заявки на вертикальную дегустацию — звонок, согласование даты и состава группы. <b>Срок:</b> до отзыва согласия, но не дольше одного года с даты дегустации. <b>Передача третьим лицам:</b> не осуществляется; данные обрабатываются на серверах на территории Российской Федерации. <b>Отзыв согласия:</b> письмом на адрес оператора или по телефону <a href="tel:+79789563322" style="color:var(--gold)">+7 (978) 956-33-22</a>; согласие на рассылку отзывается отдельно, в один клик из любого письма.</p>
+        <p style="opacity:.7">Макет для питча: полный текст политики готовится юридической службой заказчика и размещается отдельной страницей до публикации сайта.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <div class="ftr__cols">
+      <div>
+        <p class="ftr__t">Дальше</p>
+        <p><a href="autochthon-atlas.html">Атлас автохтонов</a></p>
+        <p><a href="gift-cellar.html">Личный погреб</a></p>
+        <p><a href="../variants/a-podval/visit.html">Визит на винодельню</a></p>
+      </div>
+      <div>
+        <p class="ftr__t">Вино</p>
+        <p><a href="../variants/a-podval/wine.html">Чёрный Доктор</a></p>
+        <p><a href="../variants/a-podval/catalog.html">Весь каталог</a></p>
+        <p><a href="../variants/a-podval/index.html#trust">Где купить</a></p>
+      </div>
+      <div>
+        <p class="ftr__t">Винодельня</p>
+        <p>АО «Солнечная Долина»</p>
+        <p>с. Миндальное, Судак, Крым</p>
+        <p>Подвалы «Архадерессе», с 1888 года</p>
+      </div>
+      <div class="ftr__brand">
+        <p class="ftr__mono">СД</p>
+        <p>Эким Кара · Джеват Кара · Кефесия</p>
+      </div>
+    </div>
+    <p class="ftr__law">Чрезмерное употребление алкоголя вредит вашему здоровью · 18+</p>
+  </footer>
+
+</main>
+
+<script>
+/* ============================================================
+   Легенда «Чёрного Доктора» · лонгрид
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* ---------- шапка ---------- */
+  var hdr = document.getElementById('hdr');
+  function onScrollHdr(){ if(hdr) hdr.classList.toggle('solid', window.scrollY > 60); }
+  window.addEventListener('scroll', onScrollHdr, {passive:true}); onScrollHdr();
+
+  /* ---------- липкая строка действий (телефон) ---------- */
+  var sticky = document.getElementById('sticky'), bookSec = document.getElementById('book');
+  function onSticky(){
+    if(!sticky) return;
+    var past = window.scrollY > window.innerHeight * 0.6;
+    var inBook = bookSec && bookSec.getBoundingClientRect().top < window.innerHeight * 0.9;
+    sticky.classList.toggle('on', past && !inBook);
+  }
+  window.addEventListener('scroll', onSticky, {passive:true});
+  window.addEventListener('resize', onSticky); onSticky();
+
+  /* ---------- прогресс чтения ---------- */
+  var bar = document.getElementById('prog');
+  function onProg(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    if (bar) bar.style.width = p.toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', onProg, {passive:true});
+  window.addEventListener('resize', onProg); onProg();
+
+  /* ---------- рейка глав ---------- */
+  var railLinks = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var targets = railLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function onRail(){
+    var y = window.scrollY + window.innerHeight * 0.35, best = -1;
+    targets.forEach(function(t,i){ if(t && t.offsetTop <= y) best = i; });
+    railLinks.forEach(function(a,i){ a.classList.toggle('on', i === best); });
+  }
+  window.addEventListener('scroll', onRail, {passive:true}); onRail();
+
+  /* ---------- reveal ---------- */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+    }, {threshold:.12});
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+    /* медленный наезд на полноэкранных разделителях */
+    var ip = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); ip.unobserve(e.target); } });
+    }, {threshold:.2});
+    document.querySelectorAll('.plate-full').forEach(function(el){ ip.observe(el); });
+  }
+
+  /* ---------- рейка над светлой секцией ---------- */
+  var rail = document.getElementById('rail'), lightSec = document.getElementById('book');
+  function onLight(){
+    if(!rail || !lightSec) return;
+    var r = lightSec.getBoundingClientRect(), mid = window.innerHeight / 2;
+    rail.classList.toggle('light', r.top < mid && r.bottom > mid);
+  }
+  window.addEventListener('scroll', onLight, {passive:true}); onLight();
+
+  /* ---------- вертикаль ---------- */
+  var YEARS = [
+    { y:'1996', name:'Чёрный Полковник, коллекция',
+      meta:'Коллекция · 17,5 % об. · 110 г/дм³ · 0,75 л', bottle:'1996',
+      color:'#4a1220', tint:'#8a5a28', swatch:'Насыщенно-гранатовый с тёмным янтарным бликом',
+      desc:'Сосед «Чёрного Доктора» по энотеке и точка отсчёта вертикали: три десятилетия бутылочной выдержки. Сложный букет с тонами чернослива, джемов из тёмных ягод, молочного ириса и тёмного шоколада; после аэрации выходят сливочно-кофейные ноты, сафьян и спелая вишня.',
+      notes:['чернослив','молочный ирис','тёмный шоколад','сафьян','спелая вишня'] },
+    { y:'2000', name:'Чёрный Доктор Солнечной Долины',
+      meta:'Коллекция · 16 % об. · 160 г/дм³ · 0,75 л', bottle:'2000',
+      color:'#5a1524', tint:'#96482f', swatch:'Рубиновый с тёмными янтарными бликами',
+      desc:'Четверть века в бутылке после длительной выдержки в дубе. Букет раскрывается при аэрации: вяленые фрукты, джемы из чёрных ягод, чернослив, шоколад и замша, дополненные ванилью, кизилом, тёрном и сладкими пряностями.',
+      notes:['вяленые фрукты','чернослив','шоколад','замша','кизил','тёрн'] },
+    { y:'2001', name:'Чёрный Доктор Солнечной Долины',
+      meta:'Коллекция · 16 % об. · 160 г/дм³ · 0,75 л', bottle:'2000',
+      color:'#661827', tint:'#9d3f33', swatch:'Рубиновый с тёмными янтарными бликами',
+      desc:'Годом моложе и на бокал прямее. Тот же профиль — вяленые фрукты и чёрные ягоды, чернослив, шоколад, замша, — но танин ощутимее, а алкогольная теплота в послевкусии собраннее.',
+      notes:['чёрные ягоды','чернослив','шоколад','ваниль','пряности'] },
+    { y:'2013', name:'Чёрный Доктор, сувенирный «Хеопс»',
+      meta:'Сувенирный релиз · 16 % об. · 160 г/дм³ · 0,75 л', bottle:'2000',
+      color:'#7d1b2a', tint:'#a83a3a', swatch:'Гранатовый с рубиновыми бликами',
+      desc:'Подарочное издание в бутылке «Хеопс». Вино на середине пути: плотное и мощное, с шелковистыми танинами, где сухофрукты и джемы уже сложились в букет, а бутылочная выдержка ещё не увела цвет в янтарь.',
+      notes:['сухофрукты','джем','ваниль','замша','пряности'] },
+    { y:'2017', name:'Чёрный Доктор Солнечной Долины',
+      meta:'Базовый релиз · 16 % об. · 160 г/дм³ · 0,25–1,4 л', bottle:'2000',
+      color:'#8f1f2c', tint:'#b13340', swatch:'Гранатовый с рубиновыми бликами',
+      desc:'Тот «Чёрный Доктор», который можно взять с полки фирменного магазина. Идеальный баланс мягкости и свежести; полный, бархатистый вкус с оттенками сушёной груши, молочных сливок и сафьяна в долгом послевкусии.',
+      notes:['сушёная груша','молочные сливки','сафьян','чернослив','шоколад'] }
+  ];
+
+  var range = document.getElementById('vRange');
+  var ticks = document.getElementById('vTicks');
+  var bottles = Array.prototype.slice.call(document.querySelectorAll('.vert__case img'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#vTable tbody tr'));
+  var el = {
+    y: document.getElementById('vYear'), n: document.getElementById('vName'),
+    m: document.getElementById('vMeta'), d: document.getElementById('vDesc'),
+    age: document.getElementById('vAge'),
+    notes: document.getElementById('vNotes'), sw: document.getElementById('vSwatch'),
+    swt: document.getElementById('vSwatchTxt'), cs: document.getElementById('vCase'),
+    plate: document.getElementById('vPlate')
+  };
+
+  if (ticks) {
+    YEARS.forEach(function(v,i){
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = v.y;
+      b.addEventListener('click', function(){ if(range){ range.value = i; } render(i); });
+      ticks.appendChild(b);
+    });
+  }
+
+  function render(i){
+    var v = YEARS[i]; if(!v) return;
+    if (el.y) el.y.textContent = v.y;
+    if (el.n) el.n.textContent = v.name;
+    if (el.m) el.m.textContent = v.meta;
+    if (el.d) el.d.textContent = v.desc;
+    if (el.age) {
+      var n = (new Date()).getFullYear() - parseInt(v.y, 10);
+      var last = n % 10, two = n % 100, word = 'лет';
+      if (last === 1 && two !== 11) word = 'год';
+      else if (last >= 2 && last <= 4 && (two < 12 || two > 14)) word = 'года';
+      el.age.textContent = n + ' ' + word + ' от урожая';
+    }
+    if (el.notes) {
+      el.notes.innerHTML = '';
+      v.notes.forEach(function(t){ var s = document.createElement('span'); s.textContent = t; el.notes.appendChild(s); });
+    }
+    if (el.sw) el.sw.style.background = v.color;
+    if (el.swt) el.swt.textContent = v.swatch;
+    if (el.cs) el.cs.style.setProperty('--case-tint', v.tint);
+    if (el.plate) el.plate.textContent = 'Урожай ' + v.y;
+    bottles.forEach(function(img){ img.classList.toggle('on', img.getAttribute('data-b') === v.bottle); });
+    rows.forEach(function(r){ r.classList.toggle('on', r.getAttribute('data-y') === v.y); });
+    if (ticks) Array.prototype.slice.call(ticks.children).forEach(function(b,j){ b.classList.toggle('on', j === i); });
+  }
+  if (range) range.addEventListener('input', function(){ render(parseInt(range.value,10)); });
+  render(1);
+
+  /* ---------- форма ---------- */
+  var form = document.getElementById('bookForm');
+  if (form) {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = document.getElementById('fName'), phone = document.getElementById('fPhone'),
+          age = document.getElementById('fAge'),
+          consent = document.getElementById('fConsent'), ok = document.getElementById('formOk');
+      if (!name.value.trim()) { name.focus(); return; }
+      if (!phone.value.trim()) { phone.focus(); return; }
+      if (!age.checked) { age.focus(); return; }
+      if (!consent.checked) { consent.focus(); return; }
+      form.querySelectorAll('input,select,button').forEach(function(n){ n.disabled = true; });
+      if (ok) ok.classList.add('on');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

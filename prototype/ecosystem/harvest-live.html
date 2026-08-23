@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Живой календарь лозы · Солнечная Долина, 1888</title>
+<meta name="description" content="Что сейчас происходит в Солнечной Долине: годовой цикл лозы — покой, плач, распускание, цветение, веразон, сбор, розлив. Текущая фаза определяется по реальной дате, дневник недели, архив сезонов 2015–2022 и визиты, доступные именно сейчас.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../variants/a-podval/style.css">
+<style>
+/* ============================================================
+   ЖИВОЙ КАЛЕНДАРЬ ЛОЗЫ · harvest-live
+   Надстройка над дизайн-системой «Подвал»
+   ============================================================ */
+:root{
+  --dial-hair:rgba(185,155,99,.22);
+  --dial-hair2:rgba(185,155,99,.5);
+  --acc:var(--gold-hi);
+  --ledger:#f3ece0;
+}
+body{background:var(--ink)}
+main{position:relative;z-index:1}
+
+/* маркеры достоверности (как в атласе автохтонов) */
+.m{font-size:.62em;vertical-align:.5em;letter-spacing:0;color:var(--gold);opacity:.85;cursor:help;padding-left:.15em}
+.m--o{color:#c08a5e}
+
+/* цифры: Cormorant отдаёт старостильные фигуры (её «2» садится на x-высоту и читается
+   как «з» — «2026» превращается в «20з6»), а lnum в кириллическом сабсете не срабатывает.
+   Поэтому: (1) везде просим прописные табличные; (2) там, где число стоит отдельно и крупно,
+   набираем его гротеском — Cormorant остаётся на всём наборном тексте. */
+.rd__no,.rd__span,.dial-core__d,.dial-core__y,.dial-core__l,.post__d,.post__slot,
+.led__d,.led__hd h3,.yr__n,.prg__pr,.vst__facts,.evrow,.sub,.subftr,.wbuy,.pstrip button i{
+  font-variant-numeric:lining-nums tabular-nums;
+  font-feature-settings:"lnum" 1,"tnum" 1,"onum" 0;
+}
+/* «2026» в центре кольца и годы архива — только гротеск: у Cormorant «2» садится на
+   x-высоту и весь год читается как «20з6». Здесь цифра стоит отдельно, набор не страдает. */
+.dial-core__y,.yr__n,.led__hd h3{font-family:var(--sans);font-weight:300}
+.fig{
+  font-family:var(--sans);font-weight:300;
+  font-variant-numeric:lining-nums tabular-nums;
+  font-feature-settings:"lnum" 1,"tnum" 1,"onum" 0;
+}
+
+/* ---------- БУРГЕР (до 640px) ---------- */
+.burger{
+  display:none;width:40px;height:34px;border:1px solid var(--hair);background:transparent;
+  align-items:center;justify-content:center;cursor:pointer;padding:0;flex:0 0 auto;
+}
+.burger i{position:relative;display:block;width:16px;height:1px;background:var(--gold);transition:background .2s}
+.burger i::before,.burger i::after{
+  content:'';position:absolute;left:0;width:16px;height:1px;background:var(--gold);
+  transition:transform .3s ease,top .3s ease;
+}
+.burger i::before{top:-5px}
+.burger i::after{top:5px}
+.hdr.nav-open .burger i{background:transparent}
+.hdr.nav-open .burger i::before{top:0;transform:rotate(45deg)}
+.hdr.nav-open .burger i::after{top:0;transform:rotate(-45deg)}
+
+/* ============ 1 · ЦИФЕРБЛАТ ============ */
+.dial-sec{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(96px,13vh,150px) 0 clamp(48px,7vh,90px);
+  position:relative;overflow:hidden;isolation:isolate;
+  background:radial-gradient(115% 78% at 68% 46%, #221b15 0%, var(--ink) 62%);
+}
+.dial-grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);
+  gap:clamp(28px,4vw,72px);align-items:center;
+  max-width:1440px;margin:0 auto;padding:0 var(--pad);width:100%;
+}
+
+/* --- левая колонка: показания --- */
+.rd__now{
+  display:flex;align-items:baseline;gap:.9em;flex-wrap:wrap;
+  font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:1.6em;
+}
+.rd__now b{font-weight:400;color:var(--stone-dim);letter-spacing:.14em}
+.rd__back{
+  border:1px solid var(--hair);background:transparent;color:var(--gold-hi);cursor:pointer;
+  font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.5em 1em;transition:border-color .3s,color .3s,background .3s;
+}
+.rd__back:hover{border-color:var(--gold);background:rgba(185,155,99,.1)}
+.rd__back[hidden]{display:none}
+.rd__no{
+  font-family:var(--serif);font-size:clamp(3.6rem,7.4vw,6.4rem);line-height:.86;
+  color:rgba(185,155,99,.2);font-variant-numeric:lining-nums;
+  display:block;margin-bottom:.06em;
+}
+.rd h1{
+  font-family:var(--serif);font-weight:300;letter-spacing:.005em;line-height:.95;
+  font-size:clamp(2.9rem,6.2vw,5.2rem);margin-bottom:.18em;
+}
+.rd__lat{
+  font-family:var(--serif);font-style:italic;color:var(--gold);
+  font-size:clamp(1rem,1.6vw,1.25rem);letter-spacing:.05em;margin-bottom:1.1em;
+}
+.rd__span{
+  display:flex;flex-wrap:wrap;gap:.6em 1.4em;align-items:baseline;
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-hi);
+  padding:.9em 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  margin-bottom:1.5em;font-variant-numeric:lining-nums;
+}
+.rd__span em{font-style:normal;color:rgba(251,247,240,.42);letter-spacing:.2em}
+.rd__body{color:var(--stone-dim);max-width:52ch;font-size:1.02rem}
+
+/* мини-действия прямо в hero */
+.rd__cta{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 1.15em}
+.rd__cta .btn{font-size:.68rem;padding:.72em 1.15em}
+.rd__warn{
+  font-size:.66rem;letter-spacing:.09em;line-height:1.55;color:rgba(251,247,240,.36);
+  border-left:1px solid rgba(185,155,99,.35);padding-left:.9em;margin-bottom:1.5em;max-width:56ch;
+}
+.rd__warn b{color:var(--gold);font-weight:400}
+
+/* события-магниты года */
+.evrow{
+  margin-top:clamp(18px,2.2vw,26px);border-top:1px solid var(--hair);
+  display:flex;flex-direction:column;
+}
+.evrow__h{
+  font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+  padding:1em 0 .2em;
+}
+.evrow__i{
+  display:grid;grid-template-columns:1fr auto auto;gap:.4em 1.1em;align-items:baseline;
+  padding:.75em 0;border-bottom:1px solid rgba(185,155,99,.14);
+}
+.evrow__n{font-family:var(--serif);font-size:1.05rem;color:var(--stone)}
+.evrow__n em{
+  font-style:normal;display:block;font-family:var(--sans);font-size:.66rem;
+  letter-spacing:.06em;color:rgba(251,247,240,.4);line-height:1.5;margin-top:.25em;
+}
+.evrow__w{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,240,.42);white-space:nowrap}
+.evrow__p{font-size:.68rem;letter-spacing:.1em;color:var(--gold-hi);white-space:nowrap}
+.evrow__a{
+  grid-column:3;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-hi);border-bottom:1px solid var(--hair);padding-bottom:2px;white-space:nowrap;
+}
+.evrow__a:hover{border-color:var(--gold)}
+.evrow__i.is-now{background:linear-gradient(90deg,rgba(185,155,99,.09),transparent 70%)}
+.evrow__i.is-now .evrow__n{color:var(--gold-hi)}
+.evmark{fill:var(--gold);opacity:.75;cursor:help}
+.evmark:hover{opacity:1}
+.evtick{stroke:rgba(217,189,138,.45);stroke-width:.9}
+.rd__cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.4vw,40px);
+  margin-top:clamp(24px,3vw,40px);
+}
+.rd__cols h3{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);margin-bottom:.9em}
+.rd__cols ul{list-style:none;display:flex;flex-direction:column;gap:.55em}
+.rd__cols li{
+  font-size:.92rem;color:var(--stone-dim);padding-left:1.1em;position:relative;line-height:1.45;
+}
+.rd__cols li::before{content:'';position:absolute;left:0;top:.62em;width:5px;height:1px;background:var(--gold);opacity:.7}
+.rd__cellar{font-family:var(--serif);font-style:italic;font-size:1.02rem;color:var(--stone);line-height:1.5}
+
+/* --- правая колонка: кольцо --- */
+.dial-wrap{position:relative;width:100%;max-width:740px;margin:0 auto;aspect-ratio:1/1}
+@supports not (aspect-ratio:1/1){.dial-wrap{height:min(78vw,740px)}}
+.dial-wrap svg{width:100%;height:100%;display:block;overflow:visible}
+.dial-glow{
+  position:absolute;inset:12%;border-radius:50%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side, rgba(185,155,99,.16), transparent 72%);
+}
+/* сегменты фаз */
+.arc{cursor:pointer;transition:opacity .35s, fill .35s}
+.arc__f{fill:rgba(185,155,99,.075);stroke:var(--dial-hair);stroke-width:.75}
+.arc:hover .arc__f{fill:rgba(185,155,99,.17)}
+.arc.on .arc__f{fill:rgba(217,189,138,.24);stroke:var(--gold-hi);stroke-width:1.1}
+.arc.today .arc__f{stroke:rgba(217,189,138,.65)}
+.arc__t{
+  fill:var(--stone-dim);font-family:var(--sans);font-size:11px;
+  letter-spacing:2.2px;text-transform:uppercase;pointer-events:none;
+  transition:fill .35s;
+}
+.arc:hover .arc__t{fill:var(--gold-hi)}
+.arc.on .arc__t{fill:var(--ink)}
+.arc.on .arc__plate{fill:var(--gold-hi)}
+.arc__plate{fill:transparent;transition:fill .35s}
+.arc:focus{outline:none}
+.arc:focus-visible .arc__f{stroke:var(--gold-hi);stroke-width:1.6}
+/* гравюра */
+.tick{stroke:var(--dial-hair);stroke-width:.6}
+.tick--m{stroke:var(--dial-hair2);stroke-width:.9}
+.rim{fill:none;stroke:var(--dial-hair);stroke-width:.8}
+.rim--b{stroke:var(--dial-hair2)}
+.mon{fill:rgba(251,247,240,.42);font-family:var(--sans);font-size:11.5px;letter-spacing:2.6px;text-transform:uppercase}
+.sunband{fill:rgba(217,189,138,.09);stroke:rgba(217,189,138,.42);stroke-width:.8}
+.sunlbl{fill:var(--gold);font-family:var(--sans);font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;opacity:.75}
+.hand{stroke:var(--gold-hi);stroke-width:1.1}
+.hand-dot{fill:var(--gold-hi)}
+.hand-glow{stroke:rgba(217,189,138,.28);stroke-width:5}
+.sel-hand{stroke:rgba(251,247,240,.34);stroke-width:.9;stroke-dasharray:3 4}
+
+/* центр циферблата */
+.dial-core{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:40%;text-align:center;pointer-events:none;
+}
+.dial-core__k{font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);opacity:.8}
+.dial-core__d{
+  font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.05;
+  margin:.28em 0 .18em;color:var(--stone);
+}
+.dial-core__y{font-size:clamp(.86rem,1.35vw,1.05rem);letter-spacing:.26em;color:var(--gold);line-height:1}
+.dial-core__hr{width:38%;height:1px;background:var(--hair);margin:.85em auto}
+.dial-core__l{font-size:.62rem;letter-spacing:.13em;color:var(--stone-dim);line-height:1.5;font-variant-numeric:lining-nums}
+.dial-core__l b{display:block;color:var(--gold-hi);font-weight:400;letter-spacing:.16em}
+
+/* лента фаз (доступная навигация + мобильный запасной путь) */
+.pstrip{
+  display:flex;flex-wrap:wrap;gap:1px;background:var(--hair);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  margin-top:clamp(26px,3.4vw,44px);
+}
+.pstrip button{
+  flex:1 1 auto;background:var(--ink);border:0;cursor:pointer;color:var(--stone-dim);
+  font-family:var(--sans);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:.95em .7em;position:relative;transition:background .35s,color .35s;white-space:nowrap;
+}
+.pstrip button::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.pstrip button:hover{background:var(--ink-2);color:var(--gold-hi)}
+.pstrip button[aria-pressed="true"]{color:var(--gold-hi);background:var(--ink-2)}
+.pstrip button[aria-pressed="true"]::before{transform:scaleX(1)}
+.pstrip button i{font-style:normal;color:var(--gold);opacity:.55;padding-right:.5em;font-variant-numeric:lining-nums}
+.pstrip button.is-today em{
+  font-style:normal;display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--red);margin-left:.6em;vertical-align:middle;
+}
+
+/* ============ 2 · ДНЕВНИК НЕДЕЛИ ============ */
+.dry{padding:clamp(80px,11vh,140px) 0;border-top:1px solid var(--hair)}
+.dry__h{
+  max-width:1440px;margin:0 auto clamp(34px,4.4vw,60px);padding:0 var(--pad);
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,4vw,70px);align-items:end;
+}
+.dry__h h2{font-size:clamp(2.2rem,4.4vw,3.6rem)}
+.disc{
+  border:1px solid var(--hair);padding:1.1em 1.3em;
+  font-size:.82rem;color:var(--stone-dim);line-height:1.55;position:relative;
+  background:linear-gradient(140deg,rgba(185,155,99,.05),transparent);
+}
+.disc b{color:var(--gold-hi);font-weight:400;display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5em}
+.dry__grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+}
+.post{background:var(--ink);padding:clamp(22px,2.3vw,34px);display:flex;flex-direction:column;gap:.85em}
+.post__top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.post__d{font-size:.7rem;letter-spacing:.14em;color:var(--gold-hi);font-variant-numeric:lining-nums;text-transform:lowercase}
+.post__t{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,247,240,.38)}
+.post h3{font-size:clamp(1.15rem,1.6vw,1.4rem);line-height:1.15}
+.post p{font-size:.92rem;color:var(--stone-dim);line-height:1.55}
+.post__fig{margin-top:auto}
+.post__fig img{width:100%;height:190px;object-fit:cover;filter:sepia(.1) saturate(1.1) contrast(1.04) brightness(.92)}
+.post__fig figcaption{font-family:var(--serif);font-style:italic;font-size:.85rem;color:rgba(251,247,240,.5);padding-top:.6em}
+.post__slot{
+  margin-top:auto;border-top:1px dashed rgba(185,155,99,.3);padding-top:.7em;
+  font-size:.66rem;letter-spacing:.1em;color:rgba(251,247,240,.34);
+}
+/* ---------- ПОДПИСКА НА ДНЕВНИК ---------- */
+.sub{
+  max-width:1440px;margin:clamp(34px,4.4vw,60px) auto 0;padding:0 var(--pad);
+}
+.sub__in{
+  border:1px solid var(--hair);background:linear-gradient(140deg,rgba(185,155,99,.07),transparent 62%);
+  padding:clamp(26px,3.4vw,44px);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,3.4vw,56px);align-items:start;
+}
+.sub h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:.35em}
+.sub__lead{color:var(--stone-dim);font-size:.94rem;line-height:1.6;max-width:46ch}
+.sub__tg{
+  display:inline-flex;align-items:center;gap:.7em;margin-top:1.3em;
+  border:1px solid var(--gold);color:var(--gold-hi);background:transparent;
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;padding:.85em 1.3em;
+  transition:background .3s,color .3s;
+}
+.sub__tg:hover{background:var(--gold);color:var(--ink)}
+.sub__tg s{text-decoration:none;font-size:.62rem;letter-spacing:.1em;opacity:.6;text-transform:none}
+.sub__or{
+  font-family:var(--serif);font-style:italic;color:rgba(251,247,240,.42);
+  font-size:.95rem;margin-top:1em;
+}
+.sub__form{display:flex;flex-direction:column;gap:.9em}
+.sub__lbl{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.sub__row{display:flex;flex-wrap:wrap;gap:10px}
+.sub__row input[type=email]{
+  flex:1 1 220px;background:rgba(0,0,0,.22);border:1px solid var(--hair);color:var(--stone);
+  font-family:var(--sans);font-size:.86rem;padding:.85em 1em;letter-spacing:.02em;
+}
+.sub__row input[type=email]:focus{outline:none;border-color:var(--gold)}
+.sub__ok{display:flex;gap:.7em;align-items:flex-start;font-size:.72rem;line-height:1.55;color:rgba(251,247,240,.45)}
+.sub__ok input{margin-top:.25em;accent-color:var(--gold);flex:0 0 auto}
+.sub__ok a{color:var(--gold-hi);border-bottom:1px solid var(--hair)}
+.sub__note{font-size:.66rem;letter-spacing:.06em;line-height:1.6;color:rgba(251,247,240,.32)}
+.sub__done{color:var(--gold-hi);font-size:.8rem;letter-spacing:.06em}
+.sub__done[hidden]{display:none}
+
+/* подписка в подвале страницы */
+.subftr{border-top:1px solid var(--hair);background:var(--ink-2);padding:clamp(30px,4vw,52px) var(--pad)}
+.subftr__in{
+  max-width:1440px;margin:0 auto;display:grid;
+  grid-template-columns:minmax(0,1fr) auto;gap:clamp(18px,3vw,44px);align-items:center;
+}
+.subftr p{color:var(--stone-dim);font-size:.9rem;line-height:1.6;max-width:60ch}
+.subftr p b{color:var(--gold-hi);font-weight:400;display:block;font-family:var(--serif);font-size:1.35rem;margin-bottom:.35em}
+.subftr__act{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ============ 3 · АРХИВ (свет) ============ */
+.arch{background:var(--stone);color:var(--ink);padding:clamp(80px,11vh,140px) 0 clamp(64px,9vh,110px)}
+.arch .folio{color:#8a6d3b}
+.arch .folio span:last-child{color:rgba(22,18,16,.5)}
+.arch__h{max-width:1440px;margin:0 auto clamp(34px,4.6vw,64px);padding:0 var(--pad)}
+.arch__h h2{color:var(--ink)}
+.arch__h p{color:rgba(22,18,16,.66);max-width:58ch;margin-top:.7em}
+.arch__h .kicker{color:#8a6d3b}
+.yrs{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(22,18,16,.14);
+  border-top:1px solid rgba(22,18,16,.14);border-bottom:1px solid rgba(22,18,16,.14);
+  max-width:1440px;margin:0 auto;
+}
+.yr{
+  background:var(--stone);border:0;cursor:pointer;padding:clamp(18px,2vw,28px);
+  display:flex;flex-direction:column;align-items:center;gap:.7em;
+  transition:background .35s;font-family:var(--sans);
+}
+.yr:hover{background:#f5efe4}
+.yr[aria-pressed="true"]{background:#efe6d6}
+.yr svg{width:100%;max-width:160px;height:auto;display:block}
+.yr__n{font-size:clamp(1.05rem,1.5vw,1.3rem);letter-spacing:.14em;color:var(--ink);line-height:1}
+.yr[aria-pressed="true"] .yr__n{color:#7a2233}
+.yr__c{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,18,16,.45)}
+.yr--void .yr__n{color:rgba(22,18,16,.3)}
+.yrim{fill:none;stroke:rgba(22,18,16,.2);stroke-width:.8}
+.yarc{fill:rgba(138,109,59,.12);stroke:rgba(138,109,59,.28);stroke-width:.6}
+.yarc--h{fill:rgba(138,109,59,.26)}
+.ydot{fill:#8a6d3b;cursor:help;transition:fill .25s,r .25s}
+.ydot--c{fill:#7a2233}
+.ydot--o{fill:#f6f1e6;stroke:#8a6d3b;stroke-width:1.6;cursor:help;transition:stroke .25s,r .25s}
+.yr svg circle:hover{fill:#7a2233;stroke:#7a2233}
+.ytick{stroke:rgba(22,18,16,.22);stroke-width:.6}
+.ylgd{
+  display:flex;flex-wrap:wrap;gap:.5em 1.6em;max-width:1440px;margin:1.1em auto 0;padding:0 var(--pad);
+  font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,18,16,.45);
+}
+.ylgd i{font-style:normal;color:#8a6d3b}
+
+/* «что пили в этой точке года» → карточки вин и где купить */
+.wbuy{
+  margin-top:clamp(20px,2.6vw,32px);padding-top:1.1em;border-top:1px solid rgba(22,18,16,.16);
+  display:flex;flex-wrap:wrap;gap:.7em 1.1em;align-items:baseline;
+}
+.wbuy__k{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#8a6d3b;flex:0 0 auto}
+.wbuy__n{font-family:var(--serif);font-size:1.05rem;color:rgba(22,18,16,.86)}
+.wbuy__n::after{content:'·';padding-left:.7em;color:rgba(22,18,16,.3)}
+.wbuy__n:last-of-type::after{content:''}
+.wbuy a{
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#7a2233;
+  border-bottom:1px solid rgba(122,34,51,.4);padding-bottom:2px;white-space:nowrap;
+}
+.wbuy a:hover{border-color:#7a2233}
+.wbuy__m{flex:1 1 100%;font-size:.7rem;color:rgba(22,18,16,.45);line-height:1.5}
+
+.led{max-width:1440px;margin:clamp(34px,4.4vw,60px) auto 0;padding:0 var(--pad)}
+.led__hd{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  padding-bottom:.8em;border-bottom:1px solid rgba(22,18,16,.2);
+}
+.led__hd h3{font-size:clamp(1.6rem,2.8vw,2.3rem);color:var(--ink)}
+.led__hd span{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#8a6d3b}
+.led__list{list-style:none;margin-top:.4em}
+.led__list li{
+  display:grid;grid-template-columns:110px 132px 1fr;gap:clamp(12px,2vw,32px);
+  align-items:baseline;padding:1.05em 0;border-bottom:1px solid rgba(22,18,16,.11);
+}
+.led__d{font-family:var(--serif);font-size:1.15rem;color:#7a2233;font-variant-numeric:lining-nums;white-space:nowrap}
+.led__p{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(22,18,16,.45);padding-top:.35em}
+.led__t{color:rgba(22,18,16,.86);font-size:1rem;line-height:1.5}
+.led__t .m{color:#8a6d3b}
+.led__t .m--o{color:#9c5f33}
+.led__empty{
+  padding:2.2em 0;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:rgba(22,18,16,.5);
+  border-bottom:1px solid rgba(22,18,16,.11);
+}
+.arch__law{
+  max-width:1440px;margin:clamp(30px,3.6vw,50px) auto 0;padding:0 var(--pad);
+  font-size:.78rem;color:rgba(22,18,16,.52);line-height:1.6;max-width:min(78ch,1440px);
+}
+
+/* ============ 4 · ВИЗИТЫ ============ */
+.vst{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);min-height:82vh;border-top:1px solid var(--hair)}
+.vst__media{position:relative;overflow:hidden;min-height:44vh}
+.vst__media img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(1.02)}
+.vst__stamp{
+  position:absolute;left:clamp(20px,3vw,40px);bottom:clamp(20px,3vw,40px);right:clamp(20px,3vw,40px);
+  border:1px solid rgba(217,189,138,.5);padding:1em 1.2em;
+  background:rgba(22,18,16,.62);backdrop-filter:blur(3px);
+}
+.vst__stamp b{display:block;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:.45em}
+.vst__stamp p{font-family:var(--serif);font-style:italic;font-size:1.02rem;color:var(--stone);line-height:1.45}
+.vst__panel{padding:clamp(56px,7vw,110px) var(--pad);background:linear-gradient(160deg,var(--ink-2),var(--ink));display:flex;flex-direction:column;justify-content:center}
+.vst__panel h2{font-size:clamp(2.1rem,4.2vw,3.4rem);margin-bottom:.4em}
+.vst__panel > p{color:var(--stone-dim);max-width:54ch}
+.prg{list-style:none;margin:clamp(26px,3vw,44px) 0 0;border-top:1px solid var(--hair)}
+.prg li{padding:1.25em 0;border-bottom:1px solid var(--hair);display:grid;grid-template-columns:1fr auto;gap:8px 22px;align-items:baseline}
+.prg__n{font-family:var(--serif);font-size:clamp(1.15rem,1.8vw,1.42rem);line-height:1.2;grid-column:1}
+.prg__pr{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);white-space:nowrap;font-variant-numeric:lining-nums;text-align:right}
+.prg__m{grid-column:1/-1;font-size:.82rem;color:rgba(251,247,240,.5);line-height:1.5}
+.prg__m b{color:var(--stone-dim);font-weight:400}
+.vst__row{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(26px,3vw,42px)}
+.vst__facts{
+  display:flex;flex-wrap:wrap;gap:.7em 1.6em;margin-top:1.6em;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,240,.42);
+  font-variant-numeric:lining-nums;
+}
+.vst__facts b{color:var(--gold);font-weight:400}
+.vst__note{
+  margin-top:1.1em;font-size:.68rem;letter-spacing:.06em;line-height:1.6;
+  color:rgba(251,247,240,.36);border-left:1px solid rgba(185,155,99,.35);padding-left:.9em;max-width:60ch;
+}
+.vst__note b{color:var(--gold);font-weight:400}
+.vst__note a{color:var(--gold-hi);border-bottom:1px solid var(--hair)}
+
+/* ============ КОЛОФОН ============ */
+.colo{border-top:1px solid var(--hair);padding:clamp(64px,8vw,110px) var(--pad) 30px;background:var(--ink)}
+.colo__in{max-width:1440px;margin:0 auto}
+.colo h2{font-size:clamp(1.9rem,3.4vw,2.9rem);margin-bottom:clamp(26px,3.4vw,48px)}
+.colo__cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,56px)}
+.colo__cols h3{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);margin-bottom:1em}
+.colo__cols ul{list-style:none;display:flex;flex-direction:column;gap:.75em}
+.colo__cols li{font-size:.9rem;color:var(--stone-dim);line-height:1.5;padding-left:1.1em;position:relative}
+.colo__cols li::before{content:'';position:absolute;left:0;top:.66em;width:5px;height:1px;background:var(--gold);opacity:.65}
+.colo__law{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  margin-top:clamp(40px,5vw,66px);padding-top:22px;border-top:1px solid rgba(185,155,99,.14);
+  font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(251,247,240,.3);
+}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width:1180px){
+  .dial-grid{grid-template-columns:1fr;gap:clamp(30px,5vw,54px)}
+  .dial-wrap{max-width:600px;order:-1}
+  .dry__grid{grid-template-columns:repeat(2,1fr)}
+  .yrs{grid-template-columns:repeat(4,1fr)}
+  .vst{grid-template-columns:1fr}
+  .vst__media{height:48vh}
+  .sub__in{grid-template-columns:1fr}
+  .subftr__in{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .dial-sec{padding-top:clamp(112px,17vh,160px)}
+  /* на мобильном имя фазы должно стоять НАД кольцом, а не уезжать под него:
+     .rd раскрывается в поток колонки, кольцо встаёт после заголовка */
+  .dial-grid{display:flex;flex-direction:column;gap:clamp(22px,4vw,36px)}
+  .rd{display:contents}
+  .rd__now{order:1;margin-bottom:0}
+  .rd__no{order:2;margin-bottom:0}
+  .rd h1{order:3;margin-bottom:0}
+  .rd__lat{order:4;margin-bottom:0}
+  .dial-wrap{order:5;max-width:520px}
+  .rd__span{order:6;margin-bottom:0}
+  .rd__cta{order:7;margin:0}
+  .rd__warn{order:8;margin-bottom:0}
+  .rd__body{order:9}
+  .rd__cols{order:10;margin-top:0}
+  .pstrip{order:11;margin-top:0}
+  .evrow{order:12;margin-top:0}
+  .dry__h{grid-template-columns:1fr}
+  .colo__cols{grid-template-columns:1fr}
+  .yrs{grid-template-columns:repeat(2,1fr)}
+  .led__list li{grid-template-columns:1fr;gap:.3em}
+  .led__p{padding-top:0}
+  .pstrip button{flex:1 1 40%;font-size:.6rem;letter-spacing:.1em}
+  .arc__t{font-size:14px;letter-spacing:1.4px}
+  .mon{font-size:14px}
+  .sunlbl{display:none}
+}
+@media (max-width:640px){
+  /* шапка сворачивается в бургер — иначе «Приехать · Где купить» уезжает за экран */
+  .hdr,.hdr.solid{flex-wrap:wrap;align-items:center;padding:10px var(--pad);row-gap:0}
+  .hdr__brand{width:auto;margin:0;text-align:left;align-items:flex-start}
+  .burger{display:flex;margin-left:auto}
+  .hdr__nav{
+    display:none;order:3;width:100%;margin:0;padding:10px 0 6px;
+    flex-direction:column;gap:0;overflow:visible;border-top:1px solid var(--hair);margin-top:10px;
+  }
+  .hdr.nav-open .hdr__nav{display:flex}
+  .hdr__nav a{
+    font-size:.72rem;letter-spacing:.18em;padding:12px 0;width:100%;
+    border-bottom:1px solid var(--hair);border-top:0;
+  }
+  .hdr__nav a.link-buy{margin-left:0;border:1px solid var(--gold);padding:12px;text-align:center;margin-top:10px}
+  .hdr__nav a:last-child{border-bottom:0}
+}
+@media (max-width:560px){
+  .dry__grid{grid-template-columns:1fr}
+  .rd__cols{grid-template-columns:1fr;gap:22px}
+  .dial-core{width:52%}
+  .prg li{grid-template-columns:1fr}
+  .prg__pr{text-align:left}
+  .colo__law{flex-direction:column;gap:8px}
+  .evrow__i{grid-template-columns:1fr auto}
+  .evrow__a{grid-column:2}
+  .rd__cta .btn{flex:1 1 100%;text-align:center}
+  .wbuy__n::after{content:''}
+}
+@media (prefers-reduced-motion: reduce){
+  .arc,.arc__f,.arc__t,.pstrip button::before{transition:none}
+}
+</style>
+
+<!-- ============ МОСТ В МАСТЕР-САЙТ: герб + телефон + запись ============ -->
+<style>
+/* Герб вырезан из общего логотипа: окно 20×34 показывает корону и щит,
+   clip-path отсекает горизонтальные линейки лоскута с надписью. */
+.hdr__logo{display:block;position:relative;flex:0 0 auto;width:20px;height:34px;overflow:hidden}
+.hdr__logo img{position:absolute;left:-49.6px;top:0;width:119px;height:auto;max-width:none;display:block;clip-path:polygon(41.67% 0,58.33% 0,58.33% 60.98%,55.83% 60.98%,55.83% 69.52%,44.17% 69.52%,44.17% 60.98%,41.67% 60.98%)}
+.hdr__brand{flex-direction:row;align-items:center;gap:11px;flex:0 0 auto}
+.hdr__wm{display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}
+
+/* шапка может переносить мост на свою строку, меню при этом не сжимается */
+.hdr{flex-wrap:wrap;row-gap:7px}
+.hdr__nav{flex:0 0 auto}
+.hdr__nav a{white-space:nowrap}
+/* свободное место делится поровну: бренд слева, меню посередине, мост справа */
+@media (min-width:821px){.hdr__nav{margin-left:auto}.hdr__brand{margin-right:clamp(20px,2vw,34px)}}
+
+.brg{display:flex;align-items:center;flex:0 0 auto;
+  gap:clamp(10px,1.2vw,16px);margin-left:auto;padding-left:clamp(14px,1.6vw,24px)}
+.hdr .brg__tel{
+  font-size:.72rem;letter-spacing:.05em;white-space:nowrap;color:var(--gold-hi);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1,"onum" 0;
+  border-bottom:1px solid transparent;padding:6px 0;transition:color .3s,border-color .3s;
+}
+.hdr .brg__tel:hover{color:var(--stone);border-color:var(--gold)}
+.hdr .brg__cta{
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  border:1px solid var(--gold);color:var(--gold-hi);padding:7px 12px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.hdr .brg__cta:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+@media (max-width:820px){
+  .hdr{row-gap:0}
+  .hdr__brand{gap:9px;justify-content:center}
+  .hdr__logo{width:16.5px;height:28px}
+  .hdr__logo img{left:-40.85px;width:98px}
+  .brg{width:100%;margin:0;padding:0 0 8px;justify-content:center;gap:14px}
+  .hdr .brg__tel{font-size:.64rem;letter-spacing:.04em;padding:0}
+  .hdr .brg__cta{font-size:.58rem;letter-spacing:.09em;padding:5px 10px}
+}
+
+/* телефон: шапка в одну строку — герб, запись, бургер; номер уезжает в меню */
+@media (max-width:640px){
+  .brg{order:2;width:auto;margin-left:auto;padding:0;gap:10px}
+  .hdr .brg__tel{display:none}
+  .hdr .brg__cta{font-size:.56rem;letter-spacing:.07em;padding:6px 9px}
+  .hdr .burger{order:3;margin-left:12px}
+  .hdr .hdr__nav{order:4}
+  /* меню раскрыто — номер возвращается строкой под пунктами */
+  .hdr.nav-open .brg{order:5;width:100%;margin:0;padding:12px 0 2px;justify-content:center;gap:16px}
+  .hdr.nav-open .brg__tel{display:inline-block;font-size:.72rem;letter-spacing:.06em}
+}
+</style>
+</head>
+<body>
+
+<div class="link-rule" aria-hidden="true"></div>
+
+<header class="hdr solid" id="hdr">
+  <a class="hdr__brand" href="../master/index.html">
+    <span class="hdr__logo"><img src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина" decoding="async"></span>
+    <span class="hdr__wm">
+      <span class="hdr__name">Солнечная&nbsp;Долина</span>
+      <span class="hdr__est">Крым · 1888</span>
+    </span>
+  </a>
+  <button class="burger" type="button" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="hdrNav"><i></i></button>
+  <nav class="hdr__nav" id="hdrNav" aria-label="Главное меню">
+    <a href="../variants/a-podval/catalog.html">Вина</a>
+    <a href="autochthon-atlas.html">Автохтоны</a>
+    <a href="#dnevnik">Дневник</a>
+    <a href="#arhiv">Архив сезонов</a>
+    <a href="#vizit">Приехать</a>
+    <a class="link-buy" href="../variants/a-podval/visit.html">Где купить</a>
+  </nav>
+  <div class="brg">
+    <a class="brg__tel" href="tel:+79789563322">+7&nbsp;978&nbsp;956-33-22</a>
+    <a class="brg__cta" href="../master/index.html#visit">Забронировать дегустацию</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ================================================================
+     1 · ЦИФЕРБЛАТ ГОДА
+     ================================================================ -->
+<section class="dial-sec" id="krug">
+  <div class="folio">
+    <span>Живой календарь лозы</span>
+    <span>Судак · 44°51′32″N · 35°02′52″E</span>
+  </div>
+
+  <div class="dial-grid">
+
+    <!-- показания -->
+    <div class="rd">
+      <p class="rd__now">
+        <span id="rdNow">Сейчас в долине</span>
+        <b id="rdWeek"></b>
+        <button type="button" class="rd__back" id="rdBack" hidden>← вернуться к сегодня</button>
+      </p>
+      <span class="rd__no" id="rdNo">VI</span>
+      <h1 id="rdName">Сбор</h1>
+      <p class="rd__lat" id="rdLat">vendemia</p>
+      <p class="rd__span" id="rdSpan"></p>
+
+      <div class="rd__cta">
+        <a class="btn btn--gold" href="#vizit" id="rdCtaVisit">Приехать на сбор · от 1 450 ₽</a>
+        <a class="btn btn--ghost" href="#dnevnik-sub">Подписаться на дневник</a>
+      </div>
+      <p class="rd__warn">
+        <b>18+.</b> Это информационная страница: вино на сайте не продаётся и не заказывается.
+        Цены ниже — только за экскурсии и дегустации. Чрезмерное употребление алкоголя вредит вашему здоровью.
+      </p>
+
+      <p class="rd__body" id="rdBody"></p>
+
+      <div class="rd__cols">
+        <div>
+          <h3>На винограднике</h3>
+          <ul id="rdWork"></ul>
+        </div>
+        <div>
+          <h3>Под землёй</h3>
+          <p class="rd__cellar" id="rdCellar"></p>
+        </div>
+      </div>
+
+      <div class="pstrip" id="pstrip" role="group" aria-label="Фазы годового цикла лозы"></div>
+    </div>
+
+    <!-- кольцо -->
+    <div class="dial-wrap">
+      <div class="dial-glow" aria-hidden="true"></div>
+      <svg id="dial" viewBox="0 0 800 800" role="img" aria-labelledby="dialTitle dialDesc">
+        <title id="dialTitle">Годовой цикл лозы в Солнечной Долине</title>
+        <desc id="dialDesc">Круговой календарь: двенадцать месяцев по внешнему ободу, семь фаз развития лозы кольцом внутри, кривая длины светового дня в центре и стрелка на текущей дате. Тот же список фаз доступен кнопками под текстом слева.</desc>
+      </svg>
+      <div class="dial-core">
+        <p class="dial-core__k">Сегодня</p>
+        <p class="dial-core__d" id="coreDate">—</p>
+        <p class="dial-core__y" id="coreYear">—</p>
+        <div class="dial-core__hr"></div>
+        <p class="dial-core__l">
+          <b id="coreLight">—</b>
+          светового дня
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================
+     2 · ДНЕВНИК НЕДЕЛИ
+     ================================================================ -->
+<section class="dry" id="dnevnik">
+  <div class="folio">
+    <span>02 · Дневник недели</span>
+    <span id="dryPhaseTag">Фаза сбора</span>
+  </div>
+  <div class="dry__h">
+    <div class="rv">
+      <p class="kicker">Из долины</p>
+      <h2 id="dryTitle">Неделя</h2>
+      <p class="lead" style="margin-top:.8em" id="dryLead"></p>
+    </div>
+    <div class="disc rv">
+      <b>Как читать этот блок</b>
+      Ленту ведут агроном и технолог — три-четыре записи в неделю, по одной фотографии с телефона.
+      Записи ниже — <em>образцы формата</em> для каждой фазы, а не сводка сегодняшнего дня:
+      погодных датчиков и наряд-заданий у нас на руках нет. Даты и подбор записей меняются вместе с фазой на кольце.
+    </div>
+  </div>
+  <div class="dry__grid" id="dryGrid"></div>
+</section>
+
+<!-- ================================================================
+     3 · АРХИВ СЕЗОНОВ
+     ================================================================ -->
+<section class="arch" id="arhiv">
+  <div class="folio">
+    <span>03 · Архив сезонов</span>
+    <span>2015 — 2022 · по ленте новостей</span>
+  </div>
+  <div class="arch__h rv">
+    <p class="kicker">Восемь кругов</p>
+    <h2>Что уже случалось в этой точке года</h2>
+    <p>Каждый круг — один сезон, каждая точка — реальная запись из ленты новостей винодельни, поставленная
+      на своё место в цикле. Видно то, чего не видно в ленте: сбор всегда начинается в августе, награды
+      приходят осенью, а виноградник живёт в новостях в четыре раза реже, чем выставки.</p>
+  </div>
+  <div class="yrs" id="yrs" role="group" aria-label="Сезоны архива"></div>
+  <div class="led">
+    <div class="led__hd">
+      <h3 id="ledYear">2018</h3>
+      <span id="ledCount"></span>
+    </div>
+    <ul class="led__list" id="ledList"></ul>
+  </div>
+  <p class="arch__law">
+    <span class="m">●</span> — дата стоит в источнике. <span class="m m--o">○</span> — на сайте указан только год
+    или месяц; положение точки на круге выведено из содержания записи и требует проверки у технолога.
+    Всего в ленте разобрано 134 новости за 2015–2022 годы; к годовому циклу лозы прямо относятся 37 из них.
+  </p>
+</section>
+
+<!-- ================================================================
+     4 · ВИЗИТЫ
+     ================================================================ -->
+<section class="vst" id="vizit">
+  <div class="vst__media">
+    <picture>
+      <source type="image/avif" srcset="../assets/img/deg6-800.avif 800w, ../assets/img/deg6-1200.avif 1200w, ../assets/img/deg6-1600.avif 1600w" sizes="(max-width:1180px) 100vw, 44vw">
+      <source type="image/webp" srcset="../assets/img/deg6-800.webp 800w, ../assets/img/deg6-1200.webp 1200w, ../assets/img/deg6-1600.webp 1600w" sizes="(max-width:1180px) 100vw, 44vw">
+      <img src="../assets/img/deg6.jpg" alt="Голицынский подвал дегустационного комплекса «Архадерессе»" loading="lazy" decoding="async" width="1600" height="1067">
+    </picture>
+    <div class="vst__stamp">
+      <b>Что видно именно сейчас</b>
+      <p id="vstNow">—</p>
+    </div>
+  </div>
+  <div class="vst__panel">
+    <p class="kicker">04 · Приехать на эту фазу</p>
+    <h2 id="vstH">Визит в фазу сбора</h2>
+    <p>В подвалах «Архадерессе» круглый год +14 °C, и семь программ работают одинаково в январе и в августе.
+      Меняется другое — то, что происходит за стенами подвала. Ниже — программы, которые в текущей фазе
+      показывают больше остальных.</p>
+    <ul class="prg" id="prgList"></ul>
+    <div class="vst__row">
+      <a class="btn btn--gold" href="https://bronirui.online/solnechnaya-dolina-vinodelnya/uslugi" target="_blank" rel="noopener">Забронировать экскурсию</a>
+      <a class="btn btn--ghost" href="tel:+79789563322">+7 978 956-33-22</a>
+    </div>
+    <p class="vst__facts">
+      <span><b>Начало дегустаций</b> 10 · 11 · 13 · 14 · 15 · 16</span>
+      <span><b>Вечерняя</b> 20:00 по заявке</span>
+      <span><b>В подвалах</b> +14 °C</span>
+      <span><b>Адрес</b> с. Миндальное, ул. Миндальная, 8А</span>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= КОЛОФОН ================= -->
+<footer class="colo">
+  <div class="colo__in">
+    <p class="kicker">Колофон</p>
+    <h2>Что здесь измерено, а что рассказано</h2>
+    <div class="colo__cols">
+      <div>
+        <h3>Считается на месте</h3>
+        <ul>
+          <li>Текущая фаза, номер дня внутри фазы и обратный счёт до следующей — от системной даты в браузере гостя.</li>
+          <li>Длина светового дня — астрономический расчёт по координатам дегустационного комплекса (44,858945° N) с поправкой на рефракцию.</li>
+          <li>Кольцо, 365 суточных штрихов и кривая света рисуются кодом, а не картинкой: страница верна в любой день года.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Взято из источников</h3>
+        <ul>
+          <li>Терруар: безморозный период 240 дней, САТ около 4000°, осадков до 200 мм, около 300 ясных дней — разделы «Терруар» и «О компании».</li>
+          <li>События архива — 134 разобранные новости 2015–2022; каждая точка привязана к своей записи.</li>
+          <li>Программы, цены, часы и телефон — раздел «Экскурсии и дегустации» в редакции с 15.03.25.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Чего мы не выдумывали</h3>
+        <ul>
+          <li>Границы фаз — усреднённый крымский юго-восток; точные даты плача, цветения и веразона по участкам должен подтвердить агроном.</li>
+          <li>Дневник недели — макет формата. Живая погода, сахаристость и наряды подключаются после доступа к данным хозяйства.</li>
+          <li>Рекомендация программы под фазу — редакционная: на сайте все семь доступны круглый год.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="colo__law">
+      <span>АО «Солнечная Долина» · с 1888 года · г. Судак, с. Миндальное, ул. Миндальная, 8А</span>
+      <span>Информация 18+. Чрезмерное употребление алкоголя вредит вашему здоровью</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   ДАННЫЕ · семь фаз годового цикла
+   ============================================================ */
+var PH = [
+{
+  ro:'I', k:'Покой', lat:'dormance · лоза спит',
+  s:[11,20], e:[2,15],
+  body:'Лист сброшен, сок ушёл в корень, побеги одревеснели до соломенного цвета. Безморозный период в Долине — 240 дней, настоящие морозы редки, и лоза зимует открытой. Это единственные недели, когда виноградник можно резать: сейчас руками решается, сколько глазков доживёт до весны, а значит — каким будет урожай через восемь месяцев.',
+  work:['Обрезка и формировка: счёт оставленных глазков на куст','Ремонт шпалеры, натяжка проволоки, замена столбов','Вывоз лозы, вспашка и влагозарядка междурядий'],
+  cellar:'Молодое вино снимают с осадка, буты доливают доверху, ликёрные уходят в долгую выдержку. В подвале те же +14 °C, что и в июле.',
+  visitNow:'Зимой разница между улицей и подвалом исчезает — единственные месяцы, когда полуторачасовая экскурсия по галереям даётся легко.',
+  prog:[3,2,0],
+  diary:[
+    {t:'погода', h:'Ясно, ветер с моря', p:'Ночью около нуля, днём выше. Снега в Долине не бывает неделями — зимует не укрытая лоза, а голая проволока и камень.'},
+    {t:'виноградник', h:'Обрезка: четвёртый квартал', p:'Идут по рядам эким кара. На старых кустах оставляют меньше — куст сам подсказывает, сколько потянет.'},
+    {t:'подвал', h:'Доливка бутов', p:'Голицынская галерея: обход бочек, доливка испарившегося. Технолог называет это «кормить ангела».'},
+    {t:'кадр', h:'Голая лоза на камне', p:'', img:'valley_pano', cap:'Долина в конце года: виден рельеф, который летом прячет лист.'}
+  ]
+},
+{
+  ro:'II', k:'Плач лозы', lat:'lacrimae vitis · пасока',
+  s:[2,16], e:[3,25],
+  body:'Когда почва на глубине корня прогревается примерно до +8…+10 °C, корень начинает гнать воду вверх, и со свежих срезов обрезки каплями идёт пасока. Виноградарь называет это плачем. Красивого в нём мало и опасного тоже — но это первая честная новость сезона: лоза жива и проснулась. Число, когда заплакал первый ряд, записывают: оно задаёт весь дальнейший отсчёт.',
+  work:['Завершение обрезки на поздних участках','Подвязка лозы к проволоке, пока побеги не тронулись','Первые почвенные работы и подкормка'],
+  cellar:'Ассамбляжи прошлого урожая: технолог собирает купажи, пока вина ещё пластичны.',
+  visitNow:'Межсезонье — самые малолюдные недели года. Группы небольшие, у сомелье есть время на вопросы.',
+  prog:[2,0],
+  diary:[
+    {t:'виноградник', h:'Первая капля', p:'На нижнем участке со срезов пошла пасока. От этого дня до распускания обычно три-четыре недели.'},
+    {t:'погода', h:'Почва прогрелась', p:'Днём тепло, ночью ещё холодно. Возвратные заморозки в марте — главный риск ближайшего месяца.'},
+    {t:'подвал', h:'Сборка купажей', p:'Пробы из разных бутов на столе. Решается, что войдёт в «Меганом» этого разлива.'},
+    {t:'кадр', h:'Срез и капля', p:'', img:'valley_pano', cap:'Место для макроснимка: срез лозы с каплей пасоки — кадр, которого ни у кого нет.'}
+  ]
+},
+{
+  ro:'III', k:'Распускание', lat:'gemmatio · почка',
+  s:[3,26], e:[5,10],
+  body:'Почка набухает, покрывается пухом и разворачивается в то, что виноградари зовут мышиным ушком. Дальше побег растёт быстро — по несколько сантиметров в сутки. Это самая уязвимая фаза года: одна ночь возвратного заморозка снимает урожай целиком, и защититься от неё в открытой долине почти нечем.',
+  work:['Обломка лишних и двойных побегов','Подвязка зелёного прироста, установка перемычек','Первые защитные обработки по листу'],
+  cellar:'Розлив вин прошлых урожаев: к весне они готовы к бутылке. В 2019-м так разливали «Меганом» урожая 2018 года.',
+  visitNow:'Виноградник зелёный и низкий — с террас видно рисунок посадки и рядность, которую летом скрывает листва.',
+  prog:[0,5],
+  diary:[
+    {t:'виноградник', h:'Мышиное ушко', p:'Кокур на верхних участках развернул первые листья. Эким кара, как обычно, отстаёт на несколько дней.'},
+    {t:'погода', h:'Ночь на грани', p:'Смотрим прогноз по ночным температурам: до середины апреля заморозок стоит дороже любой засухи.'},
+    {t:'виноградник', h:'Обломка', p:'Снимаем лишние побеги вручную. Куст должен вести ровно столько, сколько прокормит.'},
+    {t:'кадр', h:'Первая зелень на камне', p:'', img:'valley_pano', cap:'Апрель: зелёная строчка по серой земле — на снимке видно, насколько тут мало почвы.'}
+  ]
+},
+{
+  ro:'IV', k:'Цветение', lat:'floratio · завязь',
+  s:[5,11], e:[6,20],
+  body:'Цветок винограда невзрачен, пахнет едва слышно и цветёт от семи до двенадцати дней. В эти дни решается объём урожая: сколько цветков завяжется в ягоду, столько и будет собрано в сентябре. Дождь и сильный ветер сейчас дороже, чем в любую другую неделю года, — а жаркие сухие ветра в Долине не редкость.',
+  work:['Наблюдение за цветением, учёт завязи по участкам','Чеканка и подвязка растущего прироста','Обработка от милдью в узком окне между дождями'],
+  cellar:'Бутылочная выдержка и отгрузка весенней партии. Завод первичного виноделия готовят к сезону.',
+  visitNow:'Лоза цветёт незаметно, зато у ряда стоит запах — короткий и почти неописуемый. Тот случай, когда экскурсию стоит начинать с виноградника.',
+  prog:[0,5,6],
+  diary:[
+    {t:'виноградник', h:'Пошло цветение', p:'На южном склоне зацвели ранние. Считаем дни: неделя тихой погоды — и урожай состоялся.'},
+    {t:'погода', h:'Сухо и ветрено', p:'Ветра в Долине жаркие. В цветение это скорее плюс — цветок не мокнет.'},
+    {t:'подвал', h:'Отгрузка весны', p:'Партия ушла в фирменную сеть: 37 точек по Крыму, от Ялты до Керчи.'},
+    {t:'кадр', h:'Соцветие', p:'', img:'valley_pano', cap:'Место для макроснимка соцветия: несколько дней в году, когда этот кадр вообще возможен.'}
+  ]
+},
+{
+  ro:'V', k:'Веразон', lat:'véraison · окрашивание',
+  s:[6,21], e:[8,9],
+  body:'Ягода перестаёт расти и начинает зреть. Белые сорта делаются прозрачными и золотыми, эким кара за несколько дней уходит в чернильный. Кислота падает, сахар растёт — и здесь Долина работает как нигде: сумма активных температур около 4000°, осадков до 200 мм в год, около 300 ясных дней. Сахаронакопление идёт интенсивнее, чем почти где-либо в России, — отсюда полнота ликёрных вин.',
+  work:['Замер сахаристости и кислотности по участкам','Чеканка, прореживание листа в зоне грозди','Подготовка тары, ящиков и техники к страде'],
+  cellar:'Мойка ёмкостей, поверка оборудования, подбор дрожжей. Подвал ждёт первого винограда.',
+  visitNow:'Самое жаркое время года: среднемесячная около 25 °C, максимумы до 37–40. Вечерняя дегустация в подвале в такие дни — это ещё и +14 °C.',
+  prog:[4,0],
+  diary:[
+    {t:'виноградник', h:'Пошла окраска', p:'Кефесия на нижних рядах меняет цвет неровно — грозди в тени отстают на несколько дней.'},
+    {t:'виноградник', h:'Утренний замер', p:'Сахар прибавляет каждые сутки. С этого момента лаборатория работает по расписанию виноградника, а не наоборот.'},
+    {t:'подвал', h:'Мойка ёмкостей', p:'Завод первичного виноделия готов принять первый виноград. Дальше всё будет решаться часами.'},
+    {t:'кадр', h:'Гроздь в середине пути', p:'', img:'valley_pano', cap:'Июль: половина ягод в грозди уже тёмная, половина ещё зелёная.'}
+  ]
+},
+{
+  ro:'VI', k:'Сбор', lat:'vindemia · страда',
+  s:[8,10], e:[10,20],
+  body:'Страда. Начинают с ранних белых — мускат янтарный, мускат белый; автохтоны Козской долины идут последними, эким кара и джеват кара ждут октября. Съём назначают по кондиции, а не по календарю: замер утром, решение днём, виноград на заводе через часы после среза. День виноградарства и виноделия в Крыму — последнее воскресенье августа — приходится ровно на старт.',
+  work:['Съём по кондиции, участок за участком, с утренним замером','Доставка на завод первичного виноделия в тот же день','Сортировка, дробление, начало брожения'],
+  cellar:'Первое сусло, брожение, круглосуточная смена. Ликёрные останавливают спиртом в нужный момент — обратного хода нет.',
+  visitNow:'Единственные недели в году, когда во дворе завода первичного виноделия идёт приёмка винограда, а в воздухе стоит запах свежего сусла.',
+  prog:[0,5,1],
+  diary:[
+    {t:'виноградник', h:'Открыли сезон', p:'Пошёл ранний белый. По ленте прошлых лет старт держится на конце августа стабильно — 2015, 2018, 2022.'},
+    {t:'погода', h:'Жарко и сухо', p:'Собираем с рассвета: к полудню ягоду везти уже нельзя. Смена начинается затемно.'},
+    {t:'подвал', h:'Первое сусло', p:'Пресс пошёл. Дальше подвал работает круглосуточно, пока не примут последний автохтон.'},
+    {t:'кадр', h:'Ящики у ворот', p:'', img:'valley_pano', cap:'Терраса перед сбором. Кадр, за которым весь год приезжают фотографы.'}
+  ]
+},
+{
+  ro:'VII', k:'Розлив', lat:'infusio · вино в бутылку',
+  s:[10,21], e:[11,19],
+  body:'Виноградник затих, работа целиком ушла под землю. Молодое вино снимают с осадка, ликёрные уходят в голицынские буты на годы, а в бутылку в эти недели идут вина прошлых урожаев: «Меганом» урожая 2018 года разливали в 2019-м, «Чёрный Доктор» ждёт трёх лет выдержки. Между лозой и бутылкой здесь всегда стоит год — а иногда десять.',
+  work:['Уборка виноградника, вывоз тары, ремонт после страды','Влагозарядковый полив, подготовка к зимовке','Разметка участков под зимнюю обрезку'],
+  cellar:'Снятие с осадка, розлив, укупорка, закладка коллекции. Внутренняя дегустация нового урожая — обычно в феврале.',
+  visitNow:'В подвалах видна свежая работа: молодое вино в бутах, следы страды, только что заложенная коллекция года.',
+  prog:[1,2,3],
+  diary:[
+    {t:'подвал', h:'Сняли с осадка', p:'Первая переливка молодого. Вкус ещё резкий — так и должно быть.'},
+    {t:'подвал', h:'Линия розлива', p:'В бутылку идут вина прошлых лет. Молодому до этого ещё год, ликёрным — больше.'},
+    {t:'виноградник', h:'Закрыли сезон', p:'Тару вывезли, ряды прошли техникой. Следующее событие на винограднике — обрезка.'},
+    {t:'кадр', h:'Пустая терраса', p:'', img:'degzal', cap:'Дегустационный зал в межсезонье: та самая барская усадьба, ставшая домом виноделов.'}
+  ]
+}
+];
+
+/* ============================================================
+   ДАННЫЕ · программы визита (дословно с сайта, редакция 15.03.25)
+   ============================================================ */
+var PROG = [
+{n:'Экскурсия по трём голицынским подвалам и дегустация 10 марок', d:'1 ч 20 мин', p:'от 1450 ₽ / гость', m:'Базовая программа: обучение навыкам дегустации на примере десяти марок, фотографии в местах, связанных с именами Голицына и Горчакова.'},
+{n:'VIP-дегустация: четыре подвала и каминный зал', d:'2 часа', p:'от 27 500 ₽ / пять гостей', m:'Два премиальных вина в подвале с коллекцией, десять марок в гастросопровождении с шестью авторскими сырами.'},
+{n:'Индивидуальная экскурсия с дегустацией 10 марок', d:'до 2 часов', p:'от 2750 ₽ / гость', m:'Не в группе. Описание программы на сайте не приводится.'},
+{n:'Ретро-дегустация при свечах в старинном подвале', d:'до 2 часов', p:'от 2750 ₽ / гость', m:'Только по предварительной заявке. Описание программы на сайте не приводится.'},
+{n:'Вечерняя дегустация с посещением голицынских подвалов', d:'до 2 часов', p:'от 2750 ₽ / гость', m:'Начало в 20:00, по предварительной заявке.'},
+{n:'Авторская экскурсия: 9 марок и игристое в подвале', d:'до 2 часов', p:'от 1900 ₽ / гость', m:'Группа от пятнадцати гостей.'},
+{n:'Ассорти дегустационное, шесть сыров', d:'дополнение', p:'400 ₽ за штуку', m:'На сайте оформлено как отдельная программа — при переносе требует уточнения.'}
+];
+
+/* ============================================================
+   ДАННЫЕ · архив сезонов (из разбора 134 новостей)
+   d:null — на сайте указан только год или месяц
+   ============================================================ */
+var ARCH = {
+2015:[
+ {m:5,d:22,t:'Заложена аллея виноградников к 70-летию Победы',c:'v'},
+ {m:8,d:14,t:'170 лет Л. С. Голицыну: для гостей открыто старинное винохранилище №1',c:'c'},
+ {m:8,d:22,t:'«Золотая гроздь винограда»: первый крымский День виноградарства и виноделия',c:'e'},
+ {m:9,d:null,t:'«Виноградная страда началась»: собран мускат янтарный, сахаристость 25 г/дм³',c:'v',note:'месяц на сайте не указан; отнесено к фазе сбора по содержанию'},
+ {m:10,d:null,t:'Кубок СВВР: золото «Меганому» 2014 и «Солнечной Долине» 2000 года',c:'a',note:'указан только месяц'}
+],
+2016:[
+ {m:2,d:11,t:'«Вино из России»: 70 га автохтонов, 200 мм осадков, сумма активных температур 4500',c:'e'},
+ {m:9,d:null,t:'Коллекционер Мишель-Жак Шассей о терруаре: ставку делать на автохтоны',c:'e',note:'дата на сайте отсутствует'},
+ {m:10,d:18,t:'Осенняя акция в фирменной сети',c:'e'}
+],
+2017:[
+ {m:4,d:null,t:'Завершена посадка саженцев из питомника Раушедо: кокур, ркацители, пти вердо',c:'v',note:'указано «весной 2017»'},
+ {m:4,d:null,t:'Поле под кариньян: 60 тысяч саженцев в камень и валуны',c:'v',note:'дата на сайте отсутствует'},
+ {m:8,d:4,t:'Первое игристое «Солнечной Долины» — в Международный день шампанского',c:'c'},
+ {m:8,d:null,t:'«Золотой грифон»: золото сухим «Меганому» и «Кокуру»',c:'a',note:'указан только месяц'},
+ {m:10,d:null,t:'Урожай на 11 % больше, чем в 2016-м; автохтоны — 30 % сбора',c:'v',note:'указан только месяц'},
+ {m:12,d:null,t:'Итог 129-го сезона: высажено 34 га — кокур, ркацители, эким кара, кариньян, пти вердо',c:'v',note:'указан только месяц'}
+],
+2018:[
+ {m:4,d:22,t:'«Южная Россия»: пять образцов с ЗГУ «Крым», более 200 вин на конкурсе',c:'a'},
+ {m:8,d:null,t:'Начался сбор урожая: второй день собирают мускат белый',c:'v',note:'указан только месяц'},
+ {m:8,d:null,t:'«Золотой грифон»: В. И. Третяк — лучший винодел года',c:'a',note:'указан только месяц'},
+ {m:9,d:null,t:'Слушатели курсов сомелье WineLab вышли на уборку ркацители',c:'v',note:'указан только месяц'},
+ {m:9,d:29,t:'WineFest в Балаклаве: праздник сбора урожая и молодого вина',c:'e'},
+ {m:10,d:null,t:'Кубок СВВР: четыре медали, золото ликёрному',c:'a',note:'указан только месяц'},
+ {m:11,d:null,t:'Пять вин вошли в «Винный гид России» Роскачества',c:'a',note:'указан только месяц'}
+],
+2019:[
+ {m:2,d:26,t:'Первая внутренняя дегустация урожая 2018: сезон назван самым сложным за пять лет',c:'c'},
+ {m:5,d:16,t:'«Дни российских вин»: дегустация в московской винотеке',c:'e'},
+ {m:8,d:25,t:'День виноградарства и виноделия — последнее воскресенье августа',c:'e'},
+ {m:9,d:28,t:'WineFest 2019: виноделие и искусство',c:'e'},
+ {m:10,d:null,t:'«Российская лоза»: народный выбор — «Кокур» и «Меганом»',c:'a',note:'указан только месяц'},
+ {m:11,d:null,t:'Начат розлив «Меганома» урожая 2018 (бастардо и кефесия) и Розе',c:'c',note:'на сайте указан только год; отнесено к фазе розлива по содержанию'}
+],
+2020:[],
+2021:[],
+2022:[
+ {m:8,d:28,t:'«Началась уборка урожая»: поздравление с Днём виноградарства и виноделия',c:'v'},
+ {m:9,d:null,t:'Первая партия «Меганом Blanc de Blancs брют» после года на осадке',c:'c',note:'указан только месяц'}
+]
+};
+var ARCH_VOID = {2020:'Шесть записей за год — ни одной о винограднике.', 2021:'Две записи за год, обе не о цикле лозы.'};
+var CATN = {v:'виноградник', c:'подвал', a:'награда', e:'событие'};
+
+/* ============================================================
+   ВРЕМЯ И АСТРОНОМИЯ
+   ============================================================ */
+var MON_G = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+var MON_N = ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+var MON_S = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+var WD    = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+
+var TODAY = new Date();
+TODAY.setHours(12,0,0,0);
+var YEAR = TODAY.getFullYear();
+
+function dnum(dt){ return Math.floor(dt.getTime()/86400000); }
+function yearFrac(dt){
+  var y = dt.getFullYear();
+  var a = new Date(y,0,1).getTime(), b = new Date(y+1,0,1).getTime();
+  return (dt.getTime()-a)/(b-a);
+}
+function mdFrac(m,d){ return yearFrac(new Date(YEAR, m-1, d)); }
+function fmt(dt){ return dt.getDate()+' '+MON_G[dt.getMonth()]; }
+function plural(n,a,b,c){
+  var n10=n%10, n100=n%100;
+  if(n10===1 && n100!==11) return a;
+  if(n10>=2 && n10<=4 && (n100<10 || n100>=20)) return b;
+  return c;
+}
+
+/* длина светового дня: широта дегустационного комплекса, с поправкой на рефракцию */
+function daylight(dt){
+  var lat = 44.858945*Math.PI/180;
+  var n = Math.round((dt - new Date(dt.getFullYear(),0,0))/86400000);
+  var decl = 0.409*Math.sin(2*Math.PI/365*n - 1.39);
+  var z = Math.cos(90.833*Math.PI/180);
+  var x = (z - Math.sin(lat)*Math.sin(decl))/(Math.cos(lat)*Math.cos(decl));
+  if(x>1) x=1; if(x<-1) x=-1;
+  return 24/Math.PI*Math.acos(x);
+}
+function hm(h){
+  var t = Math.round(h*60);
+  return Math.floor(t/60)+' ч '+String(t%60).padStart(2,'0')+' мин';
+}
+
+/* диапазон фазы, привязанный к конкретному году */
+function range(i, y){
+  var p = PH[i];
+  var s = new Date(y, p.s[0]-1, p.s[1]); s.setHours(0,0,0,0);
+  var e = new Date(y, p.e[0]-1, p.e[1]); e.setHours(23,59,59,0);
+  if(e < s) e = new Date(y+1, p.e[0]-1, p.e[1], 23,59,59);
+  return [s,e];
+}
+function phaseAt(dt){
+  for(var off=-1; off<=0; off++){
+    for(var i=0;i<PH.length;i++){
+      var r = range(i, dt.getFullYear()+off);
+      if(dt>=r[0] && dt<=r[1]) return {i:i, s:r[0], e:r[1]};
+    }
+  }
+  return {i:0, s:range(0,dt.getFullYear())[0], e:range(0,dt.getFullYear())[1]};
+}
+var CUR = phaseAt(TODAY);
+
+/* ============================================================
+   ГЕОМЕТРИЯ КОЛЬЦА
+   ============================================================ */
+var CX=400, CY=400;
+function pt(r,f){
+  var a = (f*360-90)*Math.PI/180;
+  return [ (CX+r*Math.cos(a)).toFixed(2), (CY+r*Math.sin(a)).toFixed(2) ];
+}
+function ring(r1,r2,f1,f2){
+  var sweep = f2-f1; if(sweep<0) sweep+=1;
+  var big = sweep>0.5 ? 1 : 0;
+  var p1=pt(r2,f1), p2=pt(r2,f2), p3=pt(r1,f2), p4=pt(r1,f1);
+  return 'M'+p1[0]+' '+p1[1]+
+         ' A'+r2+' '+r2+' 0 '+big+' 1 '+p2[0]+' '+p2[1]+
+         ' L'+p3[0]+' '+p3[1]+
+         ' A'+r1+' '+r1+' 0 '+big+' 0 '+p4[0]+' '+p4[1]+' Z';
+}
+function svgEl(n,at){
+  var e = document.createElementNS('http://www.w3.org/2000/svg', n);
+  for(var k in at) if(at[k]!==null && at[k]!==undefined) e.setAttribute(k, at[k]);
+  return e;
+}
+
+var R_OUT=352, R_MON=318, R_LBL=336, R_PH_O=308, R_PH_I=238, R_SUN_O=214, R_SUN_I=140;
+
+function buildDial(){
+  var svg = document.getElementById('dial');
+  if(!svg) return;
+  var f = document.createDocumentFragment();
+
+  /* обода */
+  f.appendChild(svgEl('circle',{class:'rim rim--b', cx:CX, cy:CY, r:R_OUT}));
+  f.appendChild(svgEl('circle',{class:'rim', cx:CX, cy:CY, r:R_MON}));
+  f.appendChild(svgEl('circle',{class:'rim', cx:CX, cy:CY, r:R_PH_O}));
+  f.appendChild(svgEl('circle',{class:'rim', cx:CX, cy:CY, r:R_PH_I}));
+  f.appendChild(svgEl('circle',{class:'rim', cx:CX, cy:CY, r:R_SUN_I}));
+
+  /* 365 суточных штрихов, длинные — начала месяцев */
+  var days = Math.round((new Date(YEAR+1,0,1)-new Date(YEAR,0,1))/86400000);
+  for(var d=0; d<days; d++){
+    var dt = new Date(YEAR,0,1+d), fr = yearFrac(dt), first = dt.getDate()===1;
+    var a = pt(first ? R_LBL+8 : R_OUT-1, fr), b = pt(R_MON, fr);
+    f.appendChild(svgEl('line',{class:first?'tick tick--m':'tick', x1:a[0],y1:a[1],x2:b[0],y2:b[1]}));
+  }
+
+  /* названия месяцев */
+  for(var m=0;m<12;m++){
+    var mid = (mdFrac(m+1,1) + (m===11 ? 1 : mdFrac(m+2,1)))/2;
+    var p = pt((R_MON+R_OUT)/2 + 2, mid);
+    var t = svgEl('text',{class:'mon', x:p[0], y:p[1], 'text-anchor':'middle', 'dominant-baseline':'central'});
+    t.textContent = MON_S[m];
+    f.appendChild(t);
+  }
+
+  /* кривая светового дня */
+  var lo=99, hi=0, vals=[];
+  for(var i=0;i<days;i++){
+    var h = daylight(new Date(YEAR,0,1+i));
+    vals.push(h); if(h<lo) lo=h; if(h>hi) hi=h;
+  }
+  var dPath = '';
+  for(var i2=0;i2<days;i2++){
+    var rr = R_SUN_I + (vals[i2]-lo)/(hi-lo)*(R_SUN_O-R_SUN_I);
+    var q = pt(rr, yearFrac(new Date(YEAR,0,1+i2)));
+    dPath += (i2===0?'M':'L')+q[0]+' '+q[1];
+  }
+  dPath += 'Z';
+  var band = svgEl('path',{class:'sunband', d:dPath, 'fill-rule':'evenodd'});
+  var hole = 'M'+pt(R_SUN_I,0)[0]+' '+pt(R_SUN_I,0)[1]+
+             ' A'+R_SUN_I+' '+R_SUN_I+' 0 1 1 '+pt(R_SUN_I,0.5)[0]+' '+pt(R_SUN_I,0.5)[1]+
+             ' A'+R_SUN_I+' '+R_SUN_I+' 0 1 1 '+pt(R_SUN_I,0)[0]+' '+pt(R_SUN_I,0)[1]+'Z';
+  band.setAttribute('d', dPath+' '+hole);
+  f.appendChild(band);
+
+  /* солнцестояния и равноденствия */
+  [[6,21,'солнцестояние'],[12,21,'солнцестояние'],[3,20,'равноденствие'],[9,22,'равноденствие']].forEach(function(s){
+    var fr = mdFrac(s[0],s[1]);
+    var a = pt(R_SUN_I-4, fr), b = pt(R_SUN_O+8, fr);
+    f.appendChild(svgEl('line',{class:'tick tick--m', x1:a[0],y1:a[1],x2:b[0],y2:b[1]}));
+  });
+  var solLo = pt(R_SUN_I-16, mdFrac(12,21)), solHi = pt(R_SUN_O+22, mdFrac(6,21));
+  var tl = svgEl('text',{class:'sunlbl', x:solHi[0], y:solHi[1], 'text-anchor':'middle'});
+  tl.textContent = hm(hi);
+  f.appendChild(tl);
+  var tl2 = svgEl('text',{class:'sunlbl', x:solLo[0], y:solLo[1], 'text-anchor':'middle'});
+  tl2.textContent = hm(lo);
+  f.appendChild(tl2);
+  var tl3 = svgEl('text',{class:'sunlbl', x:CX, y:CY-R_SUN_O-30, 'text-anchor':'middle'});
+  tl3.textContent = 'световой день';
+  f.appendChild(tl3);
+
+  /* фазы */
+  for(var pi=0; pi<PH.length; pi++){
+    var p = PH[pi];
+    var f1 = mdFrac(p.s[0],p.s[1]), f2 = mdFrac(p.e[0],p.e[1]);
+    var g = svgEl('g',{class:'arc', 'data-i':pi, tabindex:'0', role:'button',
+                       'aria-label':'Фаза '+p.k, 'aria-pressed':'false'});
+    g.appendChild(svgEl('path',{class:'arc__f', d:ring(R_PH_I, R_PH_O, f1, f2)}));
+    /* подпись фазы — по дуге */
+    var mid = f1 + (((f2-f1)+1)%1)/2; if(mid>=1) mid-=1;
+    var rMid=(R_PH_I+R_PH_O)/2, id='ap'+pi;
+    var flip = (mid>0.25 && mid<0.75);
+    var sweepR = 0.5*((R_PH_O-R_PH_I)/rMid) + 0.115;
+    var a1 = mid - sweepR/2, a2 = mid + sweepR/2;
+    var q1 = pt(rMid, flip?a2:a1), q2 = pt(rMid, flip?a1:a2);
+    var pa = svgEl('path',{id:id, d:'M'+q1[0]+' '+q1[1]+' A'+rMid+' '+rMid+' 0 0 '+(flip?0:1)+' '+q2[0]+' '+q2[1], fill:'none'});
+    f.appendChild(pa);
+    var tx = svgEl('text',{class:'arc__t'});
+    var tp = svgEl('textPath',{href:'#'+id, startOffset:'50%', 'text-anchor':'middle'});
+    tp.setAttribute('dominant-baseline','central');
+    tp.textContent = p.k.toUpperCase();
+    tx.appendChild(tp);
+    g.appendChild(tx);
+    f.appendChild(g);
+  }
+
+  /* стрелка «сегодня» */
+  var ft = yearFrac(TODAY);
+  var h1 = pt(R_SUN_I-26, ft), h2 = pt(R_OUT+6, ft);
+  f.appendChild(svgEl('line',{class:'hand-glow', x1:h1[0],y1:h1[1],x2:h2[0],y2:h2[1]}));
+  f.appendChild(svgEl('line',{class:'hand', x1:h1[0],y1:h1[1],x2:h2[0],y2:h2[1]}));
+  var hd = pt(R_OUT+6, ft);
+  f.appendChild(svgEl('circle',{class:'hand-dot', cx:hd[0], cy:hd[1], r:4.5}));
+  f.appendChild(svgEl('circle',{class:'hand-dot', cx:CX, cy:CY, r:3}));
+
+  /* пунктирная стрелка выбранной фазы */
+  var sel = svgEl('line',{class:'sel-hand', id:'selHand', x1:CX,y1:CY,x2:CX,y2:CY, opacity:0});
+  f.appendChild(sel);
+
+  svg.appendChild(f);
+
+  svg.addEventListener('click', function(e){
+    var g = e.target.closest ? e.target.closest('.arc') : null;
+    if(g) setPhase(+g.getAttribute('data-i'));
+  });
+  svg.addEventListener('keydown', function(e){
+    if(e.key!=='Enter' && e.key!==' ') return;
+    var g = e.target.closest ? e.target.closest('.arc') : null;
+    if(g){ e.preventDefault(); setPhase(+g.getAttribute('data-i')); }
+  });
+}
+
+/* ============================================================
+   ЛЕНТА ФАЗ
+   ============================================================ */
+function buildStrip(){
+  var s = document.getElementById('pstrip'), f = document.createDocumentFragment();
+  PH.forEach(function(p,i){
+    var b = document.createElement('button');
+    b.type='button'; b.setAttribute('data-i',i); b.setAttribute('aria-pressed','false');
+    b.innerHTML = '<i>'+p.ro+'</i>'+p.k+(i===CUR.i?'<em title="текущая фаза"></em>':'');
+    if(i===CUR.i) b.classList.add('is-today');
+    b.addEventListener('click', function(){ setPhase(i); });
+    f.appendChild(b);
+  });
+  s.appendChild(f);
+}
+
+/* ============================================================
+   ДНЕВНИК
+   ============================================================ */
+function buildDiary(i, real){
+  var p = PH[i], grid = document.getElementById('dryGrid');
+  var anchor;
+  if(real){ anchor = new Date(TODAY); }
+  else {
+    var r = range(i, YEAR);
+    anchor = new Date((r[0].getTime()+r[1].getTime())/2);
+  }
+  var offs = [0,2,4,6], html='';
+  p.diary.forEach(function(e,k){
+    var dt = new Date(anchor); dt.setDate(dt.getDate()-offs[k]);
+    var dl = dt.getDate()+' '+MON_G[dt.getMonth()]+', '+WD[dt.getDay()];
+    html += '<article class="post rv">'+
+      '<div class="post__top"><span class="post__d">'+dl+'</span><span class="post__t">'+e.t+'</span></div>'+
+      '<h3>'+e.h+'</h3>';
+    if(e.img){
+      var src = e.img;
+      html += '<figure class="post__fig">'+
+        '<picture>'+
+        '<source type="image/avif" srcset="../assets/img/'+src+'-800.avif">'+
+        '<source type="image/webp" srcset="../assets/img/'+src+'-800.webp">'+
+        '<img src="../assets/img/'+src+'.jpg" alt="'+e.h+'" loading="lazy" decoding="async" width="800" height="533">'+
+        '</picture>'+
+        '<figcaption>'+e.cap+'</figcaption></figure>';
+    } else {
+      html += '<p>'+e.p+'</p>';
+      if(k===0) html += '<p class="post__slot">▢ здесь встанут данные метеостанции хозяйства</p>';
+      if(k===1) html += '<div class="post__num"><span><i>сахар, г/дм³</i>▢</span><span><i>участков в работе</i>▢</span></div>';
+    }
+    html += '</article>';
+  });
+  grid.innerHTML = html;
+  revealScan();
+
+  var lead = document.getElementById('dryLead');
+  if(real){
+    var from = new Date(TODAY); from.setDate(from.getDate()-6);
+    document.getElementById('dryTitle').textContent = 'Неделя '+from.getDate()+'—'+TODAY.getDate()+' '+MON_G[TODAY.getMonth()];
+    lead.textContent = 'Четыре последние записи из долины. Даты живые — считаются от сегодняшнего числа.';
+  } else {
+    document.getElementById('dryTitle').textContent = 'Типичная неделя: '+MON_N[anchor.getMonth()];
+    lead.textContent = 'Вы смотрите не текущую фазу. Показана типичная неделя середины фазы «'+p.k.toLowerCase()+'».';
+  }
+  document.getElementById('dryPhaseTag').textContent = 'Фаза: '+p.k.toLowerCase();
+}
+
+/* ============================================================
+   ВИЗИТЫ
+   ============================================================ */
+function buildVisit(i){
+  var p = PH[i];
+  document.getElementById('vstH').textContent = 'Визит в фазу «'+p.k.toLowerCase()+'»';
+  document.getElementById('vstNow').textContent = p.visitNow;
+  var html='';
+  p.prog.forEach(function(k){
+    var g = PROG[k];
+    html += '<li><span class="prg__n">'+g.n+'</span>'+
+            '<span class="prg__pr">'+g.p+'</span>'+
+            '<span class="prg__m"><b>'+g.d+'</b> · '+g.m+'</span></li>';
+  });
+  html += '<li><span class="prg__n" style="font-family:var(--sans);font-size:.82rem;color:rgba(251,247,240,.5);line-height:1.5">'+
+          'Подбор программ под фазу <span class="m m--o">○</span> — редакционная рекомендация. На сайте все семь программ доступны круглый год, ежедневно.'+
+          '</span></li>';
+  document.getElementById('prgList').innerHTML = html;
+}
+
+/* ============================================================
+   ПОКАЗАНИЯ
+   ============================================================ */
+var shown = CUR.i;
+function setPhase(i){
+  shown = i;
+  var p = PH[i], real = (i===CUR.i);
+  var r = real ? [CUR.s, CUR.e] : range(i, YEAR);
+
+  document.getElementById('rdNo').textContent = p.ro;
+  document.getElementById('rdName').textContent = p.k;
+  document.getElementById('rdLat').textContent = p.lat;
+  document.getElementById('rdBody').textContent = p.body;
+  document.getElementById('rdCellar').textContent = p.cellar;
+  document.getElementById('rdWork').innerHTML = p.work.map(function(w){return '<li>'+w+'</li>';}).join('');
+
+  var total = dnum(r[1]) - dnum(r[0]) + 1;
+  var span = '<span>'+fmt(r[0])+' — '+fmt(r[1])+'</span>';
+  if(real){
+    var day = dnum(TODAY) - dnum(r[0]) + 1;
+    var left = dnum(r[1]) - dnum(TODAY);
+    span += '<span><em>день</em> '+day+' из '+total+'</span>';
+    span += '<span><em>до фазы «'+PH[(i+1)%PH.length].k.toLowerCase()+'»</em> '+left+' '+plural(left,'день','дня','дней')+'</span>';
+    document.getElementById('rdNow').textContent = 'Сейчас в долине';
+  } else {
+    span += '<span><em>длится</em> '+total+' '+plural(total,'день','дня','дней')+'</span>';
+    document.getElementById('rdNow').textContent = 'Фаза цикла';
+  }
+  document.getElementById('rdSpan').innerHTML = span;
+  document.getElementById('rdBack').hidden = real;
+
+  /* синхронизация кольца и ленты */
+  var arcs = document.querySelectorAll('.arc');
+  for(var k=0;k<arcs.length;k++){
+    var on = (+arcs[k].getAttribute('data-i')===i);
+    arcs[k].classList.toggle('on', on);
+    arcs[k].classList.toggle('today', +arcs[k].getAttribute('data-i')===CUR.i);
+    arcs[k].setAttribute('aria-pressed', on?'true':'false');
+  }
+  var btns = document.querySelectorAll('#pstrip button');
+  for(var b=0;b<btns.length;b++) btns[b].setAttribute('aria-pressed', b===i?'true':'false');
+
+  var sh = document.getElementById('selHand');
+  if(sh){
+    if(real){ sh.setAttribute('opacity',0); }
+    else{
+      var f1 = mdFrac(p.s[0],p.s[1]), f2 = mdFrac(p.e[0],p.e[1]);
+      var sw = f2-f1; if(sw<0) sw+=1;
+      var mid = (f1+sw/2)%1;
+      var a = pt(R_SUN_I-10, mid), b2 = pt(R_OUT, mid);
+      sh.setAttribute('x1',a[0]); sh.setAttribute('y1',a[1]);
+      sh.setAttribute('x2',b2[0]); sh.setAttribute('y2',b2[1]);
+      sh.setAttribute('opacity',1);
+    }
+  }
+
+  buildDiary(i, real);
+  buildVisit(i);
+}
+
+/* ============================================================
+   АРХИВ
+   ============================================================ */
+function buildYears(){
+  var box = document.getElementById('yrs'), f = document.createDocumentFragment();
+  var years = Object.keys(ARCH).map(Number).sort();
+  years.forEach(function(y){
+    var ev = ARCH[y];
+    var b = document.createElement('button');
+    b.type='button'; b.className='yr'+(ev.length?'':' yr--void');
+    b.setAttribute('data-y', y); b.setAttribute('aria-pressed','false');
+
+    var ns='http://www.w3.org/2000/svg';
+    var s = document.createElementNS(ns,'svg');
+    s.setAttribute('viewBox','0 0 200 200'); s.setAttribute('aria-hidden','true');
+    var oc=100, or_=86, ir=62;
+    function p2(r,fr){
+      var a=(fr*360-90)*Math.PI/180;
+      return [(oc+r*Math.cos(a)).toFixed(2),(oc+r*Math.sin(a)).toFixed(2)];
+    }
+    function ring2(r1,r2,f1,f2){
+      var sw=f2-f1; if(sw<0) sw+=1;
+      var big=sw>0.5?1:0;
+      var a1=p2(r2,f1),a2=p2(r2,f2),a3=p2(r1,f2),a4=p2(r1,f1);
+      return 'M'+a1[0]+' '+a1[1]+' A'+r2+' '+r2+' 0 '+big+' 1 '+a2[0]+' '+a2[1]+
+             ' L'+a3[0]+' '+a3[1]+' A'+r1+' '+r1+' 0 '+big+' 0 '+a4[0]+' '+a4[1]+'Z';
+    }
+    PH.forEach(function(p,pi){
+      var el = document.createElementNS(ns,'path');
+      el.setAttribute('class','yarc'+(pi===5?' yarc--h':''));
+      el.setAttribute('d', ring2(ir, or_, mdFrac(p.s[0],p.s[1]), mdFrac(p.e[0],p.e[1])));
+      s.appendChild(el);
+    });
+    for(var m=1;m<=12;m++){
+      var fr=mdFrac(m,1), a=p2(or_,fr), b3=p2(or_+7,fr);
+      var l=document.createElementNS(ns,'line');
+      l.setAttribute('class','ytick');
+      l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',b3[0]);l.setAttribute('y2',b3[1]);
+      s.appendChild(l);
+    }
+    ev.forEach(function(e){
+      var fr = mdFrac(e.m, e.d || 15);
+      var q = p2((or_+ir)/2, fr);
+      var c = document.createElementNS(ns,'circle');
+      c.setAttribute('cx',q[0]); c.setAttribute('cy',q[1]);
+      c.setAttribute('r', e.d ? 4 : 3.6);
+      c.setAttribute('class', e.d ? ('ydot'+(e.c==='c'?' ydot--c':'')) : 'ydot--o');
+      s.appendChild(c);
+    });
+    b.appendChild(s);
+    var n=document.createElement('span'); n.className='yr__n'; n.textContent=y; b.appendChild(n);
+    var cc=document.createElement('span'); cc.className='yr__c';
+    cc.textContent = ev.length ? (ev.length+' '+plural(ev.length,'запись','записи','записей')) : 'тишина';
+    b.appendChild(cc);
+    b.addEventListener('click', function(){ setYear(y); });
+    f.appendChild(b);
+  });
+  box.appendChild(f);
+}
+
+function setYear(y){
+  var ev = ARCH[y].slice().sort(function(a,b){
+    return (a.m*100+(a.d||15)) - (b.m*100+(b.d||15));
+  });
+  document.getElementById('ledYear').textContent = y;
+  document.getElementById('ledCount').textContent = ev.length
+    ? ev.length+' '+plural(ev.length,'событие','события','событий')+' в цикле'
+    : 'в ленте новостей пусто';
+  var list = document.getElementById('ledList');
+  if(!ev.length){
+    list.innerHTML = '<li style="grid-template-columns:1fr"><p class="led__empty">'+(ARCH_VOID[y]||'Записей нет.')+'</p></li>';
+  } else {
+    list.innerHTML = ev.map(function(e){
+      var dt = new Date(YEAR, e.m-1, e.d||15);
+      var ph = PH[phaseAt(dt).i];
+      var label = e.d ? (e.d+' '+MON_G[e.m-1]) : MON_N[e.m-1];
+      var mark = e.d ? '<span class="m" title="дата указана в источнике">●</span>'
+                     : '<span class="m m--o" title="'+(e.note||'дата выведена из содержания')+'">○</span>';
+      return '<li><span class="led__d">'+label+'</span>'+
+             '<span class="led__p">'+ph.k+' · '+CATN[e.c]+'</span>'+
+             '<span class="led__t">'+e.t+' '+mark+'</span></li>';
+    }).join('');
+  }
+  var bs = document.querySelectorAll('.yr');
+  for(var i=0;i<bs.length;i++) bs[i].setAttribute('aria-pressed', +bs[i].getAttribute('data-y')===y ? 'true':'false');
+}
+
+/* ============================================================
+   ПРОЯВЛЕНИЕ
+   ============================================================ */
+var io = null;
+if('IntersectionObserver' in window){
+  io = new IntersectionObserver(function(en){
+    en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('on'); io.unobserve(x.target); } });
+  }, {rootMargin:'0px 0px -8% 0px'});
+}
+function revealScan(){
+  var els = document.querySelectorAll('.rv:not(.on)');
+  for(var i=0;i<els.length;i++){
+    if(io) io.observe(els[i]); else els[i].classList.add('on');
+  }
+}
+
+/* ============================================================
+   ЗАПУСК
+   ============================================================ */
+document.getElementById('coreDate').textContent = TODAY.getDate()+' '+MON_G[TODAY.getMonth()];
+document.getElementById('coreYear').textContent = YEAR;
+document.getElementById('coreLight').textContent = hm(daylight(TODAY));
+document.getElementById('rdWeek').textContent = WD[TODAY.getDay()]+', '+fmt(TODAY);
+
+buildDial();
+buildStrip();
+buildYears();
+setPhase(CUR.i);
+setYear(2018);
+revealScan();
+
+document.getElementById('rdBack').addEventListener('click', function(){
+  setPhase(CUR.i);
+  document.getElementById('krug').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+})();
+
+/* ---------- бургер (шапка до 640px): кнопка не была подключена ---------- */
+(function(){
+  var hdr = document.getElementById('hdr');
+  var burger = document.getElementById('burger');
+  if(!hdr || !burger) return;
+  burger.addEventListener('click', function(){
+    var open = hdr.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('#hdrNav a'), function(a){
+    a.addEventListener('click', function(){
+      hdr.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
+</body>
+</html>

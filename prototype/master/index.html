@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Солнечная Долина — одна долина на Земле</title>
+<meta name="description" content="Крымская винодельня с 1888 года. Автохтонные сорта, которых нет больше нигде: Эким Кара, Кефесия, Джеват Кара. Подвалы Архадерессе.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
+<link rel="stylesheet" href="master.css">
+<script type="importmap">{"imports":{"three":"../assets/vendor/three/three.module.min.js","three/addons/":"../assets/vendor/three/addons/"}}</script>
+</head>
+<body>
+
+<!-- ПРЕЛОАДЕР: солнце разгорается по мере загрузки -->
+<div class="pre" id="pre" aria-hidden="true">
+  <svg class="pre__sun" viewBox="0 0 400 400" id="preSun"></svg>
+  <p class="pre__t">Солнечная Долина · 1888</p>
+  <p class="pre__pct" id="prePct">0</p>
+</div>
+
+<!-- ГЕЙТ 18+ как ритуал входа -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Подтверждение возраста">
+  <p class="gate__k">Судак · Крым · с 1888 года</p>
+  <p class="gate__q">Вам есть восемнадцать лет?</p>
+  <div class="gate__row">
+    <button class="btn btn--gold" id="gateYes">Да — войти в долину</button>
+    <button class="btn btn--mute" id="gateNo">Нет</button>
+  </div>
+  <p class="gate__law">Сайт содержит информацию, не рекомендованную лицам младше 18 лет</p>
+</div>
+
+<!-- ФОН: один WebGL-канвас на весь путь -->
+<canvas id="gl" class="gl" aria-hidden="true"></canvas>
+
+<!-- ШАПКА -->
+<header class="hdr" id="hdr">
+  <a class="hdr__brand" href="#top"><img class="hdr__logo" src="../assets/img/gen/layers/logo.png" alt="Солнечная Долина · 1888"></a>
+  <nav class="hdr__nav" aria-label="Главное меню">
+    <a href="wines.html">Вина</a><a href="#valley">Долина</a><a href="#visit">Визит</a><a href="#partners">Партнёрам</a><a href="#buy">Где купить</a>
+  </nav>
+  <div class="hdr__act">
+    <a class="hdr__tel" href="tel:+79789563322">+7 978 956-33-22</a>
+    <a class="btn btn--ghost btn--s hdr__cta" href="#visit">Забронировать дегустацию</a>
+  </div>
+</header>
+
+<!-- КОМПАКТНОЕ МЕНЮ-СТРОКА (мобайл) -->
+<nav class="mnav" id="mnav" aria-label="Разделы">
+  <a href="wines.html">Вина</a><a href="#valley">Долина</a><a href="#visit">Визит</a><a href="#partners">Партнёрам</a><a href="#buy">Где купить</a>
+</nav>
+
+<!-- ШКАЛА ГЛУБИНЫ -->
+<aside class="depth" id="depth" aria-hidden="true">
+  <span class="depth__cap">+400 м</span>
+  <span class="depth__track"><i class="depth__thumb" id="depthThumb"></i></span>
+  <span class="depth__cap">−30 м</span>
+  <span class="depth__now" id="depthNow">+400 м · Меганом</span>
+</aside>
+
+<!-- ЗВУК -->
+<button class="snd" id="snd" aria-pressed="false" title="Звук долины"><i></i></button>
+
+<main id="top">
+
+  <!-- I · НЕБО НАД МЕГАНОМОМ -->
+  <section class="sc sc--sky" id="sky" data-depth="400" data-scene="sky">
+    <div class="sc__in">
+      <p class="kick">Винодельня · Судак · Крым · 44°52′N 35°02′E</p>
+      <h1 class="h-hero"><span class="ln">Солнечная</span><span class="ln">Долина</span></h1>
+      <p class="slogan">Вина, которые существуют<br>только в одной долине на Земле</p>
+      <a class="descend" href="#valley"><i></i><span>Спуститься в долину</span></a>
+    </div>
+  </section>
+
+  <!-- II · ДОЛИНА С ВЫСОТЫ -->
+  <section class="sc sc--valley" id="valley" data-depth="200" data-scene="valley">
+    <div class="sc__in sc__in--split">
+      <div>
+        <p class="kick kick--dark">02 · Долина</p>
+        <h2>Одна долина.<br>Три сорта, которых нет больше нигде.</h2>
+        <p class="lead">В 1888 году князь Лев Голицын заложил в имении Архадерессе первые подвалы, вырубленные в горе. Солнце, сланец и морской ветер сделали остальное — здесь выжили автохтоны, не существующие больше нигде.</p>
+      </div>
+      <dl class="nums">
+        <div><dt>138</dt><dd>лет непрерывной истории</dd></div>
+        <div><dt>400+</dt><dd>гектаров виноградников</dd></div>
+        <div><dt>3</dt><dd>сорта, которых нет больше нигде</dd></div>
+      </dl>
+    </div>
+    <figure class="map" id="map" aria-label="Карта долины: урочища Архадерессе, Токлук, Капсель"></figure>
+  </section>
+
+  <!-- III · У ЛОЗЫ — четыре сорта -->
+  <section class="sc sc--vine" id="vine" data-depth="2" data-scene="vine">
+    <div class="sc__in">
+      <p class="kick">03 · У лозы</p>
+      <div class="grapes" id="grapes">
+        <article class="grape is-on" data-grape="ekim"><h2>Эким Кара</h2><p class="grape__l">«Чёрный доктор» — так в долине назвали почти чернильную ягоду, и имя перешло вину. Сорт не прижился больше нигде в мире.</p><p class="grape__w">В винах: Чёрный Доктор · Меганом</p></article>
+        <article class="grape" data-grape="kefesiya"><h2>Кефесия</h2><p class="grape__l">Древний крымский сорт, вино из него — плотное, пряное, с тонами чернослива и кожи. Растёт на сланцах Токлука.</p><p class="grape__w">В винах: Токлук · Чёрный Доктор</p></article>
+        <article class="grape" data-grape="dzhevat"><h2>Джеват Кара</h2><p class="grape__l">«Чёрный полковник» — сорт, давший имя второму легендарному вину долины. Тёмная ягода, долгая выдержка.</p><p class="grape__w">В винах: Чёрный Полковник</p></article>
+        <article class="grape" data-grape="kokur"><h2>Кокур белый</h2><p class="grape__l">Белый автохтон Судака: янтарная ягода, цветочный аромат, свежесть моря. Из него — Кокур и игристый брют.</p><p class="grape__w">В винах: Кокур · Кокур брют</p></article>
+      </div>
+      <div class="grapes__nav" id="grapesNav"><b data-i="0">I</b><b data-i="1">II</b><b data-i="2">III</b><b data-i="3">IV</b></div>
+    </div>
+  </section>
+
+  <!-- IV · ВХОД В ПОДВАЛ -->
+  <section class="sc sc--gate" id="cellar-gate" data-depth="0" data-scene="gate">
+    <div class="sc__in"><p class="kick">Подвалы Архадерессе · заложены в 1888 году · +14 °C круглый год</p></div>
+  </section>
+
+  <!-- V · ПОДВАЛ — четыре вина равны -->
+  <section class="sc sc--cellar" id="wines" data-depth="-20" data-scene="cellar">
+    <div class="sc__in">
+      <p class="kick">04 · Подвал</p>
+      <h2>Четыре линейки — четыре мира одной долины</h2>
+      <div class="niches" id="niches">
+        <a class="niche" href="chd.html" style="--tint:#5f1930" data-wine="chd">
+          <div class="niche__b"><img src="../assets/img/cut/cherniy_doctor2017.webp" alt="Чёрный Доктор Солнечной Долины" loading="lazy"></div>
+          <h3>Чёрный Доктор</h3><p>ликерные · эким кара</p><span class="niche__go">войти в подвал →</span>
+        </a>
+        <a class="niche" href="arhaderesse.html" style="--tint:#b99b63" data-wine="sd">
+          <div class="niche__b"><img src="../assets/img/cut/porto2026.webp" alt="Солнечная Долина — Порто" loading="lazy"></div>
+          <h3>Солнечная Долина</h3><p>классика дома · с 1888</p><span class="niche__go">войти в имение →</span>
+        </a>
+        <a class="niche" href="meganom.html" style="--tint:#c4674a" data-wine="meg">
+          <div class="niche__b"><img src="../assets/img/cut/meganom_krasnoe2023.webp" alt="Меганом красное сухое" loading="lazy"></div>
+          <h3>Меганом</h3><p>сухие · терруар мыса</p><span class="niche__go">выйти на мыс →</span>
+        </a>
+        <a class="niche" href="tokluk.html" style="--tint:#d97c2b" data-wine="tok">
+          <div class="niche__b"><img src="../assets/img/cut/kefessia.webp" alt="Токлук — Кефесия Саперави" loading="lazy"></div>
+          <h3>Токлук</h3><p>автохтоны · фолк-этикетки</p><span class="niche__go">войти в урочище →</span>
+        </a>
+      </div>
+      <p class="niches__hint">Четыре линейки — четыре мира. Клик — войти</p>
+      <a class="allw" href="wines.html">
+        <b>Вся винная карта дома</b>
+        <i>83 вина · четыре линейки · четыре автохтона — от сухих Меганома до коллекционного Чёрного Доктора</i>
+        <span>открыть карту →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- VI · ГАЛЕРЕЯ ВЫДЕРЖКИ -->
+  <section class="sc sc--barrels" id="barrels" data-depth="-25" data-scene="barrels">
+    <div class="sc__in">
+      <p class="kick">05 · Выдержка</p>
+      <h2>Тридцать лет в дубе —<br>и ни одного пропущенного года</h2>
+      <ol class="years" id="years">
+        <li data-y="1888"><b>1888</b><span>Голицын закладывает подвалы Архадерессе</span></li>
+        <li data-y="1996"><b>1996</b><span>Чёрный Полковник — коллекционный урожай</span></li>
+        <li data-y="2000"><b>2000</b><span>Чёрный Доктор — коллекция</span></li>
+        <li data-y="2013"><b>2013</b><span>Сувенирная серия «Хеопс»</span></li>
+        <li data-y="2017"><b>2017</b><span>Чёрный Доктор — сбор эким кара со старых лоз</span></li>
+        <li data-y="2026"><b>2026</b><span>Сегодня: 83 вина, четыре линейки</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- VII · ВИЗИТ -->
+  <section class="sc sc--visit" id="visit" data-depth="5" data-scene="visit">
+    <div class="sc__in sc__in--split">
+      <div>
+        <p class="kick kick--dark">06 · Визит</p>
+        <h2>Спуститесь сами</h2>
+        <p class="lead">Экскурсия по голицынским подвалам и дегустация 10 марок вин — ежедневно с 10:00 до 17:00, от 1 450 ₽. Дегустация при свечах, среди бочек и коллекционных бутылок конца XIX века.</p>
+        <p class="tel"><a href="tel:+79789563322">+7 978 956-33-22</a></p>
+        <a class="btn btn--gold" href="tel:+79789563322">Забронировать дегустацию</a>
+        <p class="mini">с. Миндальное, ул. Миндальная, 8 · Судак · как доехать из Судака — 15 минут</p>
+      </div>
+      <div class="glass" id="glass" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- VIII · ПРИЗНАНИЕ · ПАРТНЁРАМ -->
+  <section class="sc sc--night" id="partners" data-depth="400" data-scene="night">
+    <div class="sc__in">
+      <p class="kick">07 · Признание</p>
+      <h2>Пятнадцать наград —<br>одно небо над долиной</h2>
+      <p class="lead">Гран-при «Золотой Грифон» · медали «Продэкспо», «Южная Россия», Кубок СВВР · ЗГУ «Крым»</p>
+      <div class="part">
+        <div><h3>Партнёрам и HoReCa</h3><p>Кабинет сомелье: техкарты 83 вин, конструктор винной карты, контакты отдела продаж.</p><a class="btn btn--ghost" href="../ecosystem/sommelier-kit.html">Открыть кабинет</a></div>
+        <div><h3>Где купить</h3><p>Тридцать семь фирменных магазинов и баров в Крыму, федеральные сети и винотеки по всей России.</p><a class="btn btn--ghost" href="#buy">Смотреть адреса</a></div>
+      </div>
+
+      <!-- ГДЕ КУПИТЬ — реальные адреса (никаких цен и корзины: 171-ФЗ) -->
+      <div class="shops" id="buy">
+        <p class="kick">08 · Где купить</p>
+        <h2>Тридцать семь адресов в Крыму<br>и вся Россия — по сетям</h2>
+        <div class="shops__g">
+
+          <div class="shop shop__wide">
+            <h3>При винодельне</h3>
+            <p class="shop__a">с. Миндальное, ул. Миндальная, 8А · Судак<br>фирменный магазин и бар · ежедневно 10:00–20:00</p>
+            <p class="shop__t"><a href="tel:+79789167238">+7 978 916-72-38</a></p>
+            <p class="mini">Рядом — дегустационный комплекс «Архадерессе»</p>
+          </div>
+
+          <div class="shop shop__wide">
+            <h3>Фирменные магазины и бары Крыма</h3>
+            <ul class="shop__l">
+              <li><b>Судак</b>Кипарисовая аллея, 4Б · ул. Ленина, 77 · ул. Истрашкина, 2А · ул. Почтовая, 7 (бар) · ул. Славянская, 6</li>
+              <li><b>Солнечная Долина</b>ул. Черноморская, 8А · ул. Соколиная, 4 (магазин и бар)</li>
+              <li><b>Феодосия и Коктебель</b>ул. Назукина, 1 · пр. Айвазовского, 47А · б-р Старшинова, 8Д · Коктебель, ул. Ленина, 103 и 127р · Щебетовка, ул. Ленина, 33А</li>
+              <li><b>Севастополь</b>ул. Генерала Петрова, 4 · пр-т Октябрьской Революции, 42Б</li>
+              <li><b>Симферополь</b>ул. Самокиша, 5А · ул. 60 лет Октября, 8</li>
+              <li><b>Ялта · Керчь · Саки · Щёлкино</b>ул. Руданского, 1 · ул. Советская, 26 · Евпаторийское шоссе, 80Д и ещё 4 точки</li>
+              <li><b>Побережье</b>Морское · Береговое · Прибрежное · Малореченское · Грушевка</li>
+            </ul>
+            <p class="mini">Всего 37 точек · ежедневно с 10:00</p>
+          </div>
+
+          <div class="shop">
+            <h3>Федеральные сети</h3>
+            <p class="shop__n">Магнит · Пятёрочка · Перекрёсток · METRO · Глобус · Selgros · Мираторг · О’КЕЙ · Да! · Табрис · Самбери · Высшая лига · Твой дом</p>
+            <h3 class="shop__h2">Винотеки</h3>
+            <p class="shop__n">Отдохни · Сомелье · Алкотека · MAVT Винотека · Виноград · Серебряный шар · Гильдия</p>
+          </div>
+
+          <div class="shop">
+            <h3>Отдел продаж</h3>
+            <p class="shop__a">Москва, Дегтярный переулок, 9</p>
+            <p class="shop__t"><a href="tel:+74954115333">+7 495 411-53-33</a></p>
+            <p class="shop__a">Судак, с. Солнечная Долина, ул. Черноморская, 23<br>пн–пт 8:00–17:00</p>
+            <p class="shop__t"><a href="tel:+79788564242">+7 978 856-42-42</a></p>
+            <p class="mini">Оптовые поставки и HoReCa — через отдел продаж</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <p>Республика Крым, г. Судак, с. Миндальное, ул. Миндальная, 8 · +7 978 956-33-22 · <a href="https://vk.com/sunvalleywinery">ВКонтакте</a> · <a href="https://t.me/sunvalleywinery">Telegram</a></p>
+    <p class="mini">АО «Солнечная Долина» · основано в 1888 году · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</p>
+  </footer>
+
+</main>
+
+<!-- STICKY CTA (мобайл) -->
+<a class="mcta" href="#visit" id="mcta"><b>Забронировать дегустацию</b><i>от 1&nbsp;450&nbsp;₽ · ежедневно 10:00–17:00</i></a>
+
+<script src="../assets/vendor/gsap.min.js"></script>
+<script src="../assets/vendor/ScrollTrigger.min.js"></script>
+<script src="../assets/vendor/lenis.min.js"></script>
+<script type="module" src="master.js"></script>
+</body>
+</html>

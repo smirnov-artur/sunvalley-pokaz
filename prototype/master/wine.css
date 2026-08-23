@@ -1,0 +1,229 @@
+/* КАРТОЧКА ВИНА — общий слой для prototype/master/wines/*.html
+   master.css подключён первым и НЕ тронут; здесь только слой досье.
+   Дисциплина SUNVALLEY-DESIGN.md: радиус 0 везде, ни одной тени, золото —
+   один смысловой акцент на экран, бордо/янтарь/терракота живут ТОЛЬКО
+   как свет под бутылкой, единственная золотая кнопка — в финале. */
+
+.wcd{
+  --fg:#fbf7f0; --fg-dim:rgba(251,247,240,.62);
+  --hair:rgba(185,155,99,.35);
+  --hh:74px;
+  --tint:#5f1930;
+  background:var(--ink); color:var(--fg);
+}
+.wcd main{position:relative;z-index:1}
+.wcd h1,.wcd h2{color:var(--fg)}
+.wcd ::selection{background:var(--gold);color:var(--ink)}
+.wcd [hidden]{display:none}
+
+/* ─── шапка: чернила по умолчанию, камень над главой-легендой ─── */
+.wcd .hdr{
+  background:linear-gradient(rgba(22,18,16,.95),rgba(22,18,16,.6) 58%,rgba(22,18,16,0));
+  backdrop-filter:none; color:var(--stone);
+  transition:background .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);
+}
+.wcd .hdr__logo{filter:none}
+.wcd .hdr__nav a{color:rgba(251,247,240,.66)}
+.wcd .hdr__nav a:hover,.wcd .hdr__nav a[aria-current]{color:var(--stone);border-color:var(--gold)}
+.wcd .hdr__tel{color:rgba(251,247,240,.92)}
+.wcd .hdr.is-light{background:linear-gradient(rgba(251,247,240,.96),rgba(251,247,240,.66) 58%,rgba(251,247,240,0));color:var(--ink)}
+.wcd .hdr.is-light .hdr__nav a{color:rgba(22,18,16,.58)}
+.wcd .hdr.is-light .hdr__nav a:hover,.wcd .hdr.is-light .hdr__nav a[aria-current]{color:var(--ink)}
+.wcd .hdr.is-light .hdr__tel{color:var(--ink)}
+
+/* ─── маски появления: текст выезжает снизу, без fade-in «в лоб» ─── */
+.ln{display:block;overflow:hidden}
+.ln>i{display:block;font-style:normal}
+.msk{overflow:hidden}
+.msk>i{display:block;font-style:normal}
+.mski{overflow:hidden}
+.mski>i{display:block}
+
+/* хлебная крошка назад в каталог.
+   Живёт рядом с колонками героя, а не внутри текстовой: на ≤860 бутылка встаёт
+   первой, и крошка внутри текста уезжала под неё. Порядок задан рядами сетки. */
+.bk{display:inline-block;margin-bottom:clamp(18px,2.6vh,30px);padding-bottom:4px;
+  font:500 .66rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--fg-dim);
+  border-bottom:1px solid transparent;transition:color .35s,border-color .35s}
+.bk:hover{color:var(--stone);border-bottom-color:var(--gold)}
+/* свет сцены — позиционированный слой; крошке нужен свой уровень, иначе тинт ляжет поверх */
+.wh .bk{position:relative;z-index:2}
+
+/* ═══════════ I · ГЕРОЙ ═══════════ */
+.wh{position:relative;min-height:100svh;display:flex;align-items:center;
+  padding:calc(var(--hh) + clamp(24px,5vh,56px)) var(--pad) clamp(34px,6vh,72px);overflow:hidden}
+.wh__in{width:100%;max-width:1280px;margin:0 auto}
+/* две колонки: текст НИКОГДА не поверх бутылки */
+.wh--b .wh__in{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(280px,.94fr);
+  gap:clamp(30px,5vw,88px);align-items:center}
+.wh__t{position:relative;z-index:2;min-width:0}
+.wh__kick{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6em;line-height:1.7}
+.wh__h{font-family:var(--serif);font-weight:400;letter-spacing:-.005em;
+  font-size:clamp(2.5rem,5.4vw,4.6rem);line-height:1.02;margin:0 0 .34em;text-wrap:balance}
+.wh__ph{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2vw,1.75rem);
+  line-height:1.35;color:var(--fg-dim);max-width:30ch}
+.wh__meta{margin-top:clamp(24px,3.4vh,40px);padding-top:clamp(16px,2.2vh,24px);border-top:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:6px clamp(18px,3vw,38px)}
+.wh__meta span{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim);
+  font-feature-settings:"tnum" 1,"lnum" 1}
+
+/* бутылка на своём свете; ширина ≤400px — жёсткий предел (исходник 500×750) */
+.wh__ph-b{position:relative;display:flex;align-items:center;justify-content:center;min-width:0}
+.wh__light{position:absolute;left:50%;top:-4%;bottom:-12%;width:190%;transform:translateX(-50%);pointer-events:none;
+  background:
+    radial-gradient(38% 24% at 50% 88%,color-mix(in srgb,var(--tint) 70%,transparent) 0%,color-mix(in srgb,var(--tint) 26%,transparent) 46%,transparent 74%),
+    radial-gradient(44% 50% at 50% 48%,color-mix(in srgb,var(--tint) 22%,transparent) 0%,transparent 74%)}
+.wh__m{position:relative;z-index:1;display:block;overflow:hidden;line-height:0}
+.wh__b{height:min(62vh,600px);width:auto;max-width:min(400px,40vw);object-fit:contain;object-position:bottom;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 91%,rgba(0,0,0,.4) 97.5%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 91%,rgba(0,0,0,.4) 97.5%,transparent 100%)}
+
+/* типографский герой (вина без вырезки): действие — золотой штрих, который прочерчивается */
+.wh--t .wh__in{max-width:1100px}
+.wh--t .wh__h{font-size:clamp(2.8rem,7.2vw,6.4rem);max-width:15ch}
+.wh--t .wh__ph{max-width:36ch}
+.wh--t .wh__glow{position:absolute;left:50%;top:52%;width:min(120vw,1500px);height:min(78vh,760px);
+  transform:translate(-50%,-50%);pointer-events:none;z-index:0;
+  background:radial-gradient(46% 50% at 50% 50%,color-mix(in srgb,var(--tint) 20%,transparent) 0%,transparent 72%)}
+/* штрих гравюры, а не второй разделитель: короткая золотая линейка 1px (§5а) */
+.wh__rule{display:block;height:1px;width:min(300px,34%);margin:clamp(26px,4vh,46px) 0 0;background:var(--gold);
+  transform-origin:0 50%;opacity:.8}
+.wh__seal{margin-top:clamp(22px,3vh,34px);display:inline-block;padding:12px 18px;border:1px solid var(--hair);
+  font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-dim)}
+/* золото на экране одно — капитель-кик; штрих 1px и рамка паспарту — декор по §5а */
+.wh__seal b{font-weight:500;color:var(--stone)}
+
+.wh__down{position:absolute;left:var(--pad);bottom:clamp(20px,3.4vh,34px);display:flex;align-items:center;gap:12px;
+  font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--fg-dim);z-index:2}
+.wh__down i{display:block;width:44px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+
+/* ═══════════ II · ДОСЬЕ ═══════════ */
+.ds{position:relative;padding:clamp(58px,9vh,120px) var(--pad);border-top:1px solid var(--hair)}
+.ds__in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(220px,28%) minmax(0,1fr);
+  gap:clamp(26px,5vw,84px);align-items:start}
+.ds__h{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,2.8vw,2.5rem);line-height:1.06;margin:0}
+.ds__note{margin-top:1.1em;max-width:34ch;font-size:.82rem;line-height:1.6;color:var(--fg-dim)}
+.dos{border-top:1px solid var(--hair)}
+.dos>div{display:grid;grid-template-columns:minmax(112px,168px) minmax(0,1fr);gap:clamp(12px,2vw,26px);
+  padding:11px 0;border-bottom:1px solid var(--hair);overflow:hidden;transition:border-color .4s}
+.dos>div:hover{border-bottom-color:var(--gold)}
+.dos dt{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:.35em}
+.dos dd{font-size:.9rem;line-height:1.55;color:var(--fg-dim);font-feature-settings:"tnum" 1,"lnum" 1}
+.dos dd b{font-weight:400;color:var(--stone)}
+.dos__grp{margin:clamp(22px,3vw,34px) 0 7px;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(251,247,240,.45)}
+
+/* ═══════════ III · ЛЕГЕНДА (смена холста ink → stone) ═══════════ */
+.lg{position:relative;z-index:2;background:var(--stone);
+  --fg:#161210; --fg-dim:rgba(22,18,16,.6); --hair:rgba(150,120,60,.4);
+  color:var(--fg);padding:clamp(62px,10vh,130px) var(--pad) clamp(56px,8vh,110px);
+  border-top:1px solid rgba(22,18,16,.55)}
+.lg__in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,46%);
+  gap:clamp(30px,5vw,86px);align-items:start}
+.lg .kick{color:#8a6d3b}
+.lg__h{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3.4rem);line-height:1.04;
+  margin:0 0 .44em;color:var(--fg);text-wrap:balance}
+.lg__p{max-width:52ch;font-size:.98rem;line-height:1.72;color:var(--fg-dim);margin-bottom:1.15em}
+.lg__q{margin:clamp(26px,3.4vw,40px) 0 0;padding-top:clamp(20px,2.6vw,30px);border-top:1px solid var(--hair);
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,1.8vw,1.6rem);line-height:1.42;
+  max-width:40ch;color:var(--fg)}
+.lg__q cite{display:block;margin-top:1em;font:500 .64rem/1.5 var(--sans);font-style:normal;
+  letter-spacing:.18em;text-transform:uppercase;color:rgba(22,18,16,.45)}
+/* паспарту: 1px золотом — единственный орнамент главы */
+.lg__fig{margin:0;position:sticky;top:calc(var(--hh) + 3vh)}
+.lg__mat{display:block;padding:clamp(10px,1.3vw,18px);border:1px solid var(--gold)}
+.lg__mat img{width:100%;height:auto;display:block}
+.lg__cap{margin-top:14px;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,18,16,.45)}
+.lg__law{margin-top:clamp(26px,3.4vw,40px);max-width:62ch;font-size:.72rem;line-height:1.6;color:rgba(22,18,16,.42)}
+
+/* ═══════════ IV · АРХИВ ВЫПУСКОВ ═══════════ */
+.ar{position:relative;z-index:2;background:var(--ink);padding:clamp(56px,8.5vh,115px) var(--pad);
+  border-top:1px solid var(--hair)}
+.ar__in{max-width:1280px;margin:0 auto}
+.ar__h{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.2vw,2.8rem);line-height:1.06;margin:0 0 .4em}
+.ar__sub{max-width:56ch;font-size:.88rem;color:var(--fg-dim)}
+.ar__l{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);
+  margin-top:clamp(30px,4.5vh,58px);border-top:1px solid var(--hair);overflow-x:auto;overscroll-behavior-x:contain}
+.ar__i{padding:26px clamp(14px,2vw,26px) 24px;border-left:1px solid var(--hair);transition:border-color .4s}
+.ar__i:first-child{border-left:0;padding-left:0}
+.ar__i:hover{border-left-color:var(--gold)}
+.ar__i.is-now{background:linear-gradient(180deg,color-mix(in srgb,var(--tint) 16%,transparent),transparent 62%)}
+.ar__y{display:block;font:400 clamp(2.2rem,3.8vw,3.4rem)/1 var(--serif);color:var(--gold-hi);
+  font-feature-settings:"lnum" 1}
+.ar__y--w{font-size:clamp(1.5rem,2.2vw,2rem);line-height:1.1}
+.ar__n{display:block;margin-top:.85em;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--stone);line-height:1.5}
+.ar__d{display:block;margin-top:.6em;font-size:.66rem;letter-spacing:.1em;color:var(--fg-dim);line-height:1.6;
+  font-feature-settings:"tnum" 1,"lnum" 1}
+.ar__i a.ar__go{display:inline-block;margin-top:1.1em;padding-bottom:3px;font:500 .62rem/1 var(--sans);
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid transparent;
+  transition:border-color .35s}
+.ar__i a.ar__go:hover{border-bottom-color:var(--gold)}
+.ar__now{display:block;margin-top:1.1em;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-dim)}
+
+/* ═══════════ V · ФИНАЛ ═══════════ */
+.wf{position:relative;z-index:2;background:var(--ink);min-height:74svh;display:flex;align-items:center;
+  padding:clamp(74px,11vh,140px) var(--pad);border-top:1px solid var(--hair)}
+.wf__in{width:100%;max-width:1280px;margin:0 auto}
+.wf h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,4.2vw,3.7rem);line-height:1.06}
+.wf__l{margin-top:clamp(20px,2.6vw,32px);max-width:56ch;font-size:1rem;color:var(--fg-dim)}
+.wf__act{margin-top:clamp(30px,4.5vw,56px);display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(20px,3.6vw,52px);padding-top:clamp(24px,3vw,38px);border-top:1px solid var(--hair)}
+.wf__buy{padding-bottom:4px;font:500 .7rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--stone);border-bottom:1px solid rgba(251,247,240,.45);transition:color .35s,border-color .35s}
+.wf__buy:hover{color:var(--stone);border-bottom-color:var(--stone)}
+.wf__c{max-width:44ch}
+.wf__tel{display:inline-block;font-family:var(--serif);font-size:clamp(1.4rem,2.2vw,2rem);line-height:1;
+  color:var(--stone);font-feature-settings:"lnum" 1}
+.wf__c .mini{margin-top:9px;color:var(--fg-dim)}
+.wcd .ftr{background:var(--ink);position:relative;z-index:2}
+
+/* ═══════════ АДАПТИВ ═══════════ */
+@media (max-width:1100px){
+  .ds__in{grid-template-columns:minmax(190px,26%) minmax(0,1fr)}
+  .lg__in{grid-template-columns:minmax(0,1fr) minmax(240px,42%)}
+}
+@media (max-width:860px){
+  .wcd{--hh:62px}
+  .wh{padding-top:calc(var(--hh) + clamp(20px,4vh,40px))}
+  /* порядок на телефоне: крошка → бутылка → текст.
+     Текстовая колонка растворяется (display:contents), её дети сами становятся рядами
+     сетки — только так крошка встаёт ВЫШЕ вынесенной вперёд бутылки, не трогая десктоп.
+     Интервалы держат собственные margin'ы узлов, поэтому gap обнулён. */
+  .wh--b .wh__in{grid-template-columns:1fr;gap:0}
+  .wh--b .wh__t{display:contents}
+  .wh--b .wh__t>*{position:relative;z-index:2;min-width:0}
+  .wh--b .bk{order:-2;justify-self:start}   /* иначе подчёркивание растянется на колонку */
+  .wh--b .wh__ph-b{order:-1;padding-bottom:6px;margin-bottom:clamp(26px,5vw,40px)}
+  .wh__b{height:clamp(240px,38vh,360px);max-width:min(260px,64vw)}
+  .wh__light{width:min(460px,150%)}
+  .wh--t .wh__h{font-size:clamp(2.4rem,10vw,3.6rem)}
+  .wh__down{display:none}
+
+  .ds__in{grid-template-columns:1fr;gap:clamp(20px,5vw,32px)}
+  .dos>div{grid-template-columns:1fr;gap:3px;padding:10px 0}
+  .dos dt{padding-top:0}
+
+  .lg__in{grid-template-columns:1fr;gap:clamp(26px,6vw,40px)}
+  .lg__fig{position:static;order:-1}
+
+  .ar__l{grid-auto-flow:row;grid-auto-columns:auto}
+  .ar__i{border-left:0;border-bottom:1px solid var(--hair);padding:20px 0 18px}
+  .ar__i:last-child{border-bottom:0}
+  .ar__i:hover{border-left:0}
+
+  .wf__act{gap:22px}
+}
+@media (max-width:420px){
+  .wh__meta{gap:4px 16px}
+  .wh__meta span{font-size:.62rem}
+}
+
+/* ═══════════ ПОКОЙ ═══════════ */
+@media (prefers-reduced-motion: reduce){
+  .ln>i,.msk>i,.mski>i,.wh__m,.dos>div,.ar__i{transform:none!important;opacity:1!important}
+  .ln,.msk,.mski,.wh__m,.dos>div{overflow:visible}
+  .wh__rule{transform:none!important}
+  .lg__fig{position:static}
+  .wcd .hdr,.dos>div,.ar__i,.bk,.wf__buy{transition:none}
+}

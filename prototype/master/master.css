@@ -1,0 +1,326 @@
+/* МАСТЕР-КОНЦЕПТ «ОДНА ДОЛИНА» — DOM-слой поверх WebGL-канваса
+   Цвет страницы ведёт --depth-светом: переменные обновляет JS каждый кадр */
+:root{
+  --ink:#161210; --stone:#fbf7f0; --gold:#b99b63; --gold-hi:#d9bd8a; --bordo:#5f1930;
+  --fg:#161210; --fg-dim:rgba(22,18,16,.62); --hair:rgba(185,155,99,.35);
+  --serif:'Cormorant',Georgia,serif; --sans:'Golos Text',Arial,sans-serif;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.lenis{height:auto} .lenis.lenis-smooth{scroll-behavior:auto}
+body{font-family:var(--sans);color:var(--fg);background:#0d0b09;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.04}
+h2{font-size:clamp(2.4rem,5vw,4.4rem);letter-spacing:.005em;text-wrap:balance}
+h3{font-size:clamp(1.25rem,1.9vw,1.6rem)}
+.lead{max-width:54ch;color:var(--fg-dim);font-size:1.05rem}
+.mini{font-size:.8rem;color:var(--fg-dim);letter-spacing:.02em}
+.kick{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4em}
+.kick--dark{color:#8a6d3b}
+.btn{display:inline-block;font:500 .78rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:1.05em 2.1em;border:1px solid var(--gold);color:var(--gold-hi);background:transparent;cursor:pointer;transition:background .35s,color .35s,border-color .35s}
+.btn--gold{background:var(--gold);color:var(--ink)} .btn--gold:hover{background:var(--gold-hi)}
+.btn--ghost:hover{background:var(--gold);color:var(--ink)}
+.btn--mute{border-color:rgba(251,247,240,.25);color:rgba(251,247,240,.7)}
+.btn--s{padding:.8em 1.4em;font-size:.7rem}
+
+/* прелоадер */
+.pre{position:fixed;inset:0;z-index:1000;background:#0d0b09;display:grid;place-items:center;grid-template-rows:1fr auto auto;transition:opacity .9s ease,visibility .9s}
+/* гасящийся прелоадер не должен перехватывать клик по гейту (z:1000 над z:900) */
+.pre.off{opacity:0;visibility:hidden;pointer-events:none}
+.pre__sun{width:min(60vmin,420px);align-self:end;color:var(--gold)}
+.pre__t{font-family:var(--serif);font-size:1.1rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-top:28px;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+.pre__pct{font-family:var(--serif);font-size:.95rem;color:rgba(217,189,138,.55);letter-spacing:.2em;margin:10px 0 60px;font-feature-settings:"lnum" 1}
+/* гейт */
+.gate{position:fixed;inset:0;z-index:900;background:radial-gradient(1200px 700px at 50% 70%,rgba(95,25,48,.25),transparent 60%),#0d0b09;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--stone);padding:24px;transition:opacity .8s,visibility .8s}
+.gate.off{opacity:0;visibility:hidden}
+.gate__k{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2.2em}
+.gate__q{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);margin-bottom:1.4em}
+.gate__row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.gate__law{margin-top:3em;font-size:.68rem;color:rgba(251,247,240,.35);letter-spacing:.06em;max-width:46ch;line-height:1.6}
+.gate.is-no .gate__row{display:none} .gate.is-no .gate__law{color:rgba(251,247,240,.6)}
+
+/* канвас */
+.gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+
+/* шапка */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px var(--pad);color:var(--fg);backdrop-filter:blur(8px);background:color-mix(in srgb,var(--bg,#fbf7f0) 55%,transparent);transition:background .5s}
+.hdr__brand{display:flex;flex-direction:column;line-height:1.12}
+.hdr__logo{height:40px;width:auto;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+.niche__go{display:block;margin-top:10px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:0;transform:translateY(4px);transition:.4s}
+.niche:hover .niche__go{opacity:1;transform:none}
+.hdr__name{font-family:var(--serif);font-size:1.2rem;letter-spacing:.05em}
+.hdr__est{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.hdr__nav{display:flex;gap:clamp(14px,2.2vw,34px)}
+.hdr__nav a{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-dim);padding:6px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.hdr__nav a:hover{color:var(--fg);border-color:var(--gold)}
+.hdr__act{display:flex;align-items:center;gap:18px}
+.hdr__tel{font-size:.8rem;letter-spacing:.06em;color:var(--fg);font-feature-settings:"lnum" 1}
+/* шапка стоит на светлом герое: призрачная кнопка тонула (контраст 1.4:1) — заливаем золотом */
+.hdr__cta{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.hdr__cta:hover{background:var(--gold-hi);border-color:var(--gold-hi);color:var(--ink)}
+
+/* шкала глубины */
+.depth{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--gold);font-size:.62rem;letter-spacing:.2em;font-feature-settings:"lnum" 1}
+.depth__track{position:relative;width:1px;height:38vh;background:var(--hair)}
+.depth__thumb{position:absolute;left:-3px;top:0;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.depth__now{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;opacity:.8}
+/* звук */
+.snd{position:fixed;left:22px;bottom:22px;z-index:90;width:34px;height:34px;border-radius:50%;border:1px solid var(--hair);background:transparent;cursor:pointer;display:grid;place-items:center}
+.snd i{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.5;transition:opacity .3s,transform .3s}
+.snd[aria-pressed="true"] i{opacity:1;box-shadow:0 0 14px var(--gold);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.5)}}
+
+/* сцены */
+.sc{position:relative;z-index:1;min-height:100svh;display:flex;align-items:center;padding:clamp(90px,14vh,160px) var(--pad)}
+.sc__in{width:100%;max-width:1280px;margin:0 auto}
+.sc__in--split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,90px);align-items:center}
+.sc--sky{min-height:100svh}
+.h-hero{font-size:clamp(3.6rem,9vw,8.6rem);letter-spacing:.01em;margin:.2em 0 .25em}
+.h-hero .ln{display:block;overflow:hidden}
+.slogan{font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,2.3vw,1.8rem);color:var(--fg-dim);line-height:1.35}
+/* подпись стоит на светлом небе: --gold давал 2:1 и не читался с полутора метров — берём глубокое золото */
+.descend{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:#7a6134}
+.descend i{display:block;width:1px;height:56px;background:linear-gradient(var(--gold),transparent)}
+
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.nums>div{padding:0 18px;border-left:1px solid var(--hair)} .nums>div:first-child{border-left:0;padding-left:0}
+.nums dt{font-family:var(--serif);font-size:clamp(3rem,5.4vw,4.8rem);line-height:1;font-feature-settings:"lnum" 1}
+.nums dd{margin-top:.5em;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim)}
+.map{position:absolute;inset:0;z-index:-1;opacity:.9}
+.map svg{width:100%;height:100%}
+
+/* сорта */
+.sc--vine{min-height:300svh;align-items:flex-start}
+.sc--vine .sc__in{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+.grapes{position:relative;min-height:46vh}
+.grape{position:absolute;inset:0;opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);pointer-events:none;max-width:640px}
+.grape.is-on{opacity:1;transform:none;pointer-events:auto}
+.grape h2{font-size:clamp(3rem,7.5vw,6.8rem);margin-bottom:.3em}
+.grape__l{max-width:52ch;color:var(--fg-dim);font-size:1.05rem}
+.grape__w{margin-top:1.2em;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.grapes__nav{display:flex;gap:18px;margin-top:30px}
+.grapes__nav b{font:400 .85rem var(--serif);color:var(--fg-dim);cursor:pointer;padding:4px 0;border-bottom:1px solid transparent}
+.grapes__nav b.is-on{color:var(--gold);border-color:var(--gold)}
+
+.sc--gate{min-height:80svh;justify-content:center;text-align:center}
+
+/* подвал: ниши */
+.niches{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,28px);margin-top:clamp(28px,4vw,56px)}
+.niche{--tint:var(--gold);position:relative;padding:0 0 18px;cursor:pointer;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.niche__b{position:relative;height:min(46vh,420px);display:flex;align-items:flex-end;justify-content:center;border:1px solid var(--hair);border-radius:120px 120px 0 0;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--tint) 45%,transparent),transparent 70%),linear-gradient(#1a1410,#0d0b09);box-shadow:inset 0 -40px 60px rgba(0,0,0,.5);overflow:hidden;transition:box-shadow .5s}
+.niche__b img{height:84%;width:auto;filter:drop-shadow(0 18px 28px rgba(0,0,0,.6));transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.niche:hover{transform:translateY(-8px)} .niche:hover .niche__b{box-shadow:inset 0 -40px 60px rgba(0,0,0,.5),0 0 60px color-mix(in srgb,var(--tint) 45%,transparent)}
+.niche:hover .niche__b img{transform:translateY(-6px) scale(1.03)}
+.niche h3{margin:18px 0 4px;color:var(--stone)} .niche p{font-size:.78rem;color:rgba(251,247,240,.6)}
+.niches__hint{margin-top:26px;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8}
+
+/* годы */
+.years{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:clamp(36px,5vw,70px);border-top:1px solid var(--hair)}
+.years li{padding:26px 18px 0;border-left:1px solid var(--hair)} .years li:first-child{border-left:0;padding-left:0}
+.years b{display:block;font:400 clamp(2rem,3.6vw,3.2rem)/1 var(--serif);color:var(--gold-hi);font-feature-settings:"lnum" 1}
+.years span{display:block;margin-top:.8em;font-size:.82rem;color:rgba(251,247,240,.65)}
+
+/* визит */
+.tel a{font:400 clamp(2rem,4vw,3.4rem)/1.1 var(--serif);color:var(--fg);font-feature-settings:"lnum" 1;display:inline-block;margin:.4em 0 .7em}
+.glass{height:min(60vh,520px)}
+/* дегустационный зал (WebGL-плоскость) стоит в правой колонке — левую страхуем светлой вуалью,
+   иначе тёмное фото съедает заголовок, цену и телефон */
+@media (min-width:821px){
+  .sc--visit .sc__in--split>div:first-child{
+    position:relative;padding:clamp(26px,3vw,44px) clamp(30px,3.4vw,52px);
+    color:var(--ink);--fg:#161210;--fg-dim:rgba(22,18,16,.66)}
+  .sc--visit .sc__in--split>div:first-child::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(96deg,rgba(249,244,234,.95) 0%,rgba(249,244,234,.92) 58%,rgba(249,244,234,0) 100%)}
+}
+
+/* переход в полную винную карту */
+.allw{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px clamp(16px,2vw,30px);margin-top:clamp(22px,3vw,36px);
+      padding:clamp(18px,2.2vw,26px) clamp(20px,2.6vw,34px);border:1px solid var(--hair);
+      background:linear-gradient(90deg,rgba(185,155,99,.14),rgba(185,155,99,.03));
+      transition:background .45s,border-color .45s,transform .45s cubic-bezier(.16,1,.3,1)}
+.allw:hover{background:linear-gradient(90deg,rgba(185,155,99,.26),rgba(185,155,99,.06));border-color:var(--gold);transform:translateY(-3px)}
+.allw b{font:400 clamp(1.5rem,2.6vw,2.2rem)/1.1 var(--serif);color:var(--gold-hi);font-feature-settings:"lnum" 1}
+.allw i{flex:1 1 24ch;font-style:normal;font-size:.86rem;color:rgba(251,247,240,.66);font-feature-settings:"lnum" 1}
+.allw span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+
+/* признание */
+.part{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);margin-top:clamp(36px,5vw,70px);padding-top:clamp(28px,4vw,48px);border-top:1px solid var(--hair)}
+.part h3{color:var(--gold-hi);margin-bottom:.5em} .part p{color:rgba(251,247,240,.65);margin-bottom:1.4em;max-width:40ch}
+
+/* где купить — реальные адреса */
+.shops{margin-top:clamp(54px,7vw,110px);padding-top:clamp(30px,4vw,52px);border-top:1px solid var(--hair);scroll-margin-top:120px}
+.shops h2{font-size:clamp(1.9rem,3.6vw,3.1rem)}
+.shops__g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:clamp(20px,2.6vw,36px);margin-top:clamp(28px,3.6vw,50px)}
+.shop{padding:clamp(20px,2.2vw,28px) clamp(20px,2.4vw,30px);border:1px solid var(--hair);background:rgba(13,11,9,.42);font-feature-settings:"lnum" 1}
+.shop h3{color:var(--gold-hi);margin-bottom:.6em}
+.shop__h2{margin-top:1.4em}
+.shop__a{font-size:.92rem;color:rgba(251,247,240,.74);line-height:1.5}
+.shop__t a{display:inline-block;margin:.35em 0 .9em;font:400 clamp(1.4rem,2.2vw,1.9rem)/1.1 var(--serif);color:var(--gold-hi);border-bottom:1px solid transparent;transition:border-color .3s}
+.shop__t a:hover{border-color:var(--gold)}
+.shop__n{font-size:.9rem;color:rgba(251,247,240,.7);line-height:1.7}
+.shop__l{list-style:none;display:grid;gap:12px;margin:.2em 0 1.1em}
+.shop__l li{font-size:.88rem;color:rgba(251,247,240,.7);line-height:1.5;padding-left:14px;border-left:1px solid rgba(185,155,99,.3)}
+.shop__l b{display:block;font:400 .7rem/1 var(--sans);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.5em}
+
+/* тёмные сцены: цвет текста */
+.sc--sky,.sc--valley,.sc--visit{--fg:#161210;--fg-dim:rgba(22,18,16,.62)}
+.sc--vine,.sc--gate,.sc--cellar,.sc--barrels,.sc--night{--fg:#fbf7f0;--fg-dim:rgba(251,247,240,.62)}
+
+.ftr{position:relative;z-index:1;padding:40px var(--pad) 30px;border-top:1px solid var(--hair);color:rgba(251,247,240,.6);font-size:.85rem;text-align:center;background:#0d0b09}
+.ftr a:hover{color:var(--gold-hi)}
+
+/* компактное меню-строка и sticky-CTA — только мобайл */
+.mnav{display:none}
+.mcta{display:none}
+
+@media (max-width:1000px){
+  .sc__in--split{grid-template-columns:1fr}
+  .niches{grid-template-columns:repeat(2,1fr)}
+  .years{grid-template-columns:repeat(3,1fr)} .years li:nth-child(4){border-left:0;padding-left:0}
+  .part{grid-template-columns:1fr}
+  .hdr__nav{display:none}
+}
+
+/* ================= МОБАЙЛ ≤820px ================= */
+@media (max-width:820px){
+  :root{--pad:20px}
+
+  /* шапка: логотип + телефон в одну строку, ниже — строка-меню */
+  .hdr{padding:10px var(--pad) 8px;gap:12px}
+  .hdr__logo{height:30px}
+  .hdr__act{gap:10px}
+  .hdr__cta{display:none}                     /* CTA уходит в sticky снизу */
+  .hdr__tel{display:inline-block;font-size:.86rem;letter-spacing:.01em;white-space:nowrap;font-weight:500}
+
+  .mnav{position:fixed;top:var(--hdr-h,50px);left:0;right:0;z-index:99;display:flex;
+        align-items:center;justify-content:space-between;gap:6px;
+        padding:7px var(--pad);backdrop-filter:blur(8px);
+        background:color-mix(in srgb,var(--bg,#fbf7f0) 72%,transparent);
+        border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+        transition:background .5s}
+  .mnav a{font-size:.74rem;letter-spacing:.005em;color:var(--fg-dim);
+          white-space:nowrap;padding:3px 0;border-bottom:1px solid transparent;transition:color .5s}
+  .mnav a:active{color:var(--gold);border-color:var(--gold)}
+
+  /* sticky CTA снизу */
+  .mcta{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:120;
+        display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;
+        padding:12px 14px 11px;background:var(--gold);color:var(--ink);
+        border-radius:2px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .mcta b{font:600 .78rem/1 var(--sans);letter-spacing:.13em;text-transform:uppercase}
+  .mcta i{font-style:normal;font-size:.72rem;letter-spacing:.02em;opacity:.78;font-feature-settings:"lnum" 1}
+  .mcta{transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .35s}
+  .mcta.off{transform:translateY(150%);opacity:0;pointer-events:none}
+
+  /* шкала глубины — прячем на мобиле */
+  .depth{display:none}
+  /* звук — вправо и выше sticky-CTA */
+  .snd{left:auto;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));width:30px;height:30px;
+       background:rgba(13,11,9,.35);backdrop-filter:blur(4px)}
+
+  /* секции: место под двухэтажную шапку, снизу — под sticky-CTA */
+  .sc{padding:calc(var(--hdr-h,50px) + 58px) var(--pad) 98px;min-height:100svh}
+  .sc--sky .sc__in{padding-top:6px}
+  h2{font-size:clamp(2rem,8.4vw,2.9rem)}
+  .lead{font-size:1rem;max-width:none}
+  .kick{font-size:.72rem;letter-spacing:.14em;margin-bottom:1.1em;text-wrap:balance}
+
+  /* герой: line-height 1.04 обрезал выносные элементы в маске .ln — даём строке высоту */
+  .h-hero{font-size:clamp(3.1rem,15vw,4.4rem);margin:.16em 0 .3em}
+  .h-hero .ln{line-height:1.15}
+  .slogan{font-size:1.12rem}
+  .descend{bottom:calc(96px + env(safe-area-inset-bottom));gap:8px;font-size:.7rem;letter-spacing:.16em;
+           white-space:nowrap;text-align:center}
+  .descend i{height:36px}
+
+  /* СВЕТЛЫЕ СЦЕНЫ поверх тёмной гравюры — «бумажная» подложка под текст */
+  .sc--valley .sc__in,.sc--visit .sc__in{
+    background:rgba(251,247,240,.93);backdrop-filter:blur(7px);
+    border:1px solid rgba(185,155,99,.45);padding:24px 18px 26px;border-radius:2px;
+    box-shadow:0 24px 60px rgba(0,0,0,.35);
+    /* цвет наследуется от body (его ведёт корневой --fg), поэтому на светлой подложке
+       заголовок мог оказаться почти белым — прибиваем текст к чернилам */
+    color:var(--ink);--fg:#161210;--fg-dim:rgba(22,18,16,.62)}
+  .sc--valley .sc__in--split,.sc--visit .sc__in--split{gap:26px}
+  .glass{display:none}                        /* пустой спейсер — не нужен на мобиле */
+
+  /* цифры долины */
+  .nums{grid-template-columns:1fr 1fr;row-gap:20px;column-gap:14px}
+  .nums>div{border-left:0;padding:0}
+  .nums>div:last-child{grid-column:1/-1}
+  .nums dt{font-size:2.6rem}
+  .nums dd{font-size:.7rem;letter-spacing:.08em}
+
+  /* вход в подвал: подпись лежит на плотном фото — даём ей подложку */
+  .sc--gate .sc__in{background:rgba(13,11,9,.52);backdrop-filter:blur(3px);
+    border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:16px 14px}
+
+  /* сорта: sticky-блок липнет к top:0 и не знает про двухэтажную шапку */
+  .sc--vine .sc__in{padding-top:calc(var(--hdr-h,50px) + 52px);padding-bottom:26px}
+  .grapes{min-height:54vh}
+  .grape h2{font-size:clamp(2.6rem,12vw,3.6rem)}
+  .grape__l{font-size:1rem;max-width:none}
+  .grapes__nav{gap:22px;margin-top:22px}
+  .grapes__nav b{font-size:1rem;padding:6px 4px}
+
+  /* подвал: ниши-миры в 2 колонки */
+  .niches{grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+  .niche{padding-bottom:8px}
+  .niche__b{height:min(30vh,260px);border-radius:78px 78px 0 0}
+  .niche h3{margin:12px 0 3px;font-size:1.12rem;line-height:1.15}
+  .niche p{font-size:.72rem;line-height:1.35}
+  .niche__go{opacity:1;transform:none;font-size:.7rem;letter-spacing:.08em;margin-top:7px} /* на тач-экране hover нет */
+  .niches__hint{margin-top:20px;font-size:.72rem;letter-spacing:.12em}
+
+  /* годы: 2 колонки — рамки по строкам */
+  .years{grid-template-columns:1fr 1fr;column-gap:0;row-gap:4px}
+  .years li{padding:20px 0 0 14px}
+  .years li:nth-child(2n+1){border-left:0;padding-left:0}
+  .years b{font-size:1.9rem}
+  .years span{font-size:.76rem;margin-top:.5em}
+
+  /* визит */
+  .tel a{font-size:2rem;margin:.3em 0 .6em}
+  .sc--visit .btn--gold{display:block;text-align:center}
+
+  /* признание */
+  .part{gap:30px;margin-top:26px;padding-top:24px}
+  .part p{max-width:none}
+  .part .btn{display:block;text-align:center}
+
+  /* вся винная карта */
+  .allw{flex-direction:column;align-items:flex-start;gap:8px;padding:18px 16px;margin-top:20px}
+  .allw b{font-size:1.6rem} .allw i{font-size:.82rem} .allw span{font-size:.68rem;letter-spacing:.1em}
+
+  /* где купить */
+  .shops{margin-top:38px;padding-top:26px;scroll-margin-top:calc(var(--hdr-h,50px) + 56px)}
+  .shops h2{font-size:clamp(1.7rem,7.4vw,2.3rem)}
+  .shops__g{grid-template-columns:1fr;gap:14px;margin-top:22px}
+  .shop{padding:18px 16px}
+  .shop__l li{font-size:.84rem}
+
+  /* подвал страницы — не под sticky-CTA */
+  .ftr{padding:32px var(--pad) calc(112px + env(safe-area-inset-bottom))}
+
+  /* гейт 18+ */
+  .gate__q{font-size:1.7rem}
+  .gate__row{flex-direction:column;width:100%;max-width:320px}
+  .gate__row .btn{width:100%;text-align:center}
+  .gate__law{font-size:.76rem;margin-top:2.2em}
+  .pre__t{font-size:.95rem;letter-spacing:.2em}
+  .pre__pct{font-size:.9rem;margin-bottom:40px}
+}
+
+@media (max-width:360px){
+  .mnav a{font-size:.58rem;letter-spacing:.02em}
+  .hdr__tel{font-size:.8rem}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .grape{transition:none} .niche,.niche__b img{transition:none}
+}
+
+.shop__t,.shop__t a{font-feature-settings:"lnum" 1}
