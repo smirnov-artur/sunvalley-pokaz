@@ -373,16 +373,40 @@
 </section>
 
 <!-- ═══ 6 · БОКАЛ — П5, видео внутри «1888» ═══════════════════════════
-     Слот ждёт pour-crown (налив ЧД с короной брызг, событие: в конце бокал
-     налит на треть и стоп). Поэтому data-v-once — снимает loop: ролик
-     доигрывает и держит последний кадр, а при повторном входе в кадр
-     play() перематывает на нуль и налив идёт сначала. Зациклить его нельзя:
-     петля погнала бы вино обратно вверх. Пока файла нет, в цепочке играет
-     pour-glass — он же постер и статичный кадр. -->
+     ПЕРЕСЪЁМКА НАЛИВА (25.08, наряд 06-glass.md § 3.1). В цепочке первым
+     стоит glass-pour-macro: бокал по центру и на 80 % высоты кадра (у
+     pour-crown он занимал четверть и был смещён влево — внутри штриха
+     цифры «1888» оказывалось чёрное на чёрном), вино тёмно-гранатовое, а
+     не алое. Замер по кадру 5,5 с: медиана вина R:G:B = 75:25:25 против
+     65:40:22 у pour-crown — R втрое выше G, G и B сравнялись, алого
+     перекоса нет. Старые имена оставлены В ХВОСТЕ фолбэками: вёрстка
+     правится один раз, и если реестр вернёт только pour-crown, сцена
+     работает как раньше.
+
+     data-v-once снимает loop: ролик доигрывает и держит последний кадр.
+     Зациклить его нельзя — петля погнала бы вино обратно вверх.
+     data-gate (наряд § 6 п. 1): раньше слот заводил наблюдатель с
+     rootMargin 200 px, и на быстрой прокрутке налив успевал кончиться
+     ДО того, как «1888» выросло. Теперь старт даёт сама сцена по фронту
+     p > 0,06 — там же, где начинается рост кегля.
+
+     ПРАВИЛО ОКОНЧАНИЯ (§ 4): последнюю секунду ролик тормозит по ease-out,
+     и в него въезжает vslot__hold — hi-res WebP того же последнего кадра,
+     резанный из 1920-оригинала. Петли-приёмника glass-garnet-legs пока
+     нет, поэтому работает слой 3: держатель дышит и стоп-кадра не
+     остаётся. -->
 <section class="sc glass" id="glass" data-bg="#161210">
   <div class="glass__pin">
-    <div class="vslot vslot--cover" data-v="pour-crown-1280|pour-crown|pour-glass" data-v-m="pour-crown-960|pour-crown-720|pour-glass-720" data-v-once data-poster="pour-glass">
-      <img class="vslot__still" src="../assets/img/gen/ai/video/poster/pour-glass.webp" alt="Вино наливают в бокал" width="1920" height="1080" loading="lazy" decoding="async">
+    <div class="vslot vslot--cover" id="glassV" data-v="glass-pour-macro-1280|glass-pour-macro|pour-crown-1280|pour-crown|pour-glass" data-v-m="glass-pour-macro-960|pour-crown-960|pour-crown-720|pour-glass-720" data-v-once data-gate data-poster="glass-pour-macro" data-v-hold="glass-pour-macro-1280 glass-pour-macro glass-pour-macro-960">
+      <img class="vslot__still" src="../assets/img/gen/home/glass-pour-poster-2560.webp"
+           srcset="../assets/img/gen/home/glass-pour-poster-1280.webp 1280w, ../assets/img/gen/home/glass-pour-poster-2560.webp 2560w"
+           sizes="100vw" alt="Пустой бокал под наклонённым горлышком бутылки за миг до налива" width="2560" height="1440" loading="lazy" decoding="async">
+      <!-- кадр-держатель: последний кадр самого ролика, резанный из
+           1920-оригинала. Из 1280-рендишна брать нельзя — на кроссфейде
+           видно, что «фотография» мягче видео. -->
+      <img class="vslot__hold" id="glassHold" src="../assets/img/gen/home/glass-pour-hold-2560.webp"
+           srcset="../assets/img/gen/home/glass-pour-hold-1280.webp 1280w, ../assets/img/gen/home/glass-pour-hold-2560.webp 2560w"
+           sizes="100vw" alt="" aria-hidden="true" width="2560" height="1440" loading="lazy" decoding="async">
     </div>
     <svg class="glass__cut" id="glassCut" preserveAspectRatio="none" aria-hidden="true">
       <defs>
@@ -425,14 +449,24 @@
      части бутылки, пар не трогает. -->
 <section class="sc pop" id="brut" data-bg="#161210">
   <div class="pop__pin">
-    <!-- Постер = кадр 0 самого ролика (1920×1080), поэтому подмены при
-         старте видео не видно. Слот со шторкой: заводит его сцена, когда
-         кадр реально занял экран, — иначе IO успел бы отыграть хлопок
-         за 200 px до входа. -->
-    <div class="vslot vslot--cover pop__v" id="popV" data-v="cork-pop-1280|cork-pop" data-v-m="cork-pop-960|cork-pop-720" data-v-once data-gate>
-      <img class="vslot__still" src="../assets/img/gen/home/cork-pop-poster-2560.webp"
-           srcset="../assets/img/gen/home/cork-pop-poster-1280.webp 1280w, ../assets/img/gen/home/cork-pop-poster-2560.webp 2560w"
+    <!-- ПЕРЕСЪЁМКА ХЛОПКА (25.08, наряд 07-brut.md § 3.1). Первым в цепочке
+         brut-cork-close: бутылка идёт по диагонали и занимает правую
+         половину кадра (у cork-pop — ~40 % диагонали в общем плане),
+         событие длится 6 с вместо 4,33 с, пробка живёт в кадре две полные
+         секунды, а пар ушёл лентой и бутылку не закрывает — на последнем
+         кадре средняя яркость по силуэту L = 96 против 230–254 у cork-pop,
+         этикетка читается. Старые имена оставлены в хвосте фолбэками.
+         Постер = кадр 0 нового ролика, поэтому подмены при старте не видно.
+         Слот со шторкой: заводит его сцена, когда кадр реально занял
+         экран, — иначе IO успел бы отыграть хлопок за 200 px до входа.
+         vslot__hold — кадр-держатель правила окончания (§ 4.3). -->
+    <div class="vslot vslot--cover pop__v" id="popV" data-v="brut-cork-close-1280|brut-cork-close|cork-pop-1280|cork-pop" data-v-m="brut-cork-close-960|cork-pop-960|cork-pop-720" data-v-once data-gate data-poster="brut-cork-close" data-v-hold="brut-cork-close-1280 brut-cork-close brut-cork-close-960">
+      <img class="vslot__still" src="../assets/img/gen/home/brut-cork-poster-2560.webp"
+           srcset="../assets/img/gen/home/brut-cork-poster-1280.webp 1280w, ../assets/img/gen/home/brut-cork-poster-2560.webp 2560w"
            sizes="100vw" alt="«Меганом Кокур»: бутылка брюта в контровом золотом свете за миг до хлопка" width="2560" height="1440" loading="lazy" decoding="async">
+      <img class="vslot__hold" id="popHold" src="../assets/img/gen/home/brut-cork-hold-2560.webp"
+           srcset="../assets/img/gen/home/brut-cork-hold-1280.webp 1280w, ../assets/img/gen/home/brut-cork-hold-2560.webp 2560w"
+           sizes="100vw" alt="" aria-hidden="true" width="2560" height="1440" loading="lazy" decoding="async">
     </div>
     <div class="pop__scrim" aria-hidden="true"></div>
     <div class="pop__txt" id="popTxt">

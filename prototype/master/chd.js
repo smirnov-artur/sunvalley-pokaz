@@ -6,7 +6,8 @@
   const $ = s => document.querySelector(s);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const L = '../assets/img/gen/layers/';
-  const urls = ['chd-bg-2560.webp', 'chd-gate.webp', 'chd-barrels.webp', 'chd-soldier.webp', 'chd-ribbons.webp', 'chd-doctor.webp'].map(n => L + n);
+  // chd-soldier-clean.webp — слой без повязки (юр-правка § 0), тот же размер 998×712, постановка не меняется
+  const urls = ['chd-bg-2560.webp', 'chd-gate.webp', 'chd-barrels.webp', 'chd-soldier-clean.webp', 'chd-ribbons.webp', 'chd-doctor.webp'].map(n => L + n);
   const bar = $('#preBar'); let done = 0;
   const wt = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
   await Promise.all([wt(document.fonts.ready, 6000), ...urls.map(u => wt(new Promise(r => { const im = new Image(); im.onload = im.onerror = () => { done++; bar.style.width = (done / urls.length * 100) + '%'; r(); }; im.src = u; }), 10000))]);

@@ -214,6 +214,88 @@
     return slot._v;
   }
 
+  /* ── ПРАВИЛО ОКОНЧАНИЯ СОБЫТИЯ ──────────────────────────────────────
+     «Видео резко останавливается на стоп-кадре — выглядит старомодно.»
+     Ролик и не останавливается: последнюю секунду он ТОРМОЗИТ по ease-out
+     (движение оседает, как оседает настоящая жидкость), и на торможении
+     в него ВЪЕЗЖАЕТ кадр-держатель — резкая фотография ровно того же
+     кадра. Движение садится в фотографию, а не обрывается о неё.
+     Наряды 06-glass.md § 4 и 07-brut.md § 4, числа оттуда же.
+
+     Цикл висит на кадрах ВИДЕО (requestVideoFrameCallback), а не на
+     скролле: playbackRate, записанный из обработчика скролла, дрожит на
+     каждом пикселе. Ниже 0,25 не опускаемся — при 24 fps это уже кадр
+     длиной 0,2–0,4 с, и торможение читается «ступеньками».             */
+  var TAIL = 0.9, FADE = 0.4, RATE_MIN = 0.25;
+
+  /* Кадр-держатель годится ТОЛЬКО тому ролику, из которого он вырезан.
+     Атрибут — список имён, как у data-v-once: если реестр отдал старый
+     фолбэк (pour-crown, cork-pop), держатель молчит и ролик держит свой
+     последний кадр сам, ровно как до пересъёмки. */
+  function holdOf(slot) {
+    var img = slot.querySelector('.vslot__hold');
+    if (!img) return null;
+    var a = slot.getAttribute('data-v-hold');
+    var сп = a && a.trim() ? a.trim().split(/\s+/) : null;
+    if (сп && сп.indexOf(String(slot._file || '').replace(/\.mp4$/, '')) < 0) return null;
+    return img;
+  }
+
+  /* Цикл торможения помечен ТОКЕНОМ, а не флагом «идёт/не идёт». Флаг
+     решает первую беду (settle() вызвана дважды — скорость дёргается),
+     но заводит вторую: сцена ставит ролик на паузу, кадров больше нет,
+     rVFC не приходит — и флаг остаётся поднятым навсегда, а на обратном
+     ходе торможение уже не заводится. Токен снимает обе: новый цикл
+     обесценивает старый, а зависший обработчик, когда доберётся, увидит
+     чужой номер и тихо уйдёт. */
+  function settle(v, hold) {
+    if (!v) return;
+    var id = (v._sid = (v._sid || 0) + 1);
+    v._hold = hold || null;
+    /* Добить держатель обязан СОБЫТИЕ ended, а не цикл. Кончился ролик —
+       кадров больше нет, и последний requestVideoFrameCallback не придёт
+       никогда: замерено, держатель застревал на 0,89 и не начинал дышать. */
+    if (!v._fin) {
+      v._fin = function () {
+        var h = v._hold;
+        if (h) { h.style.opacity = '1'; h.classList.add('is-breathing'); }
+        v.pause();
+      };
+      v.addEventListener('ended', function () { v._fin(); });
+    }
+    (function step() {
+      if (id !== v._sid || !v.parentNode || paused) return;
+      var d = v.duration || 0;
+      if (d) {
+        var k = (v.currentTime - (d - TAIL)) / TAIL;
+        k = k < 0 ? 0 : k > 1 ? 1 : k;
+        v.playbackRate = 1 - (1 - RATE_MIN) * (1 - Math.pow(1 - k, 3));
+        if (hold) {
+          var f = (v.currentTime - (d - FADE)) / FADE;
+          hold.style.opacity = String(f < 0 ? 0 : f > 1 ? 1 : f);
+          if (f > 0) v.classList.add('is-settling');
+        }
+      }
+      /* Декодер освобождается: по замерам slots3 каждый живой стоит
+         1–2 fps на длинной странице. Держатель дальше дышит сам. */
+      if (v.ended) { v._fin(); return; }
+      if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(step);
+      else requestAnimationFrame(step);
+    })();
+  }
+
+  /* Вернулись в сцену сверху или снизу — событие играет ЗАНОВО. Без сброса
+     держателя он остался бы висеть поверх заново запущенного ролика, и
+     зритель увидел бы стоп-кадр вместо события (кадр slots3/15). */
+  function replay(v, hold) {
+    if (!v) return;
+    if (hold) { hold.style.opacity = ''; hold.classList.remove('is-breathing'); }
+    v.classList.remove('is-settling');
+    v.playbackRate = 1;
+    try { v.currentTime = 0; } catch (e) {}
+    playV(v); settle(v, hold);
+  }
+
   /* ПРОГРЕВ. Когда герой уже на экране и страница простаивает, тихо
      собираем нижние ролики по одному и на 200 мс раскручиваем декодер.
      Иначе первый проход скролла спотыкается о создание семи <video>
@@ -354,7 +436,15 @@
     paused = !paused;
     pb.setAttribute('aria-pressed', String(paused));
     pb.setAttribute('aria-label', paused ? 'Продолжить видео' : 'Пауза видео');
-    VIDEOS.forEach(function (v) { if (paused) v.pause(); else playV(v); });
+    /* Пауза гасит и ТОРМОЖЕНИЕ: цикл settle() проверяет тот же флаг paused
+       и уходит, иначе playbackRate продолжал бы падать и нажатие паузы
+       посреди торможения оставило бы ролик навсегда на скорости 0,4.
+       Сняли паузу — цикл заводится заново с той же точки. */
+    VIDEOS.forEach(function (v) {
+      if (paused) { v.pause(); return; }
+      playV(v);
+      if (v._hold !== undefined && !v.ended) settle(v, v._hold);
+    });
   });
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) VIDEOS.forEach(function (v) { if (!v.paused) v.pause(); });
@@ -1344,13 +1434,35 @@
   /* ────────────────────────────────────────────────────────────────────
      СЦЕНА 6 · БОКАЛ (П5 маска). Видео живёт внутри «1888», маска
      раскрывается на весь экран по скроллу и растворяется.
+
+     НАЛИВ ЗАВОДИТ САМА СЦЕНА (слот помечен data-gate), и ровно на p > 0,06
+     — там же, где начинается рост кегля. Раньше слот вёл наблюдатель с
+     rootMargin 200 px: налив успевал начаться, а на быстрой прокрутке и
+     кончиться, ещё до того как «1888» тронулось с места, и внутри штриха
+     цифры зритель получал уже пустую сцену (наряд 06-glass.md § 6 п. 1).
+     Заводим ПО ФРОНТУ, а не каждый кадр скролла: play() у доигравшего
+     ролика перематывает на нуль, и вызов из обработчика скролла крутил
+     бы налив заново на каждом пикселе обратного хода.
      ──────────────────────────────────────────────────────────────────── */
   (function scGlass() {
     var sec = $('#glass'); if (!sec) return;
     var t = $('#glassT'), cut = $('#glassCut'), txt = $('#glassTxt');
+    var slot = $('#glassV'), on = false;
     var FROM = MOB ? 44 : 26, TO = MOB ? 210 : 148;
 
+    function set(want) {
+      if (want === on || !slot) return;
+      on = want; slot._on = want;
+      if (want) { var v = ensure(slot); if (v) replay(v, holdOf(slot)); }
+      else if (slot._v && !slot._v.paused) slot._v.pause();
+    }
+
+    /* Гейт «секция в кадре» старше трека: refresh() с прогрессом 1 (зритель
+       уже в футере) иначе завёл бы налив в пустоту — § 9 state/home.md. */
+    var pour = gateVis(sec, false, set);
+
     track(sec, 'top top', 'bottom bottom', function (p) {
+      pour(p > 0.06);
       var k = ss(.06, .78, p);
       /* SVG-маска перерисовывается на каждое новое значение кегля: шаг
          0,4 vw даёт 300 ступеней — движение читается как непрерывное,
@@ -1389,7 +1501,7 @@
     function set(want) {
       if (want === on || !slot) return;
       on = want; slot._on = want;
-      if (want) { var v = ensure(slot); if (v) playV(v); }
+      if (want) { var v = ensure(slot); if (v) replay(v, holdOf(slot)); }
       else if (slot._v && !slot._v.paused) slot._v.pause();
     }
 
