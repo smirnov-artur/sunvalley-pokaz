@@ -300,6 +300,11 @@
 
       <label class="bkg__add"><input type="checkbox" name="cheese" id="bkCheese"><i aria-hidden="true"></i><span>Добавить ассорти дегустационное — шесть авторских сыров, 400 ₽</span></label>
 
+      <!-- 152-ФЗ: форма собирает имя и телефон, значит согласие обязательно
+           (08-право-и-ограничения.md, §4; 04, §5.4 п.24–25). Чекбокс required —
+           форма novalidate, но submit идёт через checkValidity() в visit.js. -->
+      <label class="bkg__add bkg__law"><input type="checkbox" name="pdn" id="bkPdn" required><i aria-hidden="true"></i><span>Согласен на обработку имени и телефона: они нужны только для того, чтобы администратор перезвонил и подтвердил сеанс.</span></label>
+
       <div class="bkg__f">
         <button class="btn btn--gold" type="submit">Забронировать дегустацию</button>
         <p class="bkg__note">Заявка ни к чему не обязывает: администратор перезвонит и подтвердит сеанс. Можно и просто позвонить — <a href="tel:+79789563322">+7 978 956-33-22</a>, с 10:00 до 17:00 без выходных. Дегустация — с 18 лет.</p>
@@ -311,7 +316,7 @@
 </section>
 
 <footer class="ftr">
-  <p>Республика Крым, г. Судак, с. Миндальное, ул. Миндальная, 8 · +7 978 956-33-22 · <a href="https://vk.com/sunvalleywinery">ВКонтакте</a> · <a href="https://t.me/sunvalleywinery">Telegram</a></p>
+  <p>Республика Крым, г. Судак, с. Миндальное, ул. Миндальная, 8А · +7 978 956-33-22 · <a href="https://vk.com/sunvalleywinery">ВКонтакте</a> · <a href="https://t.me/sunvalleywinery">Telegram</a></p>
   <p class="mini">АО «Солнечная Долина» · основано в 1888 году · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</p>
 </footer>
 

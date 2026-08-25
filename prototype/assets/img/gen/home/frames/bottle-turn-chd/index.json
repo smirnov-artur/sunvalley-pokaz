@@ -1,0 +1,12 @@
+{
+  "name": "bottle-turn-chd",
+  "count": 96,
+  "width": 1600,
+  "height": 900,
+  "duration": 4,
+  "pattern": "f-{i}.webp",
+  "pad": 3,
+  "quality": 80,
+  "bytes": 2522816,
+  "mb": 2.41
+}

@@ -241,6 +241,14 @@ input[type="date"].fld__i::-webkit-calendar-picker-indicator:hover{opacity:.9}
 .bkg__add input:checked + i{background:var(--gold);border-color:var(--gold)}
 .bkg__add input:focus-visible + i{outline:1px solid var(--gold-hi);outline-offset:2px}
 
+/* Согласие на обработку ПДн (152-ФЗ). Тон правовой строки: тише сырного чекбокса.
+   Поле required, а не декоративное, поэтому оно обязано остаться фокусируемым —
+   иначе reportValidity() не к чему прицепить подсказку и Chrome пишет в консоль
+   «invalid form control is not focusable». Отсюда размер 14×14 и opacity:0
+   поверх нарисованной рамки, а не width:0;height:0 как у соседей. */
+.bkg__law{margin-top:clamp(12px,1.6vw,18px);font-size:.76rem;color:rgba(251,247,240,.5);max-width:74ch}
+.bkg__law input{position:absolute;left:0;top:4px;width:14px;height:14px;margin:0;opacity:0}
+
 .bkg__f{margin-top:clamp(26px,3.4vw,42px);display:flex;flex-wrap:wrap;align-items:center;
   gap:clamp(20px,3.4vw,48px)}
 .bkg__note{flex:1 1 34ch;max-width:62ch;font-size:.78rem;line-height:1.55;color:rgba(251,247,240,.5)}

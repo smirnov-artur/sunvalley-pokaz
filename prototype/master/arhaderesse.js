@@ -107,9 +107,27 @@
   requestAnimationFrame(loop);
 
   // ---- звук вечера ----
-  const sndBtn = $('#snd'); let ac, master;
+  // Тумблер один на два звука: на нём же висит голос хранителя (world-story.js).
+  // Пока идёт речь, амбиент приглушается до .25 и возвращается к .8 в паузах
+  // между абзацами — наряд 12, §7.5 п.17. Два ровных звука сразу — каша.
+  const sndBtn = $('#snd'); let ac, master, sndOn = false, ducked = false, rel = 0;
+  const AMB_FULL = .8, AMB_DUCK = .25;
+  const amb = () => (sndOn ? (ducked ? AMB_DUCK : AMB_FULL) : 0);
+  const applyAmb = (sec = .45) => { if (master && ac) master.gain.linearRampToValueAtTime(amb(), ac.currentTime + sec); };
+  // ЗАМЕР по .json озвучки: пауза между предложениями 0,65 с, между абзацами 0,95 с.
+  // Разница 0,3 с — если гнать усиление туда-обратно на каждой точке, амбиент
+  // начнёт «дышать» в такт речи. Поэтому: приглушаем сразу (0,3 с), а отпускаем
+  // только после 2,2 с непрерывной тишины и медленно (1,6 с).
+  document.addEventListener('story:speak', e => {
+    const sp = !!(e.detail && e.detail.speaking);
+    clearTimeout(rel);
+    if (sp) { if (!ducked) { ducked = true; applyAmb(.3); } }
+    else rel = setTimeout(() => { ducked = false; applyAmb(1.6); }, 2200);
+  });
   sndBtn.addEventListener('click', async () => {
-    const on = sndBtn.getAttribute('aria-pressed') !== 'true'; sndBtn.setAttribute('aria-pressed', String(on));
+    // состояние держим своё, а не читаем с кнопки: на этом же клике аттрибут
+    // уже переставил world-story.js, и чтение дало бы инверсию
+    const on = !sndOn; sndOn = on; sndBtn.setAttribute('aria-pressed', String(on));
     if (!ac) {
       ac = new (window.AudioContext || window.webkitAudioContext)(); master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination);
       const buf = ac.createBuffer(1, ac.sampleRate * 4, ac.sampleRate), d = buf.getChannelData(0); let b0 = 0, b1 = 0;
@@ -119,6 +137,6 @@
       const lfo = ac.createOscillator(); lfo.frequency.value = 9; const lg = ac.createGain(); lg.gain.value = .1; lfo.connect(lg); lg.connect(cg.gain); lfo.start(); cb.connect(bp); bp.connect(cg); cg.connect(master); cb.start();
     }
     if (ac.state === 'suspended') await ac.resume();
-    master.gain.linearRampToValueAtTime(on ? .8 : 0, ac.currentTime + 1.2);
+    applyAmb(1.2);
   });
 })();

@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Токлук — зверь идёт по урочищу · Солнечная Долина</title>
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="world-video.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
 <style>
-:root{--ink:#1a0d06;--or:#d97c2b;--or-hi:#f2b15c;--cream:#f7e6c8;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px)}
+:root{--ink:#1a0d06;--or:#d97c2b;--or-hi:#f2b15c;--cream:#f7e6c8;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px);--vband-hair:rgba(217,124,43,.35);--vband-kick:#f2b15c}
 *{margin:0;padding:0;box-sizing:border-box}
 html.lenis{height:auto}
 body{background:var(--ink);color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -146,7 +147,7 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <div class="txt">
       <p class="kick">Урочище Токлук · Судакская долина</p>
       <h1>Зверь идёт по урочищу</h1>
-      <p>Шахматный зверь с этикетки «Токлука» — хранитель урочища, где растут кефесия и саперави. За ним — сбор: корзины, кувшины, песня.<span class="m-hide"> Листайте — процессия пройдёт через долину.</span></p>
+      <p>Зверь этой главы — не с этикетки и не из легенды: мы дали дорогу орнаменту, придуманному для мира «Токлук». Он идёт по урочищу, где растут кефесия и саперави, а за ним — сбор: корзины, кувшины, песня.<span class="m-hide"> Листайте — процессия пройдёт через долину.</span></p>
     </div>
     <p class="hint">Листайте — процессия идёт</p>
   </div>
@@ -155,7 +156,18 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
   <div class="sec__in">
     <p class="kick">Линейка «Токлук»</p>
     <h2>Шесть вин в этикетках-картинах</h2>
-    <p class="lead">Токлук — урочище между Судаком и Меганомом, где на сланцах растут кефесия и саперави. Каждая этикетка линейки — фолк-картина с шахматным зверем: в Крыму такой узор берегли как оберег урожая.</p>
+    <p class="lead">Токлук — урочище между Судаком и Меганомом, где на сланцах растут кефесия и саперави. Шахматный зверь — не с бутылки и не из предания: это орнамент, придуманный для этой главы, и мы просто дали ему дорогу.</p>
+    <!-- Террасы урочища: w-tokluk-rows, уже снят под слайд 4.4 главной (наряд 04).
+         Наряд 13, §6.2 п.8. В диораму НЕ ставится: это фотографический кадр, а
+         диорама — плоский фолк; смешение диалектов запрещено (STORY-BIBLE.md, §1).
+         В .sec, ниже диорамы, где уже живут фотографии бутылок, он законен. -->
+    <figure class="vfig">
+      <div class="vfig__f vslot vslot--drift" data-v="w-tokluk-rows-1280|w-tokluk-rows"
+           data-v-m="" data-poster="w-tokluk-rows">
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/w-tokluk-rows.webp" alt="Старые лозы урочища на сланце в сумерках" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="vfig__k">Сланцы урочища · лозы, с которых идёт линейка</figcaption>
+    </figure>
     <div class="tok-line">
       <a class="wine" href="wines/tokluk-saperavi-kefesiya.html" title="Открыть досье вина"><img src="../assets/img/cut/kefessia.webp" alt="Токлук Саперави Кефесия"><b>Саперави — Кефесия</b><span>сухое красное · 13% об.</span></a>
       <ul class="tok-rest">
@@ -170,7 +182,7 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <h2>Выйти из урочища в соседние места</h2>
     <div class="worlds">
       <a class="world" href="arhaderesse.html"><figure><img src="../assets/img/gen/arhaderesse-a-1000.webp" alt="Имение Архадерессе — гравюра" loading="lazy"></figure><div class="world__chk"></div><div class="world__t"><em>Солнечная Долина</em><b>Архадерессе</b><i>Войти в мир &#8594;</i></div></a>
-      <a class="world" href="chd.html"><figure><img src="../assets/img/gen/chd-legend-a-1000.webp" alt="Легенда Чёрного Доктора" loading="lazy"></figure><div class="world__chk"></div><div class="world__t"><em>Чёрный Доктор</em><b>Легенда о враче</b><i>Войти в мир &#8594;</i></div></a>
+      <a class="world" href="chd.html"><figure><img src="../assets/img/gen/chd-legend-a-1000.webp" alt="Панно мира «Чёрный Доктор»" loading="lazy"></figure><div class="world__chk"></div><div class="world__t"><em>Чёрный Доктор</em><b>Эким кара</b><i>Войти в мир &#8594;</i></div></a>
       <a class="world" href="meganom.html"><figure><img src="../assets/img/gen/meganom-ink-1000.webp" alt="Мыс Меганом, рисунок тушью" loading="lazy"></figure><div class="world__chk"></div><div class="world__t"><em>Меганом</em><b>Одна линия туши</b><i>Войти в мир &#8594;</i></div></a>
     </div>
     <a class="worlds__all" href="wines.html">Вся винная карта долины &#8594;</a>
@@ -178,11 +190,15 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
   </div>
 </section>
 <div class="mbar"><a class="btn btn--fill" href="index.html#visit">Забронировать дегустацию · <span style="white-space:nowrap">от 1 450 ₽</span></a><a class="mbar__alt" href="index.html#buy">Где купить</a></div>
-<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
+<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8А, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
 <script src="../assets/vendor/gsap.min.js"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js"></script>
 <script src="../assets/vendor/lenis.min.js"></script>
 <script src="tokluk.js"></script>
+<script src="world-video.js"></script>
+<!-- Голос главы: 49,9 с. Субтитры идут ОТДЕЛЬНОЙ полосой, не в .txt: .txt гаснет
+     по TXT_FADE на 0.45, а голос говорит до 49,9 с (наряд 13, §6.3 п.11). -->
+<script src="world-story.js" data-chapter="tokluk" data-fg="#f2b15c" data-bg="rgba(26,13,6,.93)" data-sub="#f7e6c8" data-hair="rgba(217,124,43,.38)" data-dock="62"></script>
 <script src="stage-editor.js"></script>
 </body>
 </html>

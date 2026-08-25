@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Чёрный Доктор — легенда · Солнечная Долина</title>
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="world-video.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
 <style>
-:root{--ink:#0a0706;--gold:#d1a95a;--gold-hi:#f1d28a;--red:#b3262f;--stone:#fbf7f0;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px)}
+:root{--ink:#0a0706;--gold:#d1a95a;--gold-hi:#f1d28a;--red:#b3262f;--stone:#fbf7f0;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px);--vband-hair:rgba(209,169,90,.3);--vband-kick:#d1a95a}
 *{margin:0;padding:0;box-sizing:border-box}
 html.lenis{height:auto}
 body{background:var(--ink);color:var(--stone);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -135,16 +136,30 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <div class="txt">
       <p class="kick">Легенда · Эким Кара · «чёрный доктор»</p>
       <h1>Вино с именем доктора</h1>
-      <p>«Эким кара» по-тюркски — «чёрный доктор»: так в долине назвали почти чернильную ягоду задолго до винодельни, и имя перешло вину. Листайте — доктор спускается в подвал 1888 года с фонарём и бутылкой.</p>
+      <p>«Эким кара» — крымскотатарское имя сорта, в переводе «чёрный доктор»: так в долине назвали почти чернильную ягоду задолго до винодельни, и имя перешло вину. Листайте — фигура с фонарём спускается в подвал 1888 года.</p>
     </div>
-    <p class="hint">Листайте — доктор спускается</p>
+    <p class="hint">Листайте — фигура с фонарём спускается</p>
   </div>
 </section>
 <section class="sec">
   <div class="sec__in">
     <p class="kick">Чёрный Доктор Солнечной Долины</p>
-    <h2>Сорт, который не прижился больше нигде в мире</h2>
+    <h2>Сорт, который растёт только здесь</h2>
     <p class="lead">Эким кара капризен: его старые лозы растут только на сланцевых склонах между Судаком и Меганомом. Вино выпускается ограниченным тиражом, со старых лоз, ручной сбор, многолетняя выдержка в дубе в подвалах Архадерессе.</p>
+    <!-- Книга погреба (наряд 11, §7.3). Слот без data-gate: он в обычном потоке,
+         им управляет IntersectionObserver из world-video.js. Цепочка имён —
+         желаемый w-chd-ledger, пока его нет в реестре играет candle-cellar
+         (наряд 11, §5, вариант 3 К3: «пересъёмка рабочего candle-cellar»).
+         Блендинга нет: полоса стоит на холсте --ink, а не на гравюре. -->
+    <figure class="vfig ledger">
+      <div class="vfig__f vslot" data-v="w-chd-ledger-1280|w-chd-ledger|candle-cellar-1280|candle-cellar"
+           data-v-m="w-chd-ledger-960|candle-cellar-720" data-poster="candle-cellar">
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/candle-cellar.webp" alt="Свеча в подвале 1888 года" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <!-- подпись меняется на «Книга погреба · то, что проверяется», когда в
+           реестр придёт w-chd-ledger: сейчас в кадре свеча и бочки, не книга -->
+      <figcaption class="vfig__k">Подвал 1888 года · при свече</figcaption>
+    </figure>
     <div class="spec">
       <a href="wines/chernyj-doktor-solnechnoj-doliny.html" title="Открыть досье вина"><img id="specBottle" src="../assets/img/cut/cherniy_doctor2017.webp" alt="Чёрный Доктор 2017 — открыть досье вина" style="opacity:0;transition:opacity .6s"></a>
       <dl class="rows">
@@ -167,11 +182,14 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
   </div>
 </section>
 <div class="mbar"><a class="btn btn--red" href="index.html#visit">Забронировать дегустацию · от 1 450 ₽</a><a class="mbar__alt" href="index.html#buy">Где купить</a></div>
-<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
+<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8А, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
 <script src="../assets/vendor/gsap.min.js"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js"></script>
 <script src="../assets/vendor/lenis.min.js"></script>
 <script src="chd.js"></script>
+<script src="world-video.js"></script>
+<!-- Голос главы: 65,0 с, chd.mp3 + chd.json. Старт только по клику (§7.4 наряда 11). -->
+<script src="world-story.js" data-chapter="chd" data-fg="#d1a95a" data-bg="rgba(10,7,6,.92)" data-sub="#fbf7f0" data-hair="rgba(209,169,90,.34)" data-dock="62"></script>
 <script src="stage-editor.js"></script>
 </body>
 </html>

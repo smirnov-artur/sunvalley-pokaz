@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Архадерессе — имение, с которого начинается Солнечная Долина</title>
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="world-video.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
 <style>
-:root{--ink:#0b0907;--gold:#d1a95a;--gold-hi:#f1d28a;--stone:#fbf7f0;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px)}
+:root{--ink:#0b0907;--gold:#d1a95a;--gold-hi:#f1d28a;--stone:#fbf7f0;--serif:'Cormorant',Georgia,serif;--sans:'Golos Text',Arial,sans-serif;--pad:clamp(20px,5vw,72px);--vband-hair:rgba(209,169,90,.3);--vband-kick:#d1a95a}
 *{margin:0;padding:0;box-sizing:border-box}
 html.lenis{height:auto}
 body{background:var(--ink);color:var(--stone);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -88,9 +89,17 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
 .worlds__all:hover{color:var(--stone);border-bottom-color:var(--stone)}
 .cta{margin-top:clamp(40px,6vw,80px);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .ftr{padding:30px var(--pad);font-size:.78rem;color:rgba(251,247,240,.45);text-align:center;border-top:1px solid rgba(209,169,90,.2)}
-.snd{position:fixed;left:22px;bottom:22px;z-index:90;width:34px;height:34px;border-radius:50%;border:1px solid rgba(209,169,90,.4);background:transparent;cursor:pointer;display:grid;place-items:center}
-.snd i{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.5}
-.snd[aria-pressed="true"] i{opacity:1;box-shadow:0 0 14px var(--gold)}
+/* Один тумблер на всю страницу: голос хранителя + вечер (наряд 12, §7.5 п.17).
+   Радиус 0 и хейрлайн вместо кружка с glow — конституция, §3 и §6. */
+.snd{position:fixed;right:var(--pad);bottom:22px;z-index:97;display:flex;align-items:center;gap:10px;
+  padding:.72em 1.05em;border-radius:0;border:1px solid rgba(209,169,90,.4);color:var(--gold);
+  background:rgba(11,9,7,.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:pointer;
+  font:500 .62rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;transition:border-color .35s,color .35s}
+.snd:hover{border-color:var(--gold)}
+.snd i{width:7px;height:7px;border-radius:0;background:transparent;border:1px solid currentColor;flex:0 0 auto}
+.snd[aria-pressed="true"] i{background:currentColor}
+.snd[aria-pressed="true"] i.is-speaking{animation:vxp 1.6s ease-in-out infinite}
+@media (max-width:900px){.snd{font-size:.56rem;padding:.7em .85em;gap:8px}}
 @media (max-width:900px){.hdr__nav{display:none}
 .hdr{padding:10px var(--pad);gap:10px;background:rgba(11,9,7,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(209,169,90,.22)}
 .hdr__logo{height:30px}
@@ -108,7 +117,7 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
   <nav class="hdr__nav"><a href="wines.html">Вина</a><a href="index.html#valley">Долина</a><a href="index.html#visit">Визит</a><a href="index.html#partners">Партнёрам</a><a href="index.html#buy">Где купить</a></nav>
   <div class="hdr__act"><a class="hdr__tel" href="tel:+79789563322">+7 978 956-33-22</a><a class="btn" href="index.html#visit">Забронировать дегустацию</a></div>
 </header>
-<button class="snd" id="snd" aria-pressed="false" title="Звук вечера"><i></i></button>
+<button class="snd" id="snd" type="button" aria-pressed="false" title="Звук: голос хранителя и вечер"><i></i><span>Озвучка</span></button>
 <section class="dio" id="dio">
   <div class="dio__stick" id="stick">
     <div class="dio__bg" id="bg"></div>
@@ -125,7 +134,7 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <div class="txt">
       <p class="kick">Имение Архадерессе · Судак · с 1888 года</p>
       <h1>Место, с которого начинается долина</h1>
-      <p>Усадьба с башней на каждой нашей этикетке — настоящая. Под ней — подвалы, вырубленные в горе при князе Голицыне. Листайте: на имение опускается вечер.</p>
+      <p>Усадьба с гравюры, которая стоит на этикетках дома, — настоящая. Под ней — подвалы, достроенные в оврагах при князе Голицыне. Листайте: на имение опускается вечер.</p>
     </div>
     <div class="scale"><span>день</span><i><b id="scThumb"></b></i><span>ночь</span></div>
     <p class="hint">Листайте — вечер опускается на имение</p>
@@ -134,12 +143,32 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
 <section class="sec">
   <div class="sec__in">
     <p class="kick">Что здесь было</p>
-    <h2>В 1888 году князь Лев Голицын купил Токлукское имение и заложил первый подвал</h2>
-    <p class="lead">Усадьба с башней, которую вы видите на этикетке, стояла над первыми виноградниками. Под ней — подвалы, вырубленные в горе: +14 °C круглый год, 138 лет без перерыва. Здесь до сих пор зреют Чёрный Доктор, Чёрный Полковник, Меганом и Кокур.</p>
+    <h2>В 1888 году князь Горчаков купил Токлукское имение, а Лев Голицын заложил здесь первый подвал</h2>
+    <p class="lead">Усадьба с башней, которую вы видите на этикетке, стояла над первыми виноградниками. Под ней — подвалы, достроенные в оврагах: выбирались глубокие овраги, расчищалось дно, достраивались верхние этажи. +14 °C круглый год, 138 лет без перерыва. Здесь до сих пор выдерживают «Чёрный Доктор», «Чёрный Полковник» и марочные вина дома.</p>
     <div class="facts"><div><b>1888</b><span>заложены подвалы</span></div><div><b>400+</b><span>гектаров виноградников</span></div><div><b>3</b><span>сорта, которых нет больше нигде</span></div></div>
+    <!-- Подвал Голицына: barrel-gallery, уже снят (ГЕНЕРАЦИЯ-ВИДЕО-2.md, №6,
+         второй адрес — «мир Архадерессе, подвал Голицына»). Наряд 12, §7.4 п.14.
+         Без блендинга: полоса живёт в .sec на холсте --ink, а не на гравюре. -->
+    <figure class="vfig">
+      <div class="vfig__f vslot vslot--drift" data-v="barrel-gallery-1280|barrel-gallery"
+           data-v-m="barrel-gallery-960" data-poster="barrel-gallery">
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/barrel-gallery.webp" alt="Галерея бочек в подвалах Архадерессе" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="vfig__k">Подвал 1888 года · +14 °C круглый год</figcaption>
+    </figure>
     <p class="kick" style="margin-top:clamp(60px,8vw,110px)">Вино этой этикетки</p>
     <h2>Порто Солнечной Долины</h2>
     <p class="lead">На этикетке — та самая усадьба Архадерессе, в подвалах которой это вино и выдерживается. Дверь, в которую вы только что вошли, ведёт сюда.</p>
+    <!-- Порто: цепочка ждёт amber-swirl (ГЕНЕРАЦИЯ-ВИДЕО-2.md, №8 — прямо назначен
+         «Архадерессе, блок Порто»); пока его нет в реестре играет w-sd-swirl —
+         тот же янтарный свирл, уже снятый под слайд «СД» главной. Наряд 12, §7.4 п.13. -->
+    <figure class="vfig">
+      <div class="vfig__f vslot" data-v="amber-swirl-1280|amber-swirl|w-sd-swirl-1280|w-sd-swirl"
+           data-v-m="" data-poster="w-sd-swirl">
+        <img class="vslot__still" src="../assets/img/gen/ai/video/poster/w-sd-swirl.webp" alt="Янтарное ликёрное вино на просвет" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="vfig__k">Ликёрные вина долины · выдержка в дубе</figcaption>
+    </figure>
     <a class="bot" href="wines/porto-solnechnoj-doliny.html" title="Открыть досье вина">
       <img src="../assets/img/cut/porto2026.webp" alt="Порто Солнечной Долины — открыть досье вина">
       <div>
@@ -156,7 +185,7 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <h2>Каждая этикетка — дверь в своё место</h2>
     <div class="worlds">
       <div class="world world--now" aria-current="page"><img src="../assets/img/gen/arhaderesse-a-1000.webp" alt="Архадерессе — гравюра"><em>Солнечная Долина</em><span>Архадерессе</span></div>
-      <a class="world" href="chd.html"><img src="../assets/img/gen/chd-legend-a-1000.webp" alt="Легенда Чёрного Доктора"><em>Чёрный Доктор</em><span>Легенда о враче</span></a>
+      <a class="world" href="chd.html"><img src="../assets/img/gen/chd-legend-a-1000.webp" alt="Панно мира «Чёрный Доктор»"><em>Чёрный Доктор</em><span>Эким кара</span></a>
       <a class="world" href="tokluk.html"><img src="../assets/img/gen/tokluk-a-1000.webp" alt="Зверь Токлука"><em>Токлук</em><span>Зверь идёт по урочищу</span></a>
       <a class="world" href="meganom.html"><img src="../assets/img/gen/meganom-ink-1000.webp" alt="Мыс Меганом тушью"><em>Меганом</em><span>Одна линия туши</span></a>
     </div>
@@ -164,11 +193,15 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02}
     <div class="cta"><a class="btn btn--gold" href="index.html#visit">Забронировать дегустацию · <span style="white-space:nowrap">от 1 450 ₽</span></a><a class="btn" href="index.html#buy">Где купить</a><a class="btn" href="index.html#partners">Партнёрам</a><a class="btn" href="wines.html">Все вина долины</a></div>
   </div>
 </section>
-<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
+<footer class="ftr">АО «Солнечная Долина» · с. Миндальное, ул. Миндальная, 8А, Судак · +7 978 956-33-22 · 18+ · Чрезмерное употребление алкоголя вредит вашему здоровью</footer>
 <script src="../assets/vendor/gsap.min.js"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js"></script>
 <script src="../assets/vendor/lenis.min.js"></script>
 <script src="arhaderesse.js"></script>
+<script src="world-video.js"></script>
+<!-- Голос главы: 68,3 с, самая длинная глава сайта. Садится на тот же тумблер #snd,
+     что и вечер: два звука на двух кнопках — каша (наряд 12, §7.5 п.17). -->
+<script src="world-story.js" data-chapter="arhaderesse" data-fg="#d1a95a" data-bg="rgba(11,9,7,.92)" data-sub="#fbf7f0" data-hair="rgba(209,169,90,.34)" data-toggle="#snd"></script>
 <script src="stage-editor.js"></script>
 </body>
 </html>

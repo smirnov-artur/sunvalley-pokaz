@@ -1,0 +1,69 @@
+/* ══════════════════════════════════════════════════════════════════════
+   WORLD-VIDEO.CSS — механика видео-слотов страниц-миров.
+   Общая часть, одна на четыре страницы. Раскладка полос и их цвет —
+   в <style> самой страницы: у каждого мира свой диалект.
+
+   Радиус 0, теней нет — SUNVALLEY-DESIGN.md, §3 и §6.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Фон слота прозрачный: пустой слот (ролика ещё нет в реестре) обязан
+   быть невидимым, иначе на месте кадра встаёт непрозрачная плашка. */
+.vslot{position:absolute;inset:0;overflow:hidden;background:transparent;pointer-events:none}
+.vslot__still,.vslot__v{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;display:block;
+}
+.vslot__v{opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+.vslot__v.is-live{opacity:1}
+.vslot--contain .vslot__still,.vslot--contain .vslot__v{object-fit:contain}
+
+/* Слот, который ложится ПОВЕРХ ГРАВЮРЫ: чистый чёрный в ролике
+   становится прозрачным (screen считает 1-(1-a)(1-b), b=0 → a).
+   Приём уже стоит на .light в chd.html и проверен на этой же странице.
+   Край растушёван маской, чтобы остаточный шум по рамке не читался
+   светлым прямоугольником (наряд 11, §3, п. 3).
+   ВНИМАНИЕ: применять только к роликам, снятым на чистом #000000 и
+   дожатым colorlevels=rimin=0.07 — иначе будет виден серый прямоугольник. */
+.vslot--live{mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(closest-side,#000 62%,transparent 100%);
+          mask-image:radial-gradient(closest-side,#000 62%,transparent 100%)}
+
+/* Зеркальный приём для Меганома: там светлая бумага, screen её только
+   высветляет. multiply считает a·b, и #ffffff (b=1) отдаёт a — чистый
+   белый становится прозрачным (наряд 14, §2 ①). */
+.vslot--ink{mix-blend-mode:multiply;
+  -webkit-mask-image:radial-gradient(closest-side,#000 62%,transparent 100%);
+          mask-image:radial-gradient(closest-side,#000 62%,transparent 100%)}
+
+/* Слот, который пока живёт фотографией, всё равно обязан жить: медленный
+   наезд. CSS-анимация transform идёт на композиторе и не стоит ничего.
+   Заведена ТОЛЬКО пока слот в кадре — иначе постоянная composited-анимация
+   роняет fps документа. */
+.vslot--drift .vslot__still{animation:vkb 34s ease-in-out infinite alternate;animation-play-state:paused}
+.vslot--drift.is-drifting .vslot__still{animation-play-state:running}
+@keyframes vkb{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.07) translate3d(-1%,-1.2%,0)}}
+
+@media (prefers-reduced-motion:reduce){
+  .vslot--drift .vslot__still{animation:none}
+  .vslot__v{transition:none}
+}
+
+/* ── ПОЛОСА-ВРЕЗКА: общая раскладка, цвет задаёт страница ─────────────
+   Полноширинная, вырывается из контентной колонки. Подпись капителью
+   стоит НАД полосой: текста поверх ключевого визуала нет (запрет №7). */
+.vband{width:100vw;margin-left:calc(50% - 50vw);margin-bottom:clamp(40px,6vw,80px)}
+/* колонка подписи совпадает с .sec__in страницы: 1200px плюс её же поля */
+.vband__k{box-sizing:border-box;max-width:calc(1200px + 2 * var(--pad));
+  margin:0 auto clamp(14px,1.6vw,22px);padding:0 var(--pad)}
+/* высота задаётся напрямую, а не через aspect-ratio: при aspect-ratio + max-height
+   браузер ужимает ШИРИНУ ради пропорции, и полоса перестаёт быть полноширинной */
+.vband__f{position:relative;width:100%;height:min(56.25vw,64vh);overflow:hidden;
+  border-radius:0;border-top:1px solid var(--vband-hair,rgba(185,155,99,.35));
+  border-bottom:1px solid var(--vband-hair,rgba(185,155,99,.35))}
+
+/* ── ВРЕЗКА В КОНТЕНТНОЙ КОЛОНКЕ ─────────────────────────────────────── */
+.vfig{max-width:1200px;margin:clamp(32px,4vw,52px) auto clamp(28px,3.4vw,46px)}
+.vfig__f{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:0;
+  border-top:1px solid var(--vband-hair,rgba(185,155,99,.35))}
+.vfig__k{margin-top:12px;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--vband-kick,#b99b63)}

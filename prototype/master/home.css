@@ -195,14 +195,37 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 .sky__cta{margin-top:32px}
 
 /* ══ 2 · ЛОЗА ══════════════════════════════════════════════════════════ */
-.vine{height:260svh}
-/* скрим-поле для текста (aesop): читаемость гарантирована на всех 10 с петли */
+/* четыре такта по ~95 svh плюс вход */
+.vine{height:380svh}
+/* Четыре наложенных кадра. Ни filter, ни mix-blend-mode: blur на
+   полноэкранном видео роняет fps ровно так, как записано в state/home.md
+   (22 fps на четырёх роликах 1920). Кроссфейд ведёт только opacity. */
+.vine__s{opacity:0;transform:translateZ(0)}
+.vine__pin>.vine__s:first-child{opacity:1}
+/* Скрим-поле для текста (aesop): читаемость гарантирована на всех четырёх
+   тактах. Третий слой — верхняя полоса под .vine__tag: прежний кадр
+   (harvest-dawn) держал вверху тёмный склон, и левого градиента хватало;
+   у новых четырёх вверху то листва на просвет, то небо, и строка
+   «Четыре сорта…» падала до 2,5:1 (такт 2). Полоса идёт от края, где и так
+   стоит шапка, поэтому читается её продолжением, а не заплаткой. */
 .vine__scrim{
   position:absolute;inset:0;pointer-events:none;
   background:
     linear-gradient(90deg,rgba(11,9,6,.88) 0%,rgba(11,9,6,.66) 24%,rgba(11,9,6,.18) 48%,transparent 62%),
+    linear-gradient(180deg,rgba(11,9,6,.62) 0%,rgba(11,9,6,.54) 16%,rgba(11,9,6,.22) 26%,transparent 36%),
     linear-gradient(0deg,rgba(11,9,6,.42),transparent 34%);
 }
+/* ГОРЯЧИЙ ТАКТ (3, капля). В левом нижнем углу этого кадра лежит тёплый
+   блик — единственное горячее место экрана, и ровно там стоит список.
+   Скрим поднимается с .88 до .94 на первых 24 % ширины. Отдельным слоем,
+   а не сменой background у .vine__scrim: градиенты между собой не
+   интерполируются, и такт менялся бы скачком. Доля подобрана так, чтобы
+   сумма двух слоёв дала .95 / .72 / .18 — числа из шот-листа. */
+.vine__scrim::after{
+  content:'';position:absolute;inset:0;opacity:0;transition:opacity .5s var(--ease);
+  background:linear-gradient(90deg,rgba(11,9,6,.55) 0%,rgba(11,9,6,.18) 24%,transparent 48%);
+}
+.vine__scrim.is-hot::after{opacity:1}
 .vine__tag{position:absolute;left:8%;top:clamp(96px,16svh,150px);z-index:4}
 .vine__list{
   position:absolute;left:8%;bottom:clamp(56px,11svh,120px);z-index:4;
@@ -222,7 +245,10 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 .vine__i.is-on span{color:#F5EDE0}
 
 /* ══ 3 · БУТЫЛКА ═══════════════════════════════════════════════════════ */
-.turn{height:320svh;background:#0B0906}
+/* 320 → 360 svh. Такт наезда — 28 % длины секции; при 320 svh это 616 px
+   прокрутки, и четырёхсекундный ролик зритель проскакивал бы за один
+   оборот колеса раньше, чем камера доедет до этикетки. */
+.turn{height:360svh;background:#0B0906}
 /* isolate: screen у канваса обязан смешиваться с тёплым фоном сцены,
    а не с тем, что случайно окажется под всей страницей */
 .turn__pin{background:#0B0906;isolation:isolate}
@@ -250,29 +276,29 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 /* 3D встала — чужой постер и канвас секвенции убираются совсем */
 .turn__pin.b3d-on .turn__cv,
 .turn__pin.b3d-on .turn__still{display:none}
+/* НАЕЗД (такт B) — под макро тиснения, поверх канваса скраба. Обычный
+   кадр, БЕЗ screen: ролик снят на том же чёрном, что и секвенция, но
+   к концу такта бумага занимает весь экран, и screen её вымывал бы. */
+.turn__push{position:absolute;inset:0;z-index:1;opacity:0;will-change:opacity}
 /* Макро тиснения на выходе сцены: обычный кадр, БЕЗ screen — это уже
    не «бутылка на чёрном», а бумага во весь экран. */
 .turn__emb{z-index:2;opacity:0;will-change:opacity}
-/* Поле под строку выхода: макро тиснения бликует, и строка «Четыре линейки»
+/* Поле под строку выхода: макро тиснения бликует, и строка «Четыре мира дома»
    иначе ложится прямо на золото (признак 4 — текст на сюжетном центре).
    Тень уведена в правый нижний угол, где строка и стоит. */
 .turn__emb::after{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(62% 46% at 84% 84%,rgba(11,9,6,.80) 0%,rgba(11,9,6,.34) 52%,transparent 78%);
 }
-/* Пока 3D собирается: канвас секвенции скрыт, на пине наша вырезка
-   целиком (contain), а не чужой постер, обрезанный по cover. */
+/* Пока 3D собирается (только под ручкой ?bottle=3d): канвас скрыт, на пине
+   стоит наш же стилл анфас. Подменять его вырезкой ×4 больше не нужно —
+   чужой бутылки в сцене нет ни на одном кадре, и стилл снят той же
+   кадровкой, что и модель. */
 .turn__pin.b3d-wait .turn__cv{display:none}
-.turn__pin.b3d-wait .turn__still{object-fit:contain;padding:6svh 0}
-/* prefers-reduced-motion: ни 3D, ни секвенции — на пине наша вырезка */
-.turn__pin.b3d-still .turn__cv,
-.turn__pin.b3d-still .turn__still{display:none}
-.turn__pin.b3d-still .turn__cut{opacity:1;left:50%;transform:translateX(-50%)}
-/* НАША вырезка ×4 — ею сцена заканчивается вместо чужого кадра */
-.turn__cut{
-  position:absolute;left:10%;bottom:8%;height:62svh;width:auto;z-index:3;
-  opacity:0;transform-origin:50% 100%;will-change:transform,opacity;
-}
+/* prefers-reduced-motion: ни 3D, ни секвенции — на пине наш стилл анфас,
+   он и есть кадр «бутылка стоит лицом». Канвас в этом режиме не заводится
+   вовсе (startFrames() выходит на REDUCE), поэтому гасим только его. */
+.turn__pin.b3d-still .turn__cv{display:none}
 .turn__caps{
   position:absolute;left:8%;top:0;bottom:0;z-index:4;
   width:min(34vw,440px);display:grid;align-content:center;
@@ -295,15 +321,39 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 }
 
 /* ══ 4 · ЧЕТЫРЕ МИРА ═══════════════════════════════════════════════════ */
-.worlds{height:360svh;background:#0B0906}
+/* 360 → 480 svh. При 360 на четыре слайда приходилось 120 svh на переход,
+   и слайд жил на экране 2–4 с: восьмисекундный drone-sea показывал зрителю
+   первые три секунды из восьми, а шестисекундного хранителя никто бы не
+   досмотрел. Ровно эту болезнь чинили на сцене «Брют» — там добавили 70 svh
+   докрутки под 4,3-секундный хлопок. Одной высоты, впрочем, мало: время
+   покоя даёт ступенька в scWorlds (плато 40 % такта / переход 60 %),
+   иначе прибавка растянула бы и переходы тоже. */
+.worlds{height:480svh;background:#0B0906}
 .worlds__pin{background:#0B0906}
 .wsl{position:absolute;inset:0;overflow:hidden;will-change:transform}
-/* поле под подпись: мягкая полоса на 55 % высоты + виньетка по краям —
-   строка читается на любом кадре любого из четырёх роликов */
+/* Поле под подпись: полоса на 55 % высоты + виньетка по краям — строка
+   читается на любом кадре любого из четырёх роликов.
+   ПОЛОСА СТАЛА УЖЕ И ГЛУБЖЕ (было transparent 30 % → .52 на 55 % →
+   transparent 80 %). Причина замерена, а не на глаз: у нового кадра ЧД
+   под подписью стоит светящаяся арка в конце коридора, и прежняя мягкая
+   полоса давала фон rgb(98,97,93) — микро-тег читался на 3,02:1 при норме
+   4,5. Разгонять .52 по всей высоте нельзя: то же затемнение съело бы
+   бочки у «Чёрного Доктора» и небо у «Токлука», где контраст и так 15:1.
+   Поэтому полоса собрана вокруг самой строки: выше 34 % и ниже 76 % кадр
+   стал СВЕТЛЕЕ прежнего, а под глифами — темнее.
+
+   У полосы ПЛАТО 52…65 %, а не пик на 55 %. Блок подписи занимает
+   47…63 % высоты, и на пике сидели только имя и тег: под «Войти →»
+   (60,9…63 %) альфа падала с 0,72 до 0,48. Замер по всему ходу роликов
+   с шагом 1/12 (`_worlds2_cr_run.js`) поймал на «Солнечной Долине»
+   кадр 1,99 с, где блик на ободке бокала подходит прямо под строку, —
+   **3,76:1**. Восьми точек на это не хватало: они давали 4,71 и порог
+   считался взятым. Нижний край полосы оставлен на 76 %, растянут только
+   верх плато, поэтому свет у пола (пятно фонаря хранителя) не тронут. */
 .wsl::after{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg,transparent 30%,rgba(11,9,6,.52) 55%,transparent 80%),
+    linear-gradient(180deg,transparent 34%,rgba(11,9,6,.72) 52%,rgba(11,9,6,.72) 65%,transparent 76%),
     radial-gradient(96% 76% at 50% 56%,rgba(11,9,6,.28) 0%,rgba(11,9,6,.80) 100%);
 }
 .wsl__b{
@@ -312,7 +362,11 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 }
 .wsl__txt{position:absolute;left:0;right:0;top:55%;transform:translateY(-50%);z-index:4;text-align:center;padding:0 var(--pad)}
 .wsl__h{font-size:clamp(34px,7.4svh,84px);color:#F5EDE0}
-.wsl__tag{margin-top:14px;color:rgba(251,247,240,.66)}
+/* .66 → .78. Микро-тег обязан оставаться тише имени, но при .66 он
+   упирался в 3,02:1 даже на выправленной полосе: у полупрозрачной строки
+   контраст падает вдвое быстрее фона, потому что светлеет и сам глиф.
+   Имя рядом идёт сплошным #F5EDE0 — разница в весе сохраняется. */
+.wsl__tag{margin-top:14px;color:rgba(251,247,240,.78)}
 .wsl__go{
   display:inline-block;margin-top:26px;
   font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
@@ -333,10 +387,26 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
 
 /* ══ 5 · ПОДВАЛ ════════════════════════════════════════════════════════ */
 .years{height:440svh;background:#0B0906}
-.years__drop{opacity:0}
+/* Блока #yearsDrop больше нет: финал 2026 теперь внутри самого мастера —
+   рука кладёт чистую бутылку на ту же полку, куда в первом кадре легла
+   бутылка 1888 года. Прежняя капля на клёпке бочки была другим планом,
+   другой крупностью и другим предметом, и стыковалась жёсткой склейкой на
+   90 % прокрутки. Минус один <video> на странице (05-cellar.md § 2). */
+/* Третий слой — ПОЛОСА ПОД ЦИФРОЙ. Понадобился ровно из-за скраба: у прежней
+   петли под цифрой всегда стоял тёмный коридор бочек, а мастер по ходу ролика
+   подводит под неё то свечу, то разгоревшуюся керосиновую лампу. Замер по 13
+   точкам прокрутки (tools/pw/_cellar2_cr.js): худшее у глифов года —
+   4,37:1 на 4,4 с, фон rgb(144,102,53), то есть подсвеченный лампой камень.
+   Радиальный слой держит в середине всего .30 — именно там, где цифра.
+   Полоса 24…60 % с плато .16 накрывает строку года (она стоит на 41 % и
+   занимает 37…45 % высоты) и не трогает ни подпись на 71 %, ни низ кадра:
+   после правки год 5,54:1 на десктопе и 5,77:1 на мобиле, подпись 5,70 и
+   7,01:1. Пыль на кадре при этом не притушена — полоса стоит на 16 %, а не
+   на тех 0,7, которыми пришлось бы гасить весь кадр. */
 .years__scrim{
   position:absolute;inset:0;pointer-events:none;
   background:
+    linear-gradient(180deg,transparent 24%,rgba(11,9,6,.16) 36%,rgba(11,9,6,.16) 48%,transparent 60%),
     linear-gradient(0deg,rgba(11,9,6,.80) 0%,rgba(11,9,6,.30) 34%,transparent 52%),
     radial-gradient(88% 70% at 50% 46%,rgba(11,9,6,.30) 0%,rgba(11,9,6,.84) 100%);
 }
@@ -479,18 +549,76 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
   .sky__vign{background:
     linear-gradient(0deg,rgba(11,9,6,.88) 0%,rgba(11,9,6,.52) 34%,transparent 64%),
     linear-gradient(180deg,rgba(11,9,6,.52),transparent 22%)}
-  .vine{height:300svh}
+  .vine{height:440svh}
   .vine__list{left:7%;max-width:80vw}
-  .vine__scrim{background:linear-gradient(4deg,rgba(11,9,6,.90) 0%,rgba(11,9,6,.62) 38%,transparent 72%)}
-  .turn{height:250svh}
+  /* Портрет режет 16:9 до центральных 26 % — тихой зоны вверху нет ни на
+     одном такте, под .vine__tag везде пересвет. Верхняя полоса сильнее
+     десктопной и почти целиком стоит под шапкой. */
+  .vine__scrim{background:
+    linear-gradient(4deg,rgba(11,9,6,.90) 0%,rgba(11,9,6,.62) 38%,transparent 72%),
+    linear-gradient(180deg,rgba(11,9,6,.92) 0%,rgba(11,9,6,.88) 19%,rgba(11,9,6,.32) 27%,transparent 38%)}
+  /* горячий такт на мобиле добирается снизу — там же, где стоит список */
+  .vine__scrim::after{background:linear-gradient(0deg,rgba(11,9,6,.55) 0%,rgba(11,9,6,.30) 22%,transparent 46%)}
+  /* Портрет режет 16:9 до центральных 26 % ширины: сюжет тактов 1 и 3 стоит
+     в центре, гроздь с лезвиями — правее, а старый куст без сдвига уезжает
+     за правый обрез и остаётся пустой склон. */
+  .vine__s--cut .vslot__still,.vine__s--cut .vslot__v{object-position:55% 50%}
+  .vine__s--rows .vslot__still,.vine__s--rows .vslot__v{object-position:62% 50%}
+  /* 250 → 280 svh: наезд 4 с должен успеть доиграть и на узком экране */
+  .turn{height:280svh}
   .turn__caps{left:7%;right:7%;top:auto;bottom:14%;width:auto;align-content:end}
+  /* Донный скрим держит подписи такта A. На тактах B и C текста в кадре нет
+     вовсе — там он только гасил бы макро этикетки, ради которого сцена и
+     сделана. Прозрачность ведёт сцена через --scrim (гаснет вместе с
+     подменой кадра на наезд). */
   .turn__pin::after{content:'';position:absolute;inset:auto 0 0;height:38%;z-index:2;
-    background:linear-gradient(0deg,rgba(11,9,6,.86),transparent);pointer-events:none}
+    background:linear-gradient(0deg,rgba(11,9,6,.86),transparent);pointer-events:none;
+    opacity:var(--scrim,1)}
+  /* Портрет режет 16:9 до центральных ~26 % ширины. Бутылка стоит по центру
+     и не теряется, но на наезде этикетка сидит ЧУТЬ ВЫШЕ центра кадра —
+     без сдвига вниз портретный кроп срезал бы ей верхнюю полосу с гербом. */
+  .turn__push .vslot__still,.turn__push .vslot__v{object-position:50% 44%}
   .turn__out{left:7%;right:7%;text-align:left;bottom:14%}
   .wsl__b{right:auto;left:50%;transform:translateX(-50%);height:42svh;opacity:.9}
   .wsl__txt{top:44%}
+  /* Полоса едет вместе с подписью. На портрете строка стоит на 44 %, а не
+     на 55 %, и десктопная полоса накрывала её краем: на 44 % её альфа была
+     всего 0,29 — отсюда 3,27:1 у имени «Чёрный Доктор» на 390 px против
+     5,34:1 на десктопе. Плюс портрет режет 16:9 до центральных 26 % ширины,
+     то есть ровно до светящейся арки, — здесь полоса нужна ГЛУБЖЕ.
+
+     У полосы ПЛАТО, а не пик. Пик на 45 % накрывал имя и тег, а третья
+     строка блока — «Войти →» — стоит на 53,9…56,1 % и попадала уже на
+     спад: альфа под ней падала с 0,78 до 0,44. Замерено по всему ходу
+     ролика (шаг 1/8, `_worlds2_cr_run.js`): золото --gold-hi на пятне
+     фонаря хранителя давало **3,28:1 на 4,5 с** — единственное число
+     экрана ниже 4,5. Имя рядом держит 6,42:1, потому что стоит на пике.
+     Плато 45→58 % накрывает блок целиком (32…56,1 %), спад отодвинут
+     с 68 на 74 %: ниже 58 % на портрете и так стоит бутылка-оверлей
+     (42 svh от низа), терять там нечего. Десктоп не тронут — там
+     «Войти →» держит 4,71:1 по всему ходу, порог взят. */
+  .wsl::after{
+    background:
+      linear-gradient(180deg,transparent 22%,rgba(11,9,6,.78) 45%,rgba(11,9,6,.78) 58%,transparent 74%),
+      radial-gradient(96% 76% at 50% 46%,rgba(11,9,6,.28) 0%,rgba(11,9,6,.80) 100%);
+  }
   .years{height:520svh}
+  /* Портрет режет 16:9 до центральных ~26 % ширины, а кисти в обоих клипах
+     приходят СПРАВА: на 50 % рука 1888 года уходила за обрез наполовину и
+     читалась как тёмное пятно. Сдвиг к 62 % возвращает в кадр и кисть, и
+     бутылку целиком (снято на 0,81 / 5,70 / 13,41 с — review/home/cellar2).
+     Дальше 62 % двигать нечего: на 66 % в кадр лезет правый край арки. */
+  .years__v .vslot__still,.years__v .vslot__v{object-position:62% 50%}
   .years__caps{top:64%;width:86vw}
+  /* Камень-манифест обязан быть ровно в один экран. Абзац после факт-аудита
+     подрос (#pauseP +46 px) и на 390×844 выдавил секцию до 860 px — на 16 px
+     выше экрана. Ширину резать нечем: на портрете абзац и так во всю колонку
+     (max-width:100% против 26ch на десктопе), 27ch там шире доступных 350 px
+     и ничего бы не изменил. Поэтому убавлены поля: 14svh → 12svh, это −33,8 px
+     на паре, и блок 623,9 + 202,6 = 826,5 снова уходит под min-height:100svh —
+     секция встаёт ровно в 844. Подсветку не задевает: она привязана к самому
+     абзацу (trigger #pauseP, top 86% → bottom 58%), а не к полям секции. */
+  .pause{padding:12svh var(--pad)}
   .pause__p{max-width:100%}
   .glass{height:230svh}
   #glassT{font-size:44vw}
@@ -519,7 +647,14 @@ h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-
   .pl{animation:none}
   .scrollhint i{animation:none}
   .vine__i{opacity:1;transform:none}
-  .turn__c,.turn__out,.glass__txt,.years__caps p{opacity:1;transform:none}
+  .turn__c,.turn__out,.glass__txt{opacity:1;transform:none}
+  /* Подписи подвала — НЕ все разом. Шесть абзацев лежат друг на друге в одной
+     точке (position:absolute; top:0), и общее opacity:1 складывало их в
+     нечитаемую кашу — видно на листе приёмки cellar2 первого захода.
+     При reduced-motion гасим только ДВИЖЕНИЕ; показывается ровно та подпись,
+     которой сцена поставила .is-on, — «оставить только смену года и подписи»
+     (05-cellar.md § 6.4 п. 11). */
+  .years__caps p{transition:none;transform:none}
   .pop__txt{opacity:1;--rise:0px}
   .turn__c{position:static;margin-bottom:1em}
   .turn__caps{position:absolute;top:auto;bottom:12%;transform:none}
