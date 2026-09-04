@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Шесть языков долины</title>
+<link rel="stylesheet" href="../prototype/assets/fonts/fonts.css">
+<style>
+:root{--ink:#161210;--stone:#fbf7f0;--paper:#f3ecdf;--gold:#b99b63;--gold-hi:#8a6f3a;--bordo:#5f1930;--fg:#161210;--fg-dim:rgba(22,18,16,.66);--hair:rgba(22,18,16,.16);--band:#161210;--band-fg:#fbf7f0;--band-gold:#d9bd8a;--serif:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;--sans:"Golos Text","Segoe UI",Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--stone:#151210;--paper:#1d1915;--fg:#f1eadb;--fg-dim:rgba(241,234,219,.66);--hair:rgba(241,234,219,.18);--gold-hi:#d9bd8a;--band:#0d0b09;--band-fg:#f1eadb;--band-gold:#d9bd8a}}
+:root[data-theme="dark"]{--stone:#151210;--paper:#1d1915;--fg:#f1eadb;--fg-dim:rgba(241,234,219,.66);--hair:rgba(241,234,219,.18);--gold-hi:#d9bd8a;--band:#0d0b09;--band-fg:#f1eadb;--band-gold:#d9bd8a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--stone);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--gold-hi);text-decoration:none;border-bottom:1px solid var(--hair)}a:hover{border-color:var(--gold-hi)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,4vw,48px)}
+.eyebrow{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 14px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.01em}
+h2{font-size:clamp(1.7rem,3.2vw,2.5rem);line-height:1.12;margin-bottom:18px}
+h3{font-size:1.45rem;line-height:1.2}
+p{margin:0 0 1em}
+.lead{font-family:var(--serif);font-size:clamp(1.25rem,2vw,1.5rem);line-height:1.4;max-width:34em;margin-top:22px}
+.hero{padding:clamp(56px,9vw,120px) 0 clamp(36px,5vw,64px);border-bottom:1px solid var(--hair)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:28px;font-size:.78rem;color:var(--fg-dim)}
+section{padding:clamp(40px,6vw,72px) 0;border-bottom:1px solid var(--hair)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:36px}
+.cols h3{margin-bottom:12px}
+ul{margin:0;padding-left:1.15em}li{margin:0 0 .55em}
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px 28px;counter-reset:c}
+.crit div{border-top:1px solid var(--hair);padding-top:12px}
+.crit b{display:block;font-family:var(--serif);font-size:1.25rem;font-weight:500;margin-bottom:4px}
+.concept{padding:clamp(44px,6vw,80px) 0;border-bottom:1px solid var(--hair)}
+.concept .num{font-family:var(--serif);font-size:clamp(2.6rem,5vw,4rem);line-height:1;color:var(--gold);font-weight:400}
+.concept .head{display:grid;grid-template-columns:auto 1fr;gap:20px 28px;align-items:start;margin-bottom:22px}
+.concept .thesis{font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.45rem);line-height:1.35;max-width:36em}
+.grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:36px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.field{margin:0 0 16px}
+.field b{display:block;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:5px;font-weight:600}
+.field p,.field ul{margin:0}
+.refs{display:grid;gap:14px}
+.refs figure{margin:0}
+.refs img{display:block;width:100%;height:auto;border:1px solid var(--hair)}
+.refs figcaption{font-size:.78rem;color:var(--fg-dim);margin-top:6px;line-height:1.45}
+.verdict{margin-top:10px;padding:14px 16px;background:var(--paper);display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:.92rem}
+.verdict b{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-hi);align-self:baseline}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-top:1px solid var(--hair);vertical-align:top}
+th{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-hi);font-weight:600;border-top:none}
+.tbl{overflow-x:auto}
+.band{background:var(--band);color:var(--band-fg);padding:clamp(48px,7vw,88px) 0}
+.band .eyebrow,.band .field b{color:var(--band-gold)}
+.band h2{color:var(--band-fg)}
+.band a{color:var(--band-gold);border-color:rgba(217,189,138,.35)}
+.band .cols{gap:32px}
+.band .q{border-top:1px solid rgba(217,189,138,.35);padding-top:14px}
+.band .q b{display:block;font-family:var(--serif);font-size:1.35rem;font-weight:500;margin-bottom:6px}
+.ours{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.ours img{display:block;width:100%;height:auto;border:1px solid var(--hair)}
+.ours figcaption{font-size:.78rem;color:var(--fg-dim);margin-top:6px}
+.foot{padding:36px 0 64px;font-size:.8rem;color:var(--fg-dim)}
+.foot p{max-width:60em}
+@media (prefers-reduced-motion:no-preference){.concept{scroll-margin-top:24px}}
+</style>
+</head>
+<body>
+
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">Солнечная Долина · главная страница · на согласование · 4 сентября 2026</p>
+  <h1>Шесть языков долины</h1>
+  <p class="lead">Вопрос не «какую картинку поставить на главную», а на каком языке сайт рассказывает историю дома. Ниже шесть языков. У каждого есть живой пример в мире, разбор «как это будет про Крым» и цена вопроса. В конце — что мы предлагаем выбрать и три вопроса, на которые нужен ответ до производства.</p>
+  <div class="meta"><span>АО «Солнечная Долина», Судак, с 1888 года</span><span>Подготовлено к согласованию после встречи 2</span><span>Чужие работы приведены как примеры языка, ссылки в тексте</span></div>
+</div></header>
+
+<section><div class="wrap">
+  <p class="eyebrow">Из чего исходим</p>
+  <div class="cols">
+    <div><h3>Что вы сказали на встрече</h3><ul>
+      <li>На главной — картина по Крыму, возможно анимированная, очень высокого качества.</li>
+      <li>Сайт рассказывает историю картинкой и движением, не текстом и не обычными фотографиями.</li>
+      <li>Экскурсии — второй приоритет после главной. То, что видишь на сайте, узнаёшь на экскурсии, и наоборот.</li>
+      <li>У каждой линейки — своя история. Главная короткая. Новости — отдельный раздел.</li></ul></div>
+    <div><h3>Что есть только у вас</h3><ul>
+      <li>Единственная в мире долина, где промышленно растут автохтоны: Эким Кара, Кефесия, Джеват Кара.</li>
+      <li>Подвалы Голицына 1888 года, четыре подвала к 1895-му, коллекция 1990–2013.</li>
+      <li>Натура, которую узнают с первого взгляда: Меганом, Судак, Токлук, море. И солнце — оно в имени дома.</li></ul></div>
+    <div><h3>Что ограничивает</h3><ul>
+      <li>Закон: вино онлайн не продаётся и не рекламируется. Экскурсии и дегустации — единственный продукт, который сайт может продавать. Значит, любая главная должна вести к визиту.</li>
+      <li>Фотобанк действующего сайта не выдерживает премиального экрана: двадцать кадров нужного разрешения, логотипа в векторе нет. Любой язык потребует съёмки или написания новых изображений.</li>
+      <li>Телефоны. Тяжёлые 3D-страницы со скроллом тормозят даже у награждённых сайтов. Гипноз живёт на одном лёгком холсте.</li>
+      <li>Чёткого технического задания нет. Поэтому этот документ: выбираем язык до производства, а не переделываем после.</li></ul></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">Как мы судили каждый язык</p>
+  <div class="crit">
+    <div><b>Завораживает</b>Движение медленное и цельное, как облака или вода, и отвечает руке. Мелкое мельтешение убивает эффект — мы проверили на себе.</div>
+    <div><b>Подлинно</b>Натура узнаётся: ворота, дом, подвалы, мыс стоят там, где стоят в жизни. Принцип клона «сайт ↔ экскурсия».</div>
+    <div><b>Без текста</b>Историю рассказывает изображение и движение. Слова — подписи, не абзацы.</div>
+    <div><b>Производимо</b>Ясно, что снять, написать или заказать, и сколько это займёт.</div>
+    <div><b>Быстро</b>Держит 60 кадров на обычном ноутбуке и не тормозит на телефоне.</div>
+    <div><b>Законно</b>Ведёт к визиту, а не к покупке. Без «лечебного», без обещаний.</div>
+  </div>
+</div></section>
+
+<article class="concept" id="c1"><div class="wrap">
+  <div class="head"><div class="num">1</div><div><h2>Полотно, которое живёт</h2><p class="thesis">Одна большая картина долины, написанная как полотно эпохи Голицына, которая живёт: движется свет и воздух, море дышит, а сама картина — карта сайта.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Гость видит полотно во весь экран. Через секунду замечает, что облака идут и по воде бежит блик. Курсор чуть поворачивает воздух в картине. Ни одной надписи, кроме имени дома.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Картина → «одна долина, 1888» одной фразой → четыре линейки как четыре фрагмента того же полотна → подвалы и приглашение на экскурсию с одной кнопкой → тихий подвал страницы с тремя новостями.</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Полотно пишется с натуры маршрута экскурсии: ворота, дом, четыре подвала, терраса с видом на Меганом. Гость, который был у вас, узнаёт место; гость, который придёт, узнает картину.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Картина, написанная для дома. Мы предлагаем заказать настоящее полотно крымскому художнику и оживить его цифровую копию: оригинал вешается в дегустационном зале, и сайт с экскурсией становятся клонами буквально.</li><li>Движение: либо авторское поле течения по мазкам картины (как у Vrellis), либо короткие видео-петли, сделанные по картине под контролем художника (как у Google и музея Фукуда).</li></ul></div>
+    <div class="field"><b>Риск</b><p>Всё держится на качестве одной картины и её движения. Наши пробы показали: движение обязано быть медленным и цельным, любые мелкие частицы читаются как рябь.</p></div>
+    <div class="verdict"><b>Объём</b><span>картина — средний, движение — средний</span><b>Наш вывод</b><span>самый точный ответ на слова, сказанные на встрече</span></div>
+  </div><div class="refs">
+    <figure><img src="img/vrellis.jpg" alt="Петрос Вреллис, интерактивная «Звёздная ночь»"><figcaption>Petros Vrellis, «Starry Night (interactive)», 2012: 80 000 частиц текут по вихрям Ван Гога, касание отклоняет поток, картина возвращается. <a href="https://vimeo.com/39353818">Видео</a></figcaption></figure>
+    <figure><img src="img/fukuda.jpg" alt="Moving Paintings, Google Arts & Culture и музей Фукуда"><figcaption>Moving Paintings, Google Arts &amp; Culture × Fukuda Art Museum, 2025: классические полотна оживлены ИИ, движение задавали кураторы. <a href="https://artsandculture.google.com/experiment/moving-paintings-%C3%97-fukuda-art-museum/vwGt6nKBuhLotg">Проект</a></figcaption></figure>
+  </div></div>
+</div></article>
+
+<article class="concept" id="c2"><div class="wrap">
+  <div class="head"><div class="num">2</div><div><h2>Полёт над долиной</h2><p class="thesis">Главная — один полёт: с моря через Меганом в долину, к воротам имения, по настоящему рельефу Судака. Остановки полёта — разделы сайта.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Море и мыс с высоты, туман в долине, камера идёт вперёд сама. Скролл только ускоряет полёт.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Море → мыс Меганом → долина и ряды лозы → имение и подвалы → терраса и приглашение на экскурсию. Каждая остановка — одна фраза и один вход в раздел.</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Рельеф долины у нас уже есть по спутниковым высотам. Полёт повторяет дорогу гостя к имению, поэтому экскурсия начинается ещё на сайте.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Настоящие текстуры земли: аэросъёмка дроном в золотой час или лицензированный спутник высокого разрешения.</li><li>Модель имения и подвалов для ближнего плана.</li></ul></div>
+    <div class="field"><b>Риск</b><p>Самый тяжёлый язык по производству и для телефонов. На слабых устройствах полёт отдаётся видео-версией.</p></div>
+    <div class="verdict"><b>Объём</b><span>большой</span><b>Наш вывод</b><span>главный «вау», годится как вторая глава сайта</span></div>
+  </div><div class="refs">
+    <figure><img src="img/primland.jpg" alt="Explore Primland: облёт реального рельефа"><figcaption>Explore Primland, курорт в горах Блю-Ридж: облёт настоящего рельефа с туманом и кинокамерой прямо в браузере. <a href="https://explore.ownprimland.com">Сайт</a></figcaption></figure>
+  </div></div>
+</div></article>
+
+<article class="concept" id="c3"><div class="wrap">
+  <div class="head"><div class="num">3</div><div><h2>Кино о долине</h2><p class="thesis">Полноэкранные киноплёнки: свет над лозой, море, подвалы при свече. Типографика тихая, слова — только подписи.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Кадр золотого часа над долиной с террасы имения. Кадры сменяются медленно, как дыхание. Звук — по желанию гостя.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Долина → лоза и автохтоны → подвалы → дегустация и приглашение → тихий подвал страницы.</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Съёмка два-три дня в сезон сбора и один день зимой в подвалах, дрон и стедикам. Те же кадры кормят соцсети, печать и экскурсии.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Профессиональная съёмка по сценарию, который мы пишем заранее под каждый экран.</li><li>Пересъёмка бутылок, без неё премиальный каталог невозможен.</li></ul></div>
+    <div class="field"><b>Риск</b><p>«Как у всех»: у соседей по рынку тоже фото и видео. Отличие только в свете, натуре и монтаже. Зато самый надёжный и быстрый путь к премиальности.</p></div>
+    <div class="verdict"><b>Объём</b><span>съёмка — средний, сайт — малый</span><b>Наш вывод</b><span>страховка и основа для любого другого языка</span></div>
+  </div><div class="refs">
+    <figure><img src="img/masseto.jpg" alt="Masseto: погреб в бетоне, кинокадр"><figcaption>Masseto, Тоскана: первый экран — погреб в бетоне и одна плёнка. <a href="https://www.masseto.com/">Сайт</a></figcaption></figure>
+    <figure><img src="img/cheval-blanc.jpg" alt="Château Cheval Blanc: усадьба, сезоны и звук"><figcaption>Château Cheval Blanc, Сент-Эмильон: усадьба по сезонам, к каждому — звук поместья. <a href="https://www.chateau-cheval-blanc.com/">Сайт</a></figcaption></figure>
+  </div></div>
+</div></article>
+
+<article class="concept" id="c4"><div class="wrap">
+  <div class="head"><div class="num">4</div><div><h2>Спуск в подвалы 1888</h2><p class="thesis">Главная начинается там, где кончается экскурсия: у ворот подвала. Гость спускается: свеча, своды, коллекция, бочки. На каждой площадке — одна фраза.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Ворота подвала №1 и свеча. Камера входит внутрь, свет свечи ведёт по своду. Тишина.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Ворота → своды 1888 → коллекция 1990–2013 → дегустационный зал → приглашение с одной кнопкой «Забронировать».</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Подвалы Голицына — то, чего нет ни у кого в стране. Сайт становится репетицией визита, а визит — узнаванием сайта.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Съёмка подвалов: фото и видео при свече, или фотограмметрия для объёмной прогулки.</li><li>Сценарий экскурсии и сайта пишется один раз на двоих.</li></ul></div>
+    <div class="field"><b>Риск</b><p>Тёмная главная на телефоне. Долина и солнце не на первом экране — их отдаём второму.</p></div>
+    <div class="verdict"><b>Объём</b><span>средний</span><b>Наш вывод</b><span>сильнейшая связь с продуктом, который можно продавать</span></div>
+  </div><div class="refs">
+    <figure><img src="img/pasqua-2.jpg" alt="Pasqua Wines: залы как разделы сайта"><figcaption>Pasqua Wines, Верона: залы как разделы, камера переходит между ними. Берём только структуру, не исполнение. <a href="https://pasqua.it/">Сайт</a></figcaption></figure>
+    <figure><img src="img/test-svet.jpg" alt="Наша проба: свет золотого часа по картине"><figcaption>Наша проба «свет по картине»: закат проходит по полотну за полторы минуты. Материал пробы — Айвазовский, 1867.</figcaption></figure>
+  </div></div>
+</div></article>
+
+<article class="concept" id="c5"><div class="wrap">
+  <div class="head"><div class="num">5</div><div><h2>Атлас долины</h2><p class="thesis">Главная — рисованная карта долины: Меганом, Токлук, Архадерессе, Судак. Наведение открывает участок, сорт, линейку и маршрут экскурсии.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Карта в манере старых карт Тавриды, море внизу, солнце над Меганомом. Курсор поднимает участки, как страницы атласа.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Карта → три автохтона и их участки → четыре линейки по местам → маршрут экскурсии на той же карте → подвал страницы.</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Все данные терруара уже собраны в нашей базе. Каждая линейка получает своё место на карте и постоянный адрес — под будущие QR-коды на бутылках.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Картографическая иллюстрация, заказанная художнику-картографу.</li></ul></div>
+    <div class="field"><b>Риск</b><p>Скорее рассказывает, чем завораживает. Лучше как второй экран или раздел «Долина и сорта», чем как первый экран.</p></div>
+    <div class="verdict"><b>Объём</b><span>средний</span><b>Наш вывод</b><span>язык для линеек и терруара, не для первого экрана</span></div>
+  </div><div class="refs">
+    <figure><img src="img/relighting.jpg" alt="Свет по плоскому изображению с картой глубины"><figcaption>Приём «свет с тенями по плоскому изображению» (Codrops, 2026) годится и для карты: свет ходит по рельефу нарисованных гор. <a href="https://tympanus.net/Tutorials/RelightingImages/">Демо</a></figcaption></figure>
+  </div></div>
+</div></article>
+
+<article class="concept" id="c6"><div class="wrap">
+  <div class="head"><div class="num">6</div><div><h2>Четыре мира одной картины</h2><p class="thesis">Четыре линейки — четыре полотна: Архадерессе, Чёрный Доктор, Токлук, Меганом, написанные одной рукой. Главная листает их как стены галереи, QR на бутылке ведёт в свою картину.</p></div></div>
+  <div class="grid"><div>
+    <div class="field"><b>Первые десять секунд</b><p>Первое полотно во весь экран, у края видно следующее. Листание — как шаг вдоль стены.</p></div>
+    <div class="field"><b>Как строится главная</b><p>Четыре полотна → одна фраза о доме → приглашение на экскурсию. Каждое полотно — вход в историю линейки.</p></div>
+    <div class="field"><b>Как это про Крым</b><p>Четыре места — четыре картины с натуры. Токлукская долина, мыс Меганом, имение и подвал: гость экскурсии проходит все четыре.</p></div>
+    <div class="field"><b>Что нужно сделать</b><ul><li>Четыре картины одной рукой, или одно большое полотно с четырьмя фрагментами.</li><li>Пересъёмка бутылок для каждой линейки.</li></ul></div>
+    <div class="field"><b>Риск</b><p>В четыре раза больше живописи. На главной должны остаться только фрагменты, иначе она станет длинной.</p></div>
+    <div class="verdict"><b>Объём</b><span>большой</span><b>Наш вывод</b><span>продолжение языка 1 в разделах линеек, не отдельная главная</span></div>
+  </div><div class="refs">
+    <figure><img src="img/kettmeir.jpg" alt="Kettmeir: бутылка как натюрморт"><figcaption>Kettmeir, Южный Тироль: бутылка как натюрморт, каждая линейка со своей сценой. <a href="https://www.kettmeir.com/">Сайт</a></figcaption></figure>
+    <figure><img src="img/klimt.jpg" alt="Klimt Wine: бутылка на лозе в 3D"><figcaption>Klimt Wine, Эстерхази: бутылка на лозе в 3D. Красиво, но тяжёлый скролл тормозит — берём как предупреждение. <a href="https://klimtwine.com/en">Сайт</a></figcaption></figure>
+  </div></div>
+</div></article>
+
+<section><div class="wrap">
+  <p class="eyebrow">Сводная таблица</p>
+  <div class="tbl"><table>
+    <tr><th>Язык</th><th>Завораживает</th><th>Подлинно</th><th>Без текста</th><th>Производимо</th><th>Быстро</th><th>Ведёт к визиту</th><th>Объём</th></tr>
+    <tr><td>1 · Полотно, которое живёт</td><td>да, при качестве движения</td><td>да, с натуры</td><td>да</td><td>картина + движение</td><td>да, один холст</td><td>да</td><td>средний</td></tr>
+    <tr><td>2 · Полёт над долиной</td><td>да</td><td>да, реальный рельеф</td><td>да</td><td>аэросъёмка + модель</td><td>нет на телефоне</td><td>да</td><td>большой</td></tr>
+    <tr><td>3 · Кино о долине</td><td>умеренно</td><td>да</td><td>да</td><td>съёмка</td><td>да</td><td>да</td><td>средний</td></tr>
+    <tr><td>4 · Спуск в подвалы</td><td>да, тишиной</td><td>да</td><td>да</td><td>съёмка подвалов</td><td>да</td><td>лучше всех</td><td>средний</td></tr>
+    <tr><td>5 · Атлас долины</td><td>слабо</td><td>да</td><td>частично</td><td>иллюстрация</td><td>да</td><td>да</td><td>средний</td></tr>
+    <tr><td>6 · Четыре мира</td><td>да, при качестве картин</td><td>да</td><td>да</td><td>четыре картины</td><td>да</td><td>да</td><td>большой</td></tr>
+  </table></div>
+  <p style="margin-top:14px;font-size:.85rem;color:var(--fg-dim)">Объём: малый — до двух недель, средний — три-пять недель, большой — от шести, включая съёмку или написание материалов.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">Чего мы не предлагаем и почему</p>
+  <div class="cols">
+    <div><h3>Слои с параллаксом</h3><p>Вырезанные слои, ездящие друг относительно друга, читаются как макет-диорама, а не как картина.</p></div>
+    <div><h3>Ожившая гравюра с фигурками</h3><p>Ходячие человечки и телеги на панно — примитивно. Движение должно быть атмосферным: свет, воздух, вода.</p></div>
+    <div><h3>Мелкие частицы и мазки</h3><p>Тысячи мелких элементов, которые рождаются и умирают, мельтешат. Завораживает медленное и цельное.</p></div>
+    <div><h3>Тяжёлый 3D на скролле</h3><p>Тормозит на телефонах даже у награждённых сайтов. Первый экран — один лёгкий холст, остальные разделы — быстрые.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">Что мы уже проверили</p>
+  <div class="ours">
+    <figure><img src="img/test-techenie.jpg" alt="Проба течения по мазкам Ван Гога"><figcaption>Течение по мазкам картины на «Звёздной ночи»: поле задано по каждому вихрю руками, частицы вечные. Проба приёма, не дизайн.</figcaption></figure>
+    <figure><img src="img/test-svet.jpg" alt="Проба света золотого часа"><figcaption>Золотой час проходит по картине за полторы минуты, курсор даёт воздух по глубине. Материал пробы — Айвазовский, 1867.</figcaption></figure>
+    <figure><img src="img/test-pishetsya.jpg" alt="Проба: полотно пишется само"><figcaption>Полотно пишется само за десять секунд: угольный рисунок, широкая кисть, тонкая кисть. Отвергнуто нами: процесс не завораживает.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <p class="eyebrow">Что мы предлагаем</p>
+  <h2>Один язык на первом экране, экскурсия как основа, съёмка как фундамент</h2>
+  <div class="cols" style="margin-top:28px">
+    <div class="field"><b>Первый экран</b><p>Язык 1, «Полотно, которое живёт»: это прямой ответ на слова, сказанные на встрече. Предлагаем заказать настоящую картину для дома, а на сайте оживить её копию. Оригинал живёт в дегустационном зале.</p></div>
+    <div class="field"><b>Структура</b><p>Язык 4 для раздела экскурсий: сайт как репетиция визита, одна кнопка бронирования. Язык 6 для страниц линеек, язык 5 для терруара и сортов.</p></div>
+    <div class="field"><b>Материалы</b><p>Язык 3 как съёмка: два-три дня в сезон, один день в подвалах, пересъёмка бутылок. Одна съёмка кормит все разделы, соцсети и печать. Язык 2 — отдельная глава, если позволит бюджет.</p></div>
+  </div>
+  <h3 style="margin:40px 0 18px;font-size:1.2rem;letter-spacing:.02em">Три вопроса, без которых не начинаем производство</h3>
+  <div class="cols">
+    <div class="q"><b>Язык первого экрана</b>Полотно (1), полёт (2) или кино (3)? Можно два: один в производство, второй как резерв.</div>
+    <div class="q"><b>Сайт как репетиция экскурсии</b>Подтверждаете принцип «то, что видишь на сайте, узнаёшь на экскурсии» как основу структуры?</div>
+    <div class="q"><b>Съёмка и картина</b>Готовы ли к съёмке в сезон и к заказу картины для дома? От этого зависят сроки: после выбора языка первая главная — три недели.</div>
+  </div>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <p>Примеры чужих работ приведены по ссылкам как иллюстрация языка, права принадлежат их авторам. Наши пробы сделаны на картинах, перешедших в общественное достояние, и показывают приём, а не дизайн. В любом языке соблюдаются требования закона о рекламе и подтверждение возраста. Все изображения сайта пишутся и снимаются с подлинной натуры долины, без стоковых материалов.</p>
+</div></footer>
+
+</body>
+</html>
