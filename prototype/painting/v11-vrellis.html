@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Солнечная Долина — течение долины</title>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="painting.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23161210%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23d1a95a%22 font-family=%22Georgia%22>СД</text></svg>">
+<style>
+/* «ТЕЧЕНИЕ ДОЛИНЫ»: три полотна долины в письме Ван Гога, собранные из мазков по приёму Vrellis; мазки текут, касание отклоняет,
+   полотна сменяются морфингом мазок→мазок. Клик или пробел — следующее полотно. */
+body{background:#0b0a10;overflow:hidden}
+.gl{z-index:0}
+.t{position:fixed;left:var(--pad);bottom:8vh;z-index:3;pointer-events:none;opacity:0;transform:translateY(14px);transition:opacity 1.8s ease,transform 1.8s ease}
+.t.on{opacity:1;transform:none}
+.t .kick{color:#f3dfae;text-shadow:0 0 18px rgba(0,0,0,.6)}
+.t .h-hero{color:#fbf7f0;text-shadow:0 1px 0 rgba(0,0,0,.4),0 0 40px rgba(0,0,0,.5);font-size:clamp(2.4rem,6vw,5.4rem);margin:.05em 0 .1em}
+.t .lead{color:rgba(251,247,240,.9);text-shadow:0 0 20px rgba(0,0,0,.5);max-width:30em}
+.cap{position:fixed;right:var(--pad);bottom:24px;z-index:3;font-size:.62rem;letter-spacing:.14em;color:rgba(251,247,240,.5);text-shadow:0 0 10px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity 1.5s;text-align:right;line-height:1.5}
+.cap.on{opacity:1}
+.pre{background:#0b0a10;transition:opacity .6s ease,visibility .6s}
+.hdr{color:#fbf7f0;--fg:#fbf7f0;--fg-dim:rgba(251,247,240,.7);--gold-hi:#f3dfae;text-shadow:0 0 14px rgba(0,0,0,.6)}
+</style>
+</head>
+<body>
+<div class="pre" id="pre" aria-hidden="true"><p class="pre__t">Солнечная Долина</p><i class="pre__rule"></i><p class="pre__s">течение долины</p></div>
+<canvas class="gl" id="gl" aria-hidden="true"></canvas>
+<header class="hdr">
+  <a class="hdr__brand" href="#"><span class="hdr__name">Солнечная Долина</span><span class="hdr__est">осн. 1888 · Судак</span></a>
+  <nav class="hdr__nav"><a href="#">История</a><a href="#">Вина</a><a href="#">Экскурсии</a><a href="#">Где купить</a><a href="#">Контакты</a></nav>
+  <div class="hdr__act"><a class="hdr__tel" href="tel:+79789563322">+7 978 956-33-22</a></div>
+</header>
+<div class="t" data-title><p class="kick">Закат над Меганомом</p><h1 class="h-hero">Солнечная<br>Долина</h1><p class="lead">Вина, которые существуют только в одной долине на&nbsp;Земле.</p></div>
+<div class="t" data-title><p class="kick">Ночь над бухтой</p><h1 class="h-hero">Одна<br>долина</h1><p class="lead">Эким Кара, Кефесия, Джеват Кара: сорта, которых больше нет нигде.</p></div>
+<div class="t" data-title><p class="kick">Дорога к имению</p><h1 class="h-hero">С 1888<br>года</h1><p class="lead">Подвалы Голицына ждут гостей. Экскурсии и дегустации каждый день.</p></div>
+<p class="cap" id="cap">концепт-демо · полотна написаны для дома · водите мышью · клик — следующее полотно</p>
+<script type="module" src="vrellis.js"></script>
+</body>
+</html>
